@@ -5,6 +5,7 @@ import "./sass/loader.sass";
 import "./sass/map.sass";
 import "./sass/miscellaneous.sass";
 import "./sass/toolbar.sass";
+import "materialize-css";
 import App from "./App";
 
 ReactDOM.render(
