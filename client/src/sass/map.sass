@@ -1,0 +1,296 @@
+svg
+
+body
+
+.cell
+  position: relative
+  width: 15px
+  height: 15px
+
+.cell:hover
+  background-color: rgba(0, 128, 128, 0.8)
+.cell.choisen
+  background-color: rgba(0, 128, 128, 0.8)
+
+.mapWrapper
+  background-image: url(/scheme.jpg)
+  background-size: cover
+  position: relative
+  margin: 80px auto
+  height: 1130px
+  width: 800px
+  font-size: small
+  cursor: crosshair
+
+.incidentLayout
+  opacity: 1
+  position: relative
+  height: 100%
+  width:100%
+  background-color: rgba(146, 39, 143, 0.05)
+
+.incident-layout-editing-mode
+  z-index: 2
+  background-color: rgba(146, 39, 143, 0.7)
+  text-align: center
+  border-radius: 3px
+  color: whitesmoke
+  padding: 2px
+
+.incidentLayout.activated
+  z-index: 1
+
+.incidentLayout-sign
+  position: fixed
+  z-index: 2
+  background-color: rgba(146, 39, 143, 0.8)
+  color: white
+  padding: 2px
+  border: solid
+  border-radius: 3px
+  border-width: 1px
+  border-color: #c0c0c0
+  cursor: pointer
+
+  &:hover
+    background-color: rgba(146, 39, 143, 0.9)
+
+  &::before
+    position: absolute
+    content: ''
+    height: 10px
+    width: 10px
+    top: -6px
+    left: -16px
+    right: 0
+    bottom: 0
+    border-radius: 5px
+    background-color: rgba(146, 39, 143, 0.7)
+
+.incidentLayout-radioButton
+  position: fixed
+  top: 127px
+  left: 50%
+  margin-left: 200px
+  width: 170px
+  height: 40px
+  z-index: 3
+  border-radius: 3px
+  text-align: center
+  color: whitesmoke
+
+.SVGMapContainer
+ 
+
+
+  &-item
+    fill: rgba(0, 168, 167, 0.5)
+    stroke: rgba(0, 168, 167, 0.8)
+    stroke-width: 3
+    stroke-dasharray: 10
+    cursor: pointer
+    &:hover
+      fill: rgba(0, 168, 167, 0.7)
+
+  &-itemUnchecked
+    fill: rgba(146, 39, 143, 0.7)
+    stroke: rgba(146, 39, 143, 0.9)
+    stroke-width: 3
+    stroke-dasharray: 10
+    cursor: pointer
+    &:hover
+      fill: rgba(146, 39, 143, 0.9)
+      
+
+polygon.perfect
+  fill: rgba(0, 168, 167, 0.8)
+
+polygon.low
+  fill: rgba(146, 39, 143, 0.7)
+
+polygon.medium
+  fill: rgba(255, 206, 57, 0.7)
+
+polygon.medium-high
+  fill: rgba(255, 142, 11, 0.7)
+
+polygon.high
+  fill: rgba(255, 4, 0, 0.7)
+
+polygon.extra
+  fill: rgba(120, 0, 0, 0.7)
+
+  polygon: hover
+  /* fill: rgba(0, 128, 128, 0.8); */
+  /* fill: rgba(242, 137, 119, 0.8); */
+  fill: rgba(94, 125, 224, 0.2)
+
+polygon.hovered
+  /* fill: rgba(0, 128, 128, 0.8); */
+  /* fill: rgba(242, 137, 119, 0.8); */
+  fill: rgba(94, 125, 224, 0.2)
+
+.works-sign
+  z-index: 2
+  background-color: rgba(0, 128, 128, 0.8)
+  color: white
+  padding: 2px
+  border: solid
+  border-radius: 3px
+  border-width: 1px
+  border-color: #c0c0c0
+  transform: rotate(-45deg)
+  cursor: pointer
+
+/* ------------------------------------- */
+
+.infoWindow
+  width: 400px
+  background-color: white
+  border: solid
+  border-width: 1px
+  border-color: #c0c0c0
+  border-radius: 10px
+
+  &-header
+    padding: 10px
+    background-color: rgba(0, 128, 128, 0.8)
+    display: flex
+    align-items: center
+    flex-direction: row
+    justify-content: space-between
+    color: whitesmoke
+    border-top-left-radius: 10px
+    border-top-right-radius: 10px
+
+  &-body
+    background-color: white
+    border-width: 1px
+    border-color: #c0c0c0
+    border-radius: 10px
+
+  &-body-form-label
+    margin-top: 5px
+    margin-left: 10px
+    margin-bottom: 0
+
+  &-body-form-input
+    padding: 3px
+    margin-left: 5px
+    margin-bottom: 5px
+    width: 93%
+    border-style: solid 
+    border-color: #c0c0c0
+    border-width: 1px
+    border-radius: 5px
+
+  &-body-form-dateTimeContaineer
+    margin-left: 5px
+    margin-bottom: 5px
+    width: 93%
+    display: flex
+    justify-content: flex-start
+    &-item 
+      border: none
+      &-inp
+        padding: 3px
+        margin-right: 5px
+        border-style: solid !important
+        border-color: #c0c0c0 !important
+        border-width: 1px !important
+        border-radius: 5px !important
+  
+  &-body-form-input-date
+
+  &-body-form-input-time
+    margin-left: 5px
+
+  &-button
+    margin-top: 10px
+    margin-left: 10px
+    margin-bottom: 10px
+
+  &-listOfWorks
+    margin: 0
+    padding: 2px
+
+  &-listOfWorks-work-ul
+    list-style-type: none
+    padding: 0
+
+  &-listOfWorks-work-li
+    margin-left: 0
+
+  &-listOfWorks-workContaineer
+    padding: 7px
+    margin: 3px
+    border-style: solid
+    border-width: 1px
+    border-radius: 15px
+    border-color: #c0c0c0
+    list-style-type: none
+
+  &-body-form-button
+    margin: 5px
+    padding: 5px
+    background-color: rgba(0, 168, 167, 0.8)
+    display: inline
+    margin-right: 10px
+    font-size: 14px
+    color: whitesmoke
+    border-radius: 5px
+    display: inline-block
+    cursor: pointer
+
+  &-body-form-button-close
+    color: whitesmoke
+    display: inline-block
+    cursor: pointer
+
+  &-body-form-button:hover
+    color: whitesmoke
+    background-color: rgba(0, 128, 128, 0.8)
+
+  &-body-form-button:active
+    color: whitesmoke
+    background-color: rgba(0, 100, 100, 0.8)
+
+  &-listOfWorks-work-header
+    display: flex
+    justify-content: space-between
+
+.checkbox
+  padding: 2px
+  border-width: 1px
+  border-color: #c0c0c0
+  border-radius: 5px
+  border-style: solid
+  margin: 2px
+  font-size: smaller
+  height: 20px
+  display: flex
+  align-items: center
+  justify-content: center
+  color: black
+  cursor: pointer
+  &-checked 
+    padding: 2px
+    border-width: 1px
+    border-color: #c0c0c0
+    border-radius: 5px
+    border-style: solid
+    margin: 2px
+    font-size: smaller
+    height: 20px
+    display: flex
+    align-items: center
+    justify-content: center
+    color: black
+    cursor: pointer
+    background-color: rgba(146, 39, 143, 0.7)
+    color: whitesmoke
+
+.highlightedCheckbox-container
+  padding: 3px
+  display: grid
+  grid-template-columns: 50% 50%
