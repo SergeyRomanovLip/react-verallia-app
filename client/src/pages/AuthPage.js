@@ -1,18 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 import { useHttp } from "../hooks/http.hook";
+import { useMessage } from "../hooks/message.hook";
 
 export const AuthPage = () => {
-  const { loading, error, request } = useHttp();
+  const auth = useContext(AuthContext);
+
+  const message = useMessage();
+  const { loading, error, request, clearError } = useHttp();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    message(error);
+    clearError();
+  }, [error, message, clearError]);
 
   const changeHandler = (event) => {
     setForm({
       ...form,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const registerHandler = async () => {
+    try {
+      const data = await request("/api/auth/register", "POST", {
+        ...form,
+      });
+      message(data.message);
+    } catch (e) {}
+  };
+
+  const loginHandler = async () => {
+    try {
+      const data = await request("/api/auth/login", "POST", {
+        ...form,
+      });
+      auth.login(data.token, data.userId);
+      message(data.message);
+    } catch (e) {}
   };
 
   return (
@@ -50,10 +79,21 @@ export const AuthPage = () => {
             </div>
           </div>
           <div className="card-action">
-            <button className="btn yellow darken-4" style={{ marginRight: 10 }}>
+            <button
+              onClick={loginHandler}
+              disabled={loading}
+              className="btn yellow darken-4"
+              style={{ marginRight: 10 }}
+            >
               Войти
             </button>
-            <button className="btn yellow darken-4">Регистрация</button>
+            <button
+              onClick={registerHandler}
+              disabled={loading}
+              className="btn yellow darken-4"
+            >
+              Регистрация
+            </button>
           </div>
         </div>
       </div>

@@ -1,9 +1,9 @@
-const { Router } = require("express");
+const { Router, request } = require("express");
+const { check, validationResult } = require("express-validator");
+const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
-const { check, validationResult } = require("express-validator");
-const User = require("../models/User");
 const router = Router();
 
 router.post(
@@ -58,6 +58,7 @@ router.post(
   ],
   async (req, res) => {
     try {
+      console.log("Body:", req.body);
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
@@ -68,6 +69,8 @@ router.post(
       }
 
       const { email, password } = req.body;
+
+      console.log(email, password);
 
       const user = await User.findOne({ email });
 
