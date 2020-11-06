@@ -6,22 +6,18 @@ import "react-datetime/css/react-datetime.css";
 import { reducer } from "./components/redux/reducer";
 import { ActualDataContext } from "./components/redux/context";
 import { FirebaseContext } from "./components/redux/frebaseContext";
-import { Loader } from "./components/utilities/Loader";
 
 function InteractiveMap({ initialState }) {
-  const { loading, updateDBState } = useContext(FirebaseContext);
-
-  // function updateLocalStorage(state) {
-  //   if (state) {
-  //     localStorage.setItem("intMapState", JSON.stringify(state));
-  //   }
-  // }
+  const { loading, updateDBState, updateMDBState } = useContext(
+    FirebaseContext
+  );
 
   const [actualData, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     if (!loading) {
       updateDBState(actualData);
+      updateMDBState(actualData);
     }
   }, [actualData]);
 

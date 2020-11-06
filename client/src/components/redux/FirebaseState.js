@@ -1,12 +1,20 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useContext, useState } from "react";
 import { FirebaseContext } from "./frebaseContext";
 import { firebaseReducer } from "./firebaseReducer";
+import { useHistory } from "react-router-dom";
+import { useHttp } from "../../hooks/http.hook";
 import axios from "axios";
 import { HIDE_LOADER, SHOW_LOADER } from "./types";
+import { AuthContext } from "../../context/AuthContext";
 
 const url = "https://verallia-int-map-database.firebaseio.com";
 
 export const FirebaseState = ({ children }) => {
+  const history = useHistory();
+  const auth = useContext(AuthContext);
+  const { request } = useHttp();
+  const [link, setLink] = useState("");
+
   const initialState = {
     loading: false,
   };
@@ -42,9 +50,25 @@ export const FirebaseState = ({ children }) => {
     }
   };
 
+  const updateMDBState = async (newState) => {
+    console.log(newState);
+    try {
+      const data = await request(
+        "api/map/update",
+        "POST",
+        { newState },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      history.push(`/map`);
+    } catch (e) {}
+  };
+
   return (
     <FirebaseContext.Provider
       value={{
+        updateMDBState,
         updateDBState,
         getDBState,
         showLoader,

@@ -79,10 +79,14 @@ body
   text-align: center
   color: whitesmoke
 
+path
+  fill: rgba(0, 168, 167, 0.5)
+  stroke: rgba(0, 168, 167, 0.8)
+  stroke-width: 3
+  stroke-dasharray: 10
+
 .SVGMapContainer
  
-
-
   &-item
     fill: rgba(0, 168, 167, 0.5)
     stroke: rgba(0, 168, 167, 0.8)
@@ -93,13 +97,13 @@ body
       fill: rgba(0, 168, 167, 0.7)
 
   &-itemUnchecked
-    fill: rgba(146, 39, 143, 0.7)
-    stroke: rgba(146, 39, 143, 0.9)
-    stroke-width: 3
+    fill: rgba(146, 39, 143, 0.7) !important
+    stroke: rgba(146, 39, 143, 0.9) !important
+    stroke-width: 3 
     stroke-dasharray: 10
     cursor: pointer
     &:hover
-      fill: rgba(146, 39, 143, 0.9)
+      fill: rgba(146, 39, 143, 0.9) !important
       
 
 polygon.perfect
