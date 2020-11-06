@@ -6,6 +6,7 @@ import "react-datetime/css/react-datetime.css";
 import { reducer } from "./components/redux/reducer";
 import { ActualDataContext } from "./components/redux/context";
 import { FirebaseContext } from "./components/redux/frebaseContext";
+import { ModalNew } from "./components/ModalNew";
 
 function InteractiveMap({ initialState }) {
   const { loading, updateDBState, updateMDBState } = useContext(
