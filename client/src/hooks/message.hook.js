@@ -5,7 +5,7 @@ export const useMessage = () => {
     if (window.M && text) {
       window.M.toast({ html: text });
     } else if (text) {
-      alert({ html: text });
+      alert(text);
     }
   }, []);
 };

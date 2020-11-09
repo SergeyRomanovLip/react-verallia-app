@@ -6,7 +6,7 @@ import "./sass/map.sass";
 import "./sass/miscellaneous.sass";
 import "./sass/toolbar.sass";
 import "./sass/Auth.sass";
-// import "materialize-css/dist/css/materialize.min.css";
+import "react-datetime/css/react-datetime.css";
 import App from "./App";
 
 ReactDOM.render(

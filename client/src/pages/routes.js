@@ -22,7 +22,7 @@ export const useRouts = (isAuthenticated) => {
         <Route path="/detail/:id">
           <DetailPage />
         </Route>
-        <Redirect to="/map/subcontractors" />
+        <Redirect to="/" />
       </Switch>
     );
   }

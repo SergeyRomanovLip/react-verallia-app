@@ -25,8 +25,11 @@ export const Incidents = ({ click }) => {
           left: left - wrapperleft,
           top: top - wrapperTop,
           name: options.name,
-          description: options.description,
-          type: options.type,
+          victimName: options.victimName,
+          department: options.department,
+          status: options.status,
+          startDate: new Date(options.startDate).toLocaleDateString(),
+          finishDate: new Date(options.finishDate).toLocaleDateString(),
         },
       ]);
     });
@@ -43,11 +46,15 @@ export const Incidents = ({ click }) => {
         return (
           <IncidentComponent
             key={i}
+            id={e.id}
             top={e.top}
             left={e.left}
-            description={e.description}
             name={e.name}
-            type={e.type}
+            victimName={e.victimName}
+            department={e.department}
+            status={e.status}
+            startDate={e.startDate}
+            finishDate={e.finishDate}
           />
         );
       })}

@@ -22,7 +22,7 @@ router.post("/update", auth, async (req, res) => {
     owner: req.user.userId,
   };
   try {
-    let result = await IntMap.findOneAndUpdate(
+    const result = await IntMap.findOneAndUpdate(
       { owner: req.user.userId },
       newState,
       {
@@ -31,6 +31,7 @@ router.post("/update", auth, async (req, res) => {
       }
     );
     result.save();
+    res.json("Successfully updated");
   } catch (e) {
     res.status().json(e);
   }

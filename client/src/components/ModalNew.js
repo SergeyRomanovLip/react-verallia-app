@@ -27,6 +27,7 @@ export const ModalNew = ({ children }) => {
   };
 
   const showModal = (type, content) => {
+    console.log(type, content);
     setModalState({
       type,
       content,
@@ -49,6 +50,9 @@ export const ModalNew = ({ children }) => {
         break;
       case "AcceptIncident":
         setModal(<AcceptIncident content={modalState.content} />);
+        break;
+      case "InfoIncident":
+        console.log("It Works");
         break;
       default:
         setModal(null);

@@ -48,8 +48,9 @@ export const AuthPage = () => {
     <div className="modal">
       <div className="auth">
         <div className="auth-header">Авторизация</div>
-        <div className="auth-body">
+        <form className="auth-body">
           <input
+            autoComplete="on"
             placeholder="Введите email"
             id="email"
             type="text"
@@ -59,6 +60,7 @@ export const AuthPage = () => {
             onChange={changeHandler}
           />
           <input
+            autoComplete="on"
             placeholder="Введите пароль"
             id="password"
             type="password"
@@ -83,7 +85,7 @@ export const AuthPage = () => {
           >
             Регистрация
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
