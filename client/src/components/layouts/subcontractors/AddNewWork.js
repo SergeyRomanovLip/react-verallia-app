@@ -1,13 +1,15 @@
 import React, { useContext, useState } from "react";
 import Checkbox from "../../misc/checkbox";
 import { IDgenerator } from "../../utilities/IDgenerator";
-import { ActualDataContext } from "../../redux/context";
+import { AppContext } from "../../../context/AppContext";
 import DatetimeOwn from "../../misc/datetime";
 import InputRow from "../../misc/inputRow";
 import InputText from "../../misc/inputText";
+import { ModalContext } from "../../../context/ModalContext";
 
-function AddNewWork({ content, click, remove }) {
-  const actualDataContext = useContext(ActualDataContext);
+function AddNewWork({ content }) {
+  const { removeModal } = useContext(ModalContext);
+  const { appDispatch } = useContext(AppContext);
   const [workData, setWorkData] = useState({
     id: content,
     workID: IDgenerator(),
@@ -40,7 +42,7 @@ function AddNewWork({ content, click, remove }) {
         You want to add new work?
         <span
           onClick={() => {
-            remove();
+            removeModal();
           }}
           className="infoWindow-body-form-button-close"
           id="deleteWork"
@@ -97,8 +99,8 @@ function AddNewWork({ content, click, remove }) {
           <div className="infoWindow-body-form">
             <div
               onClick={() => {
-                actualDataContext.actualDataDispatch(["addNewWork", workData]);
-                remove();
+                appDispatch(["addNewWork", workData]);
+                removeModal();
               }}
               id="submit-add-new-work"
               className="infoWindow-body-form-button"

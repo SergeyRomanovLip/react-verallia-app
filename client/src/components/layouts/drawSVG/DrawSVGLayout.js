@@ -1,18 +1,23 @@
-import React, { useContext, useState } from "react";
-import { IDgenerator } from "../../utilities/IDgenerator";
-import { ActualDataContext } from "../../redux/context";
 import SVGComponent from "./SVGComponent";
-import { FirebaseContext } from "../../redux/frebaseContext";
+import React, { useContext, useEffect, useState } from "react";
+import { IDgenerator } from "../../utilities/IDgenerator";
+import { ModalContext } from "../../../context/ModalContext";
+import { AppContext } from "../../../context/AppContext";
 
-function DrawSVGLayout({ click }) {
-  const { actualDataState, actualDataDispatch } = useContext(ActualDataContext);
+export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
+  const { showModal } = useContext(ModalContext);
+  const { appState, appDispatch } = useContext(AppContext);
   const [throttleState, setThrottleState] = useState(false);
   const [drawingStat, setDrawingStat] = useState(false);
   const [drawingSVG, setDrawingSVG] = useState("");
 
-  let wrapperTop = actualDataState.wrapper.y;
-  let wrapperleft = actualDataState.wrapper.x;
+  let wrapperTop = appState.wrapper.y;
+  let wrapperleft = appState.wrapper.x;
   let timesPerSecond = 13;
+
+  useEffect(() => {
+    handlerSetSVGReady(true);
+  }, []);
 
   let myAttr = {
     d: "",
@@ -40,14 +45,16 @@ function DrawSVGLayout({ click }) {
     if (drawingStat === true) {
       switch (state) {
         case "drawing":
+          // console.log(e.pageX, wrapperleft);
+          // console.log(e.pageY, wrapperTop);
           myAttr.set(`L ${e.pageX - wrapperleft} ${e.pageY - wrapperTop}`);
           break;
         case "finish":
           setDrawingStat(false);
           if (drawingSVG.length > 50) {
             let ID = IDgenerator();
-            click("AcceptSVG", (name) => {
-              actualDataDispatch([
+            showModal("AcceptSVG", (name) => {
+              appDispatch([
                 "addNewArea",
                 ID,
                 {
@@ -67,8 +74,8 @@ function DrawSVGLayout({ click }) {
   }
 
   const arrayOfAreas = [];
-  for (let area in actualDataState.listOfAreas) {
-    arrayOfAreas.push(actualDataState.listOfAreas[area]);
+  for (let area in appState.listOfAreas) {
+    arrayOfAreas.push(appState.listOfAreas[area]);
   }
   return (
     <svg
@@ -89,14 +96,14 @@ function DrawSVGLayout({ click }) {
     >
       <path d={drawingSVG}></path>
       {arrayOfAreas.length > 0
-        ? arrayOfAreas.map((e) => {
+        ? arrayOfAreas.map((e, i) => {
             return (
-              <SVGComponent key={e.id} ID={e.id} click={click} d={e.svg} />
+              <SVGComponent key={i} ID={e.id} click={showModal} d={e.svg} />
             );
           })
         : null}
     </svg>
   );
-}
+};
 
 export default DrawSVGLayout;

@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import InputRow from "../../misc/inputRow";
+import { ModalContext } from "../../../context/ModalContext";
 
-export const AcceptIncident = ({ options, remove }) => {
+export const AcceptIncident = ({ content }) => {
+  const { removeModal } = useContext(ModalContext);
   const [dataOfIncident, setDataOfIncident] = useState({
     name: "",
     type: "",
@@ -46,8 +48,8 @@ export const AcceptIncident = ({ options, remove }) => {
         <div className="infoWindow-body-form">
           <div
             onClick={() => {
-              options.content(dataOfIncident);
-              remove();
+              content(dataOfIncident);
+              removeModal();
             }}
             className="infoWindow-body-form-button"
           >
@@ -55,7 +57,7 @@ export const AcceptIncident = ({ options, remove }) => {
           </div>
           <div
             onClick={() => {
-              remove();
+              removeModal();
             }}
             className="infoWindow-body-form-button"
           >

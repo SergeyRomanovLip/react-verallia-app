@@ -1,10 +1,20 @@
 const { Schema, model, Types } = require("mongoose");
 
 const schema = new Schema({
-  layout: { type: String, required: true },
-  listOfAreas: { type: Schema.Types.Mixed, required: true },
-  listOfIncidents: { type: Schema.Types.Mixed, required: true },
-  wrapper: { type: Schema.Types.Mixed, required: true },
+  intMap: {
+    layout: { type: String, required: true, unique: false },
+    listOfAreas: { type: Schema.Types.Mixed, required: true, unique: false },
+    listOfIncidents: {
+      type: Schema.Types.Mixed,
+      required: true,
+      unique: false,
+    },
+    owner: { type: Types.ObjectId, ref: "User" },
+    created: {
+      type: Date,
+      default: Date.now,
+    },
+  },
 });
 
 module.exports = model("IntMap", schema);

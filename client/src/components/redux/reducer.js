@@ -2,9 +2,13 @@ export const reducer = (state, action) => {
   try {
     switch (action[0]) {
       case "initialize":
-        let newState = action[1];
-        console.log(newState);
-        return { newState };
+        return {
+          ...state,
+          _id: action[1]._id,
+          layout: action[1].layout,
+          listOfAreas: action[1].listOfAreas,
+          listOfIncidents: action[1].listOfIncidents,
+        };
       case "addNewWork":
         let id = action[1].id;
         let content = action[1].data;
@@ -32,10 +36,21 @@ export const reducer = (state, action) => {
           layout: layout,
         };
       case "deleteWork":
-        let id3 = action[1];
-        let workID3 = action[2];
-        delete state.listOfAreas[id3].listOfWorks[workID3];
-        return { ...state };
+        delete state.listOfAreas[action[1]].listOfWorks[action[2]];
+        return {
+          ...state,
+          listOfAreas: {
+            ...state.listOfAreas,
+            [action[1]]: {
+              ...state.listOfAreas[action[1]],
+              listOfWorks: {
+                ...state.listOfAreas[action[1]].listOfWorks,
+                updated: Math.random(),
+              },
+            },
+          },
+        };
+      // return { ...state };
       case "addNewArea":
         let id1 = action[1];
         let content1 = action[2];
@@ -46,23 +61,13 @@ export const reducer = (state, action) => {
             [id1]: content1,
           },
         };
-      case "updateSizeOfArea":
-        let id5 = action[1];
-        let size = action[2];
-        return {
-          ...state,
-          listOfAreas: {
-            ...state.listOfAreas,
-            [id5]: {
-              ...state.listOfAreas[id5],
-              size: size,
-            },
-          },
-        };
       case "deleteArea":
         let id4 = action[1];
         delete state.listOfAreas[id4];
-        return { ...state };
+        return {
+          ...state,
+          listOfAreas: { ...state.listOfAreas, updated: Math.random() },
+        };
       case "addNewIncident":
         let id6 = action[1];
         return {

@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { ModalContext } from "../../../context/ModalContext";
 import InputRow from "../../misc/inputRow";
 
-export const AcceptSVG = ({ options, remove }) => {
+export const AcceptSVG = ({ content }) => {
+  const { removeModal } = useContext(ModalContext);
   const [nameOfArea, setNameOfArea] = useState("Undefined");
   return (
     <div className="infoWindow">
@@ -21,8 +23,8 @@ export const AcceptSVG = ({ options, remove }) => {
         <div className="infoWindow-body-form">
           <div
             onClick={() => {
-              options.content(nameOfArea);
-              remove();
+              content(nameOfArea);
+              removeModal();
             }}
             className="infoWindow-body-form-button"
           >
@@ -30,7 +32,7 @@ export const AcceptSVG = ({ options, remove }) => {
           </div>
           <div
             onClick={() => {
-              remove();
+              removeModal();
             }}
             className="infoWindow-body-form-button"
           >

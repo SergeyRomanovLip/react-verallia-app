@@ -13,7 +13,7 @@ export const useRouts = (isAuthenticated) => {
         <Route path="/links" exact>
           <LinksPage />
         </Route>
-        <Route path="/map" exact>
+        <Route path={`/map/:layout`} exact>
           <MapPage />
         </Route>
         <Route path="/create" exact>
@@ -22,7 +22,7 @@ export const useRouts = (isAuthenticated) => {
         <Route path="/detail/:id">
           <DetailPage />
         </Route>
-        <Redirect to="/create" />
+        <Redirect to="/map/subcontractors" />
       </Switch>
     );
   }

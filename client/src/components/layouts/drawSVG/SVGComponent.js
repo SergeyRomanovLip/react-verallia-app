@@ -1,51 +1,36 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { ActualDataContext } from "../../redux/context";
+import { ModalContext } from "../../../context/ModalContext";
+import { AppContext } from "../../../context/AppContext";
 
-function SVGComponent({ ID, click, d }) {
-  const actualDataDispatch = useContext(ActualDataContext).actualDataDispatch;
-  const actualDataState = useContext(ActualDataContext).actualDataState;
-  const inputRef = useRef();
-
+function SVGComponent({ ID, d }) {
+  const { showModal } = useContext(ModalContext);
+  const { appState } = useContext(AppContext);
   const [checked, setCheked] = useState(false);
 
   useEffect(() => {
-    actualDataDispatch([
-      "updateSizeOfArea",
-      ID,
-      {
-        left:
-          inputRef.current.getBoundingClientRect().x -
-          actualDataState.wrapper.x,
-        top:
-          inputRef.current.getBoundingClientRect().y -
-          actualDataState.wrapper.y,
-        height: inputRef.current.getBoundingClientRect().height,
-        width: inputRef.current.getBoundingClientRect().width,
-      },
-    ]);
-  }, []);
-  useEffect(() => {
     let checkedStat = [];
-    if (Object.keys(actualDataState.listOfAreas[ID].listOfWorks).length > 0) {
-      Object.keys(actualDataState.listOfAreas[ID].listOfWorks).map((e) => {
-        if (actualDataState.listOfAreas[ID].listOfWorks[e].checked === "no") {
-          checkedStat.push(false);
-        } else checkedStat.push(true);
-      });
+    if (appState.listOfAreas[ID]) {
+      if (Object.keys(appState.listOfAreas[ID].listOfWorks).length > 0) {
+        Object.keys(appState.listOfAreas[ID].listOfWorks).map((e) => {
+          if (appState.listOfAreas[ID].listOfWorks[e].checked === "no") {
+            checkedStat.push(false);
+          } else checkedStat.push(true);
+        });
+      }
+      if (checkedStat.includes(false)) {
+        setCheked(false);
+      } else {
+        setCheked(true);
+      }
     }
-    if (checkedStat.includes(false)) {
-      setCheked(false);
-    } else {
-      setCheked(true);
-    }
-  });
+  }, [appState]);
 
   return (
     <path
-      ref={inputRef}
+      id={ID}
       key={ID}
       onClick={() => {
-        click("InfoSubc", ID);
+        showModal("InfoSubc", ID);
       }}
       className={
         checked ? "SVGMapContainer-item" : "SVGMapContainer-itemUnchecked"

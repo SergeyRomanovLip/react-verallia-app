@@ -1,61 +1,56 @@
-//Сделать отдельный компонент "элемент карты"
-//Сделать отдельный компонент "tooltip"
-import React, { useContext, useRef, useEffect, useState } from "react";
-import { ActualDataContext } from "./redux/context";
+import React, {
+  useContext,
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import DrawSVGLayout from "./layouts/drawSVG/DrawSVGLayout";
 import { Incidents } from "./layouts/incidents/Incidents";
 import SubcLabel from "./layouts/subcontractors/SubcLabel";
+import { ModalContext } from "../context/ModalContext";
+import { AppContext } from "../context/AppContext";
+import { useParams } from "react-router-dom";
+import { Loader } from "./Loader";
+import { SubcLabelContainer } from "./layouts/subcontractors/SubcLabelContainer";
 
-function Map({ clickOnRoom }) {
-  const actualDataContext = useContext(ActualDataContext);
-  const actualDataState = useContext(ActualDataContext).actualDataState;
-  const layout = useContext(ActualDataContext).actualDataState.layout;
-
+export const Map = () => {
+  const { showModal } = useContext(ModalContext);
+  const { appDispatch, ready } = useContext(AppContext);
   const [wrapperState, setWrapperState] = useState(false);
-
+  const [SVGReady, setSVGReady] = useState(false);
+  const { layout } = useParams();
   const inputRef = useRef();
-  let actualDataStateArray = [];
+
+  const handlerSetSVGReady = useCallback(() => {
+    setSVGReady(true);
+  });
 
   useEffect(() => {
-    actualDataContext.actualDataDispatch([
-      "updateWrapperPosition",
-      inputRef.current.getBoundingClientRect(),
-    ]);
-    setWrapperState(true);
-    window.addEventListener("resize", () => {
-      actualDataContext.actualDataDispatch([
-        "updateWrapperPosition",
-        inputRef.current.getBoundingClientRect(),
-      ]);
-    });
-  }, []);
-
-  for (let el in actualDataState) {
-    if (el !== "wrapper") {
-      actualDataStateArray.push([[el], actualDataState[el]]);
+    if (ready) {
+      setWrapperState(false);
+      appDispatch(["setLayout", layout]);
+      let rect = inputRef.current.getBoundingClientRect();
+      rect.x = rect.x + window.scrollX;
+      rect.y = rect.y + window.scrollY;
+      appDispatch(["updateWrapperPosition", rect]);
+      setWrapperState(true);
     }
-  }
+  }, [ready]);
 
-  return (
+  return ready ? (
     <div ref={inputRef} className="mapWrapper">
       {wrapperState && layout === "incidents" ? (
-        <Incidents click={clickOnRoom} />
+        <Incidents click={showModal} />
       ) : null}
-
-      {wrapperState && layout === "subcontractors"
-        ? Object.keys(actualDataState.listOfAreas).map((e, i) => {
-            if (actualDataState.listOfAreas[e].size) {
-              return (
-                <SubcLabel key={i} options={actualDataState.listOfAreas[e]} />
-              );
-            }
-          })
-        : null}
+      {SVGReady && layout === "subcontractors" ? <SubcLabelContainer /> : null}
       {wrapperState && layout === "subcontractors" ? (
-        <DrawSVGLayout click={clickOnRoom} />
+        <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} />
       ) : null}
     </div>
+  ) : (
+    <Loader />
   );
-}
+};
 
 export default Map;

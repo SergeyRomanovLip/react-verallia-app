@@ -1,53 +1,57 @@
 import React, { useContext } from "react";
 import "../sass/toolbar.sass";
-import { ActualDataContext } from "./redux/context";
+import { NavLink, useHistory } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
-function Toolbar() {
-  const actualDataDispatch = useContext(ActualDataContext).actualDataDispatch;
-  const actualDataState = useContext(ActualDataContext).actualDataState;
+export const Toolbar = () => {
+  // const { appState, appDispatch } = useContext(AppContext);
 
-  function setLayout(layout) {
-    actualDataDispatch(["setLayout", layout]);
-  }
+  const history = useHistory();
+  const auth = useContext(AuthContext);
+  const logoutHandler = (event) => {
+    event.preventDefault();
+    auth.logout();
+    history.push("/");
+  };
 
   return (
-    <div id="toolbar" className="toolbar">
+    <nav id="toolbar" className="toolbar">
       <img className="toolbar-img" src="/logoVerallia.jpg" alt="logo" />
       <ul className="toolbar-list">
-        <div
-          onClick={() => {
-            setLayout("subcontractors");
-          }}
-          id="SubcontractorsButton"
-          data-text="subcontractors"
-          className={`toolbar-item ${
-            actualDataState.layout === "subcontractors" ? "active" : ""
-          }`}
-        >
-          Subcontractors
-        </div>
+        <li>
+          <NavLink className={"toolbar-item"} to="/map/subcontractors">
+            Подрядчики
+          </NavLink>
+        </li>
         <div className={"toolbar-item-border"}></div>
-        <div
-          onClick={() => {
-            setLayout("incidents");
-          }}
-          id="IncidentsButton"
-          data-text="incidents"
-          className={`toolbar-item ${
-            actualDataState.layout === "incidents" ? "active" : ""
-          }`}
-        >
-          Incidents
-        </div>
+        <li>
+          <NavLink className={"toolbar-item"} to="/map/incidents">
+            Инциденты
+          </NavLink>
+        </li>
         <div className={"toolbar-item-border"}></div>
-        <div className="toolbar-item">Some button</div>
+        {/* <li>
+          <NavLink className={"toolbar-item"} to="/create">
+            Создать
+          </NavLink>
+        </li>
+        <div className={"toolbar-item-border"}></div>
+        <li>
+          <NavLink className={"toolbar-item"} to="/links">
+            Ссылки
+          </NavLink>
+        </li> */}
+        <li>
+          <a className={"toolbar-item"} href="/" onClick={logoutHandler}>
+            Выйти
+          </a>
+        </li>
       </ul>
-      <div className="toolbar-status">
+      {/* <div className="toolbar-status">
         <div id="toolbar-status-text" calss="toolbar-status-text">
-          {actualDataState.layout} layout
+          {appState.layout} layout
         </div>
-      </div>
-    </div>
+      </div> */}
+    </nav>
   );
-}
-export default Toolbar;
+};

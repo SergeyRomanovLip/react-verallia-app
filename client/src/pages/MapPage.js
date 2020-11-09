@@ -1,14 +1,16 @@
 import React from "react";
 import { ModalNew } from "../components/ModalNew";
-import { FirebaseState } from "../components/redux/FirebaseState";
-import DataBaseLoading from "../DataBaseLoading";
+import { AppState } from "../components/redux/AppState";
+import { Map } from "../components/Map";
 
 export const MapPage = () => {
   return (
     <>
-      <FirebaseState>
-        <DataBaseLoading />
-      </FirebaseState>
+      <AppState>
+        <ModalNew>
+          <Map />
+        </ModalNew>
+      </AppState>
     </>
   );
 };

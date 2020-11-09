@@ -1,23 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ActualDataContext } from "../../redux/context";
+import { AppContext } from "../../../context/AppContext";
 
-function SubcLabel({ options }) {
+function SubcLabel({ left, top, listOfWorks }) {
   const [data, setData] = useState(0);
-  const actualDataState = useContext(ActualDataContext).actualDataState;
-  const dataOfArea = actualDataState.listOfAreas[options.id].listOfWorks;
-
+  const { appState } = useContext(AppContext);
   useEffect(() => {
     let works = 0;
-    for (let work in dataOfArea) {
-      works += 1;
-      setData(works);
+    for (let work in listOfWorks) {
+      if (work != "updated") {
+        works += 1;
+        setData(works);
+      }
     }
-  });
-
-  let sizes = options.size;
-  let top = sizes.top + sizes.height / 8;
-  let left = sizes.left + sizes.width / 2;
-
+  }, [appState]);
   return (
     <div
       className="works-sign"

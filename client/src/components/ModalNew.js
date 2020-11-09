@@ -1,7 +1,6 @@
 import React, { useReducer, useContext, useState, useEffect } from "react";
 import { ModalContext } from "../context/ModalContext";
 import { AcceptSVG } from "./layouts/drawSVG/AcceptSVG";
-import GridModal from "./layouts/gridLayout/GridModal";
 import { AcceptIncident } from "./layouts/incidents/AcceptIncident";
 import AddNewWork from "./layouts/subcontractors/AddNewWork";
 import InfoSubc from "./layouts/subcontractors/InfoSubc";
@@ -11,7 +10,7 @@ export const ModalNew = ({ children }) => {
     type: null,
     content: null,
   });
-  const [modalContent, setModalContent] = useState(null);
+  const [modal, setModal] = useState(null);
 
   const removeHandler = (e, handler) => {
     e.preventDefault();
@@ -20,92 +19,52 @@ export const ModalNew = ({ children }) => {
     }
   };
 
-  const click = (type, options) => {
-    setModalState({
-      type: type,
-      content: options,
-    });
-  };
-  const remove = () => {
+  const removeModal = () => {
     setModalState({
       type: null,
       content: null,
     });
   };
 
-  if (modalState.type == null) {
-    setModalContent(null);
-  } else {
+  const showModal = (type, content) => {
+    setModalState({
+      type,
+      content,
+    });
+  };
+
+  useEffect(() => {
     switch (modalState.type) {
+      case null:
+        setModal(null);
+        break;
       case "InfoSubc":
-        setModalContent(
-          <div
-            onClick={(e) => {
-              removeHandler(e, remove);
-            }}
-            className="modal"
-          >
-            <InfoSubc
-              content={modalState.content}
-              click={click}
-              remove={remove}
-            ></InfoSubc>
-          </div>
-        );
+        setModal(<InfoSubc content={modalState.content} />);
+        break;
       case "AddNewWork":
-        setModalContent(
-          <div
-            onClick={(e) => {
-              removeHandler(e, remove);
-            }}
-            className="modal"
-          >
-            <AddNewWork
-              content={modalState.content}
-              click={click}
-              remove={remove}
-            ></AddNewWork>
-          </div>
-        );
-      case "GridAccept":
-        setModalContent(
-          <div
-            onClick={(e) => {
-              removeHandler(e, remove);
-            }}
-            className="modal"
-          >
-            <GridModal />
-          </div>
-        );
+        setModal(<AddNewWork content={modalState.content} />);
+        break;
       case "AcceptSVG":
-        setModalContent(
-          <div
-            onClick={(e) => {
-              removeHandler(e, remove);
-            }}
-            className="modal"
-          >
-            <AcceptSVG options={modalState} remove={remove} />
-          </div>
-        );
+        setModal(<AcceptSVG content={modalState.content} />);
+        break;
       case "AcceptIncident":
-        setModalContent(
-          <div
-            onClick={(e) => {
-              removeHandler(e, remove);
-            }}
-            className="modal"
-          >
-            <AcceptIncident options={modalState} remove={remove} />
-          </div>
-        );
-      default:
-        setModalContent(null);
+        setModal(<AcceptIncident content={modalState.content} />);
+        break;
     }
-  }
+  }, [modalState]);
+
   return (
-    <ModalContext.Provider value={{ setModalState }}>
+    <ModalContext.Provider value={{ showModal, removeModal }}>
+      {modalState.type != null ? (
+        <div
+          onClick={(e) => {
+            removeHandler(e, removeModal);
+          }}
+          className="modal"
+        >
+          {modal}
+        </div>
+      ) : null}
       {children}
     </ModalContext.Provider>
   );

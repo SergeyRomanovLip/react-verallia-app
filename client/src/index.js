@@ -5,6 +5,7 @@ import "./sass/loader.sass";
 import "./sass/map.sass";
 import "./sass/miscellaneous.sass";
 import "./sass/toolbar.sass";
+import "./sass/Auth.sass";
 // import "materialize-css/dist/css/materialize.min.css";
 import App from "./App";
 

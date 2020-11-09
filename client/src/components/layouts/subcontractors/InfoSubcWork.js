@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import Checkbox from "../../misc/checkbox";
-import { ActualDataContext } from "../../redux/context";
+import { AppContext } from "../../../context/AppContext";
 
 export const InfoSubcWork = ({ data, workID, area }) => {
-  const actualDataDispatch = useContext(ActualDataContext).actualDataDispatch;
+  const { appDispatch } = useContext(AppContext);
 
   let dangerousWorks = [];
   let checkState = data.checked === "yes" ? true : false;
@@ -18,10 +18,10 @@ export const InfoSubcWork = ({ data, workID, area }) => {
   }
 
   function checkWorks() {
-    actualDataDispatch(["checkStateOfWork", area, workID]);
+    appDispatch(["checkStateOfWork", area, workID]);
   }
   function deleteWorks() {
-    actualDataDispatch(["deleteWork", area, workID]);
+    appDispatch(["deleteWork", area, workID]);
   }
 
   return (

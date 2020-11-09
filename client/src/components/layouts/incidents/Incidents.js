@@ -1,24 +1,23 @@
 import React, { useContext } from "react";
-import { ActualDataContext } from "../../redux/context";
+import { AppContext } from "../../../context/AppContext";
 import { IDgenerator } from "../../utilities/IDgenerator";
 import { IncidentComponent } from "./IncidentComponent";
 
 export const Incidents = ({ click }) => {
-  const actualDataState = useContext(ActualDataContext).actualDataState;
-  const actualDataDispatch = useContext(ActualDataContext).actualDataDispatch;
+  const { appState, appDispatch } = useContext(AppContext);
 
-  let wrapperTop = actualDataState.wrapper.y;
-  let wrapperleft = actualDataState.wrapper.x;
+  let wrapperTop = appState.wrapper.y;
+  let wrapperleft = appState.wrapper.x;
 
   const arrayOfIncidents = [];
-  for (let incident in actualDataState.listOfIncidents) {
-    arrayOfIncidents.push(actualDataState.listOfIncidents[incident]);
+  for (let incident in appState.listOfIncidents) {
+    arrayOfIncidents.push(appState.listOfIncidents[incident]);
   }
 
   function addNewIncident(left, top) {
     let ID = IDgenerator();
     click("AcceptIncident", (options) => {
-      actualDataDispatch([
+      appDispatch([
         "addNewIncident",
         ID,
         {
