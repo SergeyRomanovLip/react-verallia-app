@@ -16,20 +16,27 @@ router.get("/getState", auth, async (req, res) => {
 
 router.post("/update", auth, async (req, res) => {
   try {
-    const intMap = new IntMap({
-      intMap: {
-        layout: req.body.newState.layout,
-        listOfAreas: req.body.newState.listOfAreas,
-        listOfIncidents: req.body.newState.listOfIncidents,
-        owner: req.user.userId,
+    const newState = {
+      layout: req.body.newState.layout,
+      listOfAreas: req.body.newState.listOfAreas,
+      listOfIncidents: req.body.newState.listOfIncidents,
+      owner: req.user.userId,
+    };
+    let result = await IntMap.findOneAndUpdate(
+      { owner: req.user.userId },
+      newState,
+      {
+        new: true,
+        upsert: true,
       },
-    });
-    intMap.save(function (err, intMap) {
-      if (err) return console.error(err);
-    });
+      function (err, result) {
+        if (err) return res.status(500).json(err);
+        return res.status().json(intMap);
+      }
+    );
+    result.save();
   } catch (e) {
-    console.log(e);
-    res.json(e);
+    res.status().json(e);
   }
 });
 

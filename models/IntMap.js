@@ -1,19 +1,13 @@
 const { Schema, model, Types } = require("mongoose");
 
 const schema = new Schema({
-  intMap: {
-    layout: { type: String, required: true, unique: false },
-    listOfAreas: { type: Schema.Types.Mixed, required: true, unique: false },
-    listOfIncidents: {
-      type: Schema.Types.Mixed,
-      required: true,
-      unique: false,
-    },
-    owner: { type: Types.ObjectId, ref: "User" },
-    created: {
-      type: Date,
-      default: Date.now,
-    },
+  layout: { type: String, required: true },
+  listOfAreas: { type: Object, default: true },
+  listOfIncidents: { type: Object, default: true },
+  owner: { type: Types.ObjectId, ref: "User" },
+  created: {
+    type: Date,
+    default: Date.now,
   },
 });
 

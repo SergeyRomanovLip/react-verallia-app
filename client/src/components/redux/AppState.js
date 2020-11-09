@@ -21,8 +21,8 @@ export const AppState = ({ children }) => {
   const [appState, appDispatch] = useReducer(reducer, {
     layout: "subcontractors",
     wrapper: true,
-    listOfAreas: true,
-    listOfIncidents: true,
+    listOfAreas: {},
+    listOfIncidents: {},
   });
   const auth = useContext(AuthContext);
   const { request } = useHttp();
@@ -51,7 +51,12 @@ export const AppState = ({ children }) => {
           Authorization: `Bearer ${auth.token}`,
         }
       );
-    } catch (e) {}
+      if (data) {
+        return data;
+      }
+    } catch (e) {
+      return { error: e };
+    }
   };
 
   useEffect(() => {
@@ -65,8 +70,8 @@ export const AppState = ({ children }) => {
           {
             _id: auth.userId,
             layout: "subcontractors",
-            listOfAreas: true,
-            listOfIncidents: true,
+            listOfAreas: {},
+            listOfIncidents: {},
           },
         ]);
         setReady(true);
@@ -83,7 +88,11 @@ export const AppState = ({ children }) => {
   useEffect(() => {
     if (ready) {
       console.log("Start of updating...");
-      updateMDBState(appState).then(() => {
+      updateMDBState({
+        layout: appState.layout,
+        listOfAreas: appState.listOfAreas,
+        listOfIncidents: appState.listOfIncidents,
+      }).then(() => {
         console.log("Data updated");
       });
     }
