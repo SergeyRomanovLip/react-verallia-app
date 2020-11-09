@@ -3,7 +3,7 @@ import { AppContext } from "../../../context/AppContext";
 import SubcLabel from "./SubcLabel";
 
 export const SubcLabelContainer = () => {
-  const { appState, appDispatch, ready } = useContext(AppContext);
+  const { appState, ready } = useContext(AppContext);
 
   const labels = Object.keys(appState.listOfAreas).map((e, i) => {
     if (appState.listOfAreas[e].listOfWorks) {
@@ -24,6 +24,7 @@ export const SubcLabelContainer = () => {
         );
       }
     }
+    return null;
   });
 
   return ready ? labels : null;

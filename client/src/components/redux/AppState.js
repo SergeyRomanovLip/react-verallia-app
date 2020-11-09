@@ -6,17 +6,11 @@ import React, {
   useCallback,
 } from "react";
 import { AppContext } from "../../context/AppContext";
-import { useHistory } from "react-router-dom";
 import { useHttp } from "../../hooks/http.hook";
-// import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { reducer } from "./reducer";
-import { Loader } from "../Loader";
-
-const url = "https://verallia-int-map-database.firebaseio.com";
 
 export const AppState = ({ children }) => {
-  const history = useHistory();
   const [ready, setReady] = useState(false);
   const [appState, appDispatch] = useReducer(reducer, {
     layout: "subcontractors",
@@ -39,7 +33,7 @@ export const AppState = ({ children }) => {
     } catch (e) {
       return { error: e };
     }
-  }, []);
+  }, [auth.token, request]);
 
   const updateMDBState = async (newState) => {
     try {
@@ -59,7 +53,7 @@ export const AppState = ({ children }) => {
     }
   };
 
-  useEffect(() => {
+  const initializing = () => {
     getMDBState(appState).then((res) => {
       setReady(false);
       console.log("Start of pending data...");
@@ -83,9 +77,9 @@ export const AppState = ({ children }) => {
         setReady(true);
       }
     });
-  }, []);
+  };
 
-  useEffect(() => {
+  const updating = () => {
     if (ready) {
       console.log("Start of updating...");
       updateMDBState({
@@ -96,7 +90,11 @@ export const AppState = ({ children }) => {
         console.log("Data updated");
       });
     }
-  }, [appState.listOfAreas, appState.listOfIncidents]);
+  };
+
+  useEffect(initializing, []);
+
+  useEffect(updating, [appState.listOfAreas, appState.listOfIncidents]);
 
   return (
     <AppContext.Provider

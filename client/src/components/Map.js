@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import DrawSVGLayout from "./layouts/drawSVG/DrawSVGLayout";
 import { Incidents } from "./layouts/incidents/Incidents";
-import SubcLabel from "./layouts/subcontractors/SubcLabel";
 import { ModalContext } from "../context/ModalContext";
 import { AppContext } from "../context/AppContext";
 import { useParams } from "react-router-dom";
@@ -24,7 +23,7 @@ export const Map = () => {
 
   const handlerSetSVGReady = useCallback(() => {
     setSVGReady(true);
-  });
+  }, []);
 
   useEffect(() => {
     if (ready) {
@@ -36,7 +35,7 @@ export const Map = () => {
       appDispatch(["updateWrapperPosition", rect]);
       setWrapperState(true);
     }
-  }, [ready]);
+  }, [ready, appDispatch, layout]);
 
   return ready ? (
     <div ref={inputRef} className="mapWrapper">

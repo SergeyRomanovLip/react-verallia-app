@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ModalContext } from "../../../context/ModalContext";
 import { AppContext } from "../../../context/AppContext";
 
@@ -13,8 +13,8 @@ function SVGComponent({ ID, d }) {
       if (Object.keys(appState.listOfAreas[ID].listOfWorks).length > 0) {
         Object.keys(appState.listOfAreas[ID].listOfWorks).map((e) => {
           if (appState.listOfAreas[ID].listOfWorks[e].checked === "no") {
-            checkedStat.push(false);
-          } else checkedStat.push(true);
+            return checkedStat.push(false);
+          } else return checkedStat.push(true);
         });
       }
       if (checkedStat.includes(false)) {
@@ -23,7 +23,7 @@ function SVGComponent({ ID, d }) {
         setCheked(true);
       }
     }
-  }, [appState]);
+  }, [appState, ID]);
 
   return (
     <path

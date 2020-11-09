@@ -7,12 +7,12 @@ function SubcLabel({ left, top, listOfWorks }) {
   useEffect(() => {
     let works = 0;
     for (let work in listOfWorks) {
-      if (work != "updated") {
+      if (work !== "updated") {
         works += 1;
         setData(works);
       }
     }
-  }, [appState]);
+  }, [appState, listOfWorks]);
   return (
     <div
       className="works-sign"

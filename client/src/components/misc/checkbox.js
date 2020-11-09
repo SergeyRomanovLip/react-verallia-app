@@ -6,7 +6,7 @@ function Checkbox({ fun, data, text, checkState }) {
     if (checkState) {
       setState(checkState);
     }
-  });
+  }, [checkState]);
 
   return (
     <label

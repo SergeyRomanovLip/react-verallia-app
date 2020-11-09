@@ -21,7 +21,7 @@ function InfoSubc({ content }) {
     let works = [];
     if (Object.keys(area.listOfWorks).length > 0) {
       for (let work in area.listOfWorks) {
-        if (work != "updated") {
+        if (work !== "updated") {
           let data = area.listOfWorks[work];
           works.push(
             <InfoSubcWork key={work} data={data} workID={work} area={area.id} />
@@ -30,7 +30,7 @@ function InfoSubc({ content }) {
       }
     }
     setListOfWorks(works);
-  }, [appState]);
+  }, [appState, content]);
 
   return (
     <div className="infoWindow">
@@ -49,7 +49,7 @@ function InfoSubc({ content }) {
       <div className="infoWindow-body">
         <div id="listOfWorksContainer" className="infoWindow-listOfWorks">
           <ul className="infoWindow-listOfWorks">
-            {listOfWorks.length != 0 ? (
+            {listOfWorks.length !== 0 ? (
               listOfWorks
             ) : (
               <div>

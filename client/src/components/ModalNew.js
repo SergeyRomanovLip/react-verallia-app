@@ -1,4 +1,4 @@
-import React, { useReducer, useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { ModalContext } from "../context/ModalContext";
 import { AcceptSVG } from "./layouts/drawSVG/AcceptSVG";
 import { AcceptIncident } from "./layouts/incidents/AcceptIncident";
@@ -49,6 +49,9 @@ export const ModalNew = ({ children }) => {
         break;
       case "AcceptIncident":
         setModal(<AcceptIncident content={modalState.content} />);
+        break;
+      default:
+        setModal(null);
         break;
     }
   }, [modalState]);

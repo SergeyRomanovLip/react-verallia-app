@@ -17,7 +17,7 @@ export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
 
   useEffect(() => {
     handlerSetSVGReady(true);
-  }, []);
+  }, [handlerSetSVGReady]);
 
   let myAttr = {
     d: "",
@@ -45,8 +45,6 @@ export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
     if (drawingStat === true) {
       switch (state) {
         case "drawing":
-          // console.log(e.pageX, wrapperleft);
-          // console.log(e.pageY, wrapperTop);
           myAttr.set(`L ${e.pageX - wrapperleft} ${e.pageY - wrapperTop}`);
           break;
         case "finish":
@@ -69,6 +67,8 @@ export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
           }
           setDrawingSVG("");
           break;
+        default:
+          return null;
       }
     }
   }
