@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { AuthContext } from '../../context/AuthContext'
-import { auth, generateUserDocument, signOutUser } from '../../firebaseConfig'
+import { auth, signOutUser } from '../../firebaseConfig'
 
 export const AuthState = ({ children }) => {
-  const [user, setUser] = useState(null)
+  const [user, setAuthUser] = useState(null)
+
   useEffect(() => {
-    auth.onAuthStateChanged(async (userAuth) => {
-      const user = await generateUserDocument(userAuth)
-      setUser(user)
+    const unlisten = auth.onAuthStateChanged((authUser) => {
+      authUser ? setAuthUser(authUser) : setAuthUser(null)
     })
+    return () => {
+      unlisten()
+    }
   })
 
-  return (
-    <AuthContext.Provider value={{ user, signOutUser }}>
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={{ user, signOutUser }}>{children}</AuthContext.Provider>
 }

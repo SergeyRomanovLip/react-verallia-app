@@ -1,11 +1,7 @@
 import React, { useReducer, useContext, useState, useEffect } from 'react'
 import { AppContext } from '../../context/AppContext'
 import { reducer } from './reducer'
-import {
-  generateStateDocument,
-  getExistingState,
-  writeStateLog,
-} from '../../firebaseConfig'
+import { generateStateDocument, getExistingState, writeStateLog } from '../../firebaseConfig'
 import { AuthContext } from '../../context/AuthContext'
 
 export const AppState = ({ children }) => {
@@ -15,7 +11,7 @@ export const AppState = ({ children }) => {
     layout: 'subcontractors',
     wrapper: true,
     listOfAreas: {},
-    listOfIncidents: {},
+    listOfIncidents: {}
   })
   const { user } = useContext(AuthContext)
 
@@ -31,17 +27,15 @@ export const AppState = ({ children }) => {
             _id: {},
             layout: 'subcontractors',
             listOfAreas: {},
-            listOfIncidents: {},
-          },
+            listOfIncidents: {}
+          }
         ])
         setReady(true)
         setUpdated(true)
-      } else if (res.error) {
-        alert(res.error)
       } else {
+        console.log('Второй путь, диспатчинг с сервера')
         appDispatch(['initialize', res])
         console.log('Data pended')
-        // }
         setReady(true)
         setUpdated(true)
       }
@@ -56,13 +50,13 @@ export const AppState = ({ children }) => {
         generateStateDocument(user, {
           layout: appState.layout,
           listOfAreas: appState.listOfAreas,
-          listOfIncidents: appState.listOfIncidents,
+          listOfIncidents: appState.listOfIncidents
         })
           .then(() => {
             writeStateLog(user, {
               layout: appState.layout,
               listOfAreas: appState.listOfAreas,
-              listOfIncidents: appState.listOfIncidents,
+              listOfIncidents: appState.listOfIncidents
             })
           })
           .then(() => {
@@ -83,7 +77,7 @@ export const AppState = ({ children }) => {
         updated,
         appState,
         appDispatch,
-        ready,
+        ready
       }}
     >
       {children}

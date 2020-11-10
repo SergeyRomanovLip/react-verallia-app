@@ -1,7 +1,8 @@
+import React from 'react'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
-import { useHistory } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB-MbVE0gSmIjcLdgsCaWnip0XI71wXmmQ',
@@ -10,7 +11,7 @@ const firebaseConfig = {
   projectId: 'verallia-int-map-database',
   storageBucket: 'verallia-int-map-database.appspot.com',
   messagingSenderId: '783186530200',
-  appId: '1:783186530200:web:92395d2ddbe53131eb25ed',
+  appId: '1:783186530200:web:92395d2ddbe53131eb25ed'
 }
 
 firebase.initializeApp(firebaseConfig)
@@ -21,11 +22,6 @@ export const signOutUser = () =>
   firebase
     .auth()
     .signOut()
-    .then((res) => {
-      let history = useHistory()
-      history.push('/')
-      console.log('Вы вышли из системы')
-    })
     .catch((e) => {})
 export const generateUserDocument = async (user, additionalData) => {
   if (!user) return
@@ -38,7 +34,7 @@ export const generateUserDocument = async (user, additionalData) => {
         displayName,
         email,
         photoURL,
-        ...additionalData,
+        ...additionalData
       })
     } catch (error) {
       console.error('Error creating user document', error)
@@ -46,13 +42,14 @@ export const generateUserDocument = async (user, additionalData) => {
   }
   return getUserDocument(user.uid)
 }
+
 const getUserDocument = async (uid) => {
   if (!uid) return null
   try {
     const userDocument = await firestore.doc(`users/${uid}`).get()
     return {
       uid,
-      ...userDocument.data(),
+      ...userDocument.data()
     }
   } catch (error) {
     console.error('Error fetching user', error)
@@ -67,8 +64,8 @@ export const generateStateDocument = async (user, newState) => {
       ...existing.data(),
       state: {
         ...newState,
-        updated: new Date().toLocaleDateString(),
-      },
+        updated: new Date().toLocaleDateString()
+      }
     })
   } catch (error) {
     console.error('Error creating user document', error)
@@ -102,7 +99,7 @@ export const writeStateLog = async (user, newState) => {
     }
     await ref.set({
       ...existing.data(),
-      log: newLog,
+      log: newLog
     })
   } catch (error) {
     console.error('Error creating user document', error)
@@ -112,8 +109,9 @@ export const writeStateLog = async (user, newState) => {
 export const getExistingState = async (user) => {
   const existing = await firestore.doc(`users/${user.uid}`).get()
   try {
+    return existing.data().state
   } catch (error) {
     console.error('Error creating user document', error)
+    return false
   }
-  return existing.data().state
 }

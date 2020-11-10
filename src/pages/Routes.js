@@ -9,8 +9,12 @@ export const Routes = () => {
   const [isAtuh, setIsAuth] = useState(false)
 
   useEffect(() => {
-    user ? setIsAuth(true) : setIsAuth(false)
-  })
+    if (user) {
+      user.uid ? setIsAuth(true) : setIsAuth(false)
+    } else {
+      setIsAuth(false)
+    }
+  }, [user])
 
   if (isAtuh) {
     return (
