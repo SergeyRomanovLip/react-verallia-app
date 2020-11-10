@@ -1,18 +1,18 @@
-import React, { useState, useContext } from "react";
-import InputRow from "../../misc/inputRow";
-import { ModalContext } from "../../../context/ModalContext";
-import DatetimeOwn from "../../misc/datetime";
+import React, { useState, useContext } from 'react'
+import InputRow from '../../misc/inputRow'
+import { ModalContext } from '../../../context/ModalContext'
+import DatetimeOwn from '../../misc/datetime'
 
 export const AcceptIncident = ({ content }) => {
-  const { removeModal } = useContext(ModalContext);
+  const { removeModal } = useContext(ModalContext)
   const [dataOfIncident, setDataOfIncident] = useState({
-    name: "",
-    type: "",
-    description: "",
-  });
+    name: '',
+    type: '',
+    description: '',
+  })
 
   function getData(e, r) {
-    setDataOfIncident({ ...dataOfIncident, [e]: r });
+    setDataOfIncident({ ...dataOfIncident, [e]: r })
   }
 
   return (
@@ -67,79 +67,81 @@ export const AcceptIncident = ({ content }) => {
     //     </div>
     //   </div>
     // </div>
-    <div className="infoWindow">
-      <div className="infoWindow-header">
+    <div className='infoWindow'>
+      <div className='infoWindow-header'>
         <b>Add new incident?</b>
       </div>
-      <div className="infoWindow-body">
+      <div className='infoWindow-body'>
         <hr />
         <InputRow
-          text={"Название инцидента"}
-          data={"name"}
+          text={'Название инцидента'}
+          data={'name'}
           fun={(e, r) => {
-            getData(e, r);
+            getData(e, r)
           }}
-          type={"text"}
+          type={'text'}
         ></InputRow>
         <InputRow
-          text={"ФИО сотрудника"}
-          data={"victimName"}
+          text={'ФИО сотрудника'}
+          data={'victimName'}
           fun={(e, r) => {
-            getData(e, r);
+            getData(e, r)
           }}
-          type={"text"}
+          type={'text'}
         ></InputRow>
         <InputRow
-          text={"Служба"}
-          data={"department"}
+          text={'Служба'}
+          data={'department'}
           fun={(e, r) => {
-            getData(e, r);
+            getData(e, r)
           }}
-          type={"text"}
+          type={'text'}
         ></InputRow>
         <InputRow
-          text={"Статус"}
-          data={"status"}
+          text={'Статус'}
+          data={'status'}
           fun={(e, r) => {
-            getData(e, r);
+            getData(e, r)
           }}
-          type={"text"}
+          type={'text'}
         ></InputRow>
-        <DatetimeOwn
-          text={"Дата выявления"}
-          data={"startDate"}
-          fun={(e, r) => {
-            getData(e, r);
-          }}
-        ></DatetimeOwn>
-        <DatetimeOwn
-          text={"Дата оконачания заболевания"}
-          data={"finishDate"}
-          fun={(e, r) => {
-            getData(e, r);
-          }}
-        ></DatetimeOwn>
-
-        <div className="infoWindow-body-form">
+        <div className={'infoWindow-body-form-dateTimeContaineer'}>
+          <DatetimeOwn
+            text={'Дата начала'}
+            data={'startDate'}
+            fun={(e, r) => {
+              getData(e, r)
+            }}
+          ></DatetimeOwn>
+          <DatetimeOwn
+            text={'Дата оконачания'}
+            data={'finishDate'}
+            fun={(e, r) => {
+              getData(e, r)
+            }}
+          ></DatetimeOwn>
+        </div>
+        <hr />
+        <div className='infoWindow-body-form'>
           <div
             onClick={() => {
-              content(dataOfIncident);
-              removeModal();
+              content(dataOfIncident)
+              removeModal()
             }}
-            className="infoWindow-body-form-button"
+            className='infoWindow-body-form-button'
           >
             Add
           </div>
           <div
             onClick={() => {
-              removeModal();
+              removeModal()
             }}
-            className="infoWindow-body-form-button"
+            className='infoWindow-body-form-button'
           >
             Cancel
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

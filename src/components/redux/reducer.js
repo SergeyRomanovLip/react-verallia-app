@@ -7,7 +7,7 @@ export const reducer = (state, action) => {
           _id: action[1]._id,
           layout: action[1].layout,
           listOfAreas: action[1].listOfAreas,
-          listOfIncidents: action[1].listOfIncidents
+          listOfIncidents: action[1].listOfIncidents,
         }
       case 'addNewWork':
         let id = action[1].id
@@ -21,10 +21,10 @@ export const reducer = (state, action) => {
               ...state.listOfAreas[id],
               listOfWorks: {
                 ...state.listOfAreas[id].listOfWorks,
-                [workID]: content
-              }
-            }
-          }
+                [workID]: content,
+              },
+            },
+          },
         }
       case 'updateWrapperPosition':
         let wrapper = action[1]
@@ -33,7 +33,7 @@ export const reducer = (state, action) => {
         let layout = action[1]
         return {
           ...state,
-          layout: layout
+          layout: layout,
         }
       case 'deleteWork':
         delete state.listOfAreas[action[1]].listOfWorks[action[2]]
@@ -45,10 +45,10 @@ export const reducer = (state, action) => {
               ...state.listOfAreas[action[1]],
               listOfWorks: {
                 ...state.listOfAreas[action[1]].listOfWorks,
-                updated: Math.random()
-              }
-            }
-          }
+                updated: Math.random(),
+              },
+            },
+          },
         }
       // return { ...state };
       case 'addNewArea':
@@ -58,15 +58,15 @@ export const reducer = (state, action) => {
           ...state,
           listOfAreas: {
             ...state.listOfAreas,
-            [id1]: content1
-          }
+            [id1]: content1,
+          },
         }
       case 'deleteArea':
         let id4 = action[1]
         delete state.listOfAreas[id4]
         return {
           ...state,
-          listOfAreas: { ...state.listOfAreas, updated: Math.random() }
+          listOfAreas: { ...state.listOfAreas, updated: Math.random() },
         }
       case 'addNewIncident':
         let id6 = action[1]
@@ -74,8 +74,14 @@ export const reducer = (state, action) => {
           ...state,
           listOfIncidents: {
             ...state.listOfIncidents,
-            [id6]: action[2]
-          }
+            [id6]: action[2],
+          },
+        }
+      case 'deleteIncident':
+        delete state.listOfIncidents[action[1]]
+        return {
+          ...state,
+          listOfIncidents: { ...state.listOfIncidents, updated: Math.random() },
         }
       case 'checkStateOfWork':
         let id2 = action[1]
@@ -92,12 +98,14 @@ export const reducer = (state, action) => {
                   ...state.listOfAreas[id2].listOfWorks[workID2],
                   checked:
                     state.listOfAreas[id2].listOfWorks[workID2].checked === 'no'
-                      ? (state.listOfAreas[id2].listOfWorks[workID2].checked = 'yes')
-                      : (state.listOfAreas[id2].listOfWorks[workID2].checked = 'no')
-                }
-              }
-            }
-          }
+                      ? (state.listOfAreas[id2].listOfWorks[workID2].checked =
+                          'yes')
+                      : (state.listOfAreas[id2].listOfWorks[workID2].checked =
+                          'no'),
+                },
+              },
+            },
+          },
         }
       default:
         return state

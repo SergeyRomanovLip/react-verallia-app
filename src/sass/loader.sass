@@ -1,3 +1,5 @@
+@import 'Variables.sass'
+  
 .lds-grid 
   display: inline-block
   position: relative
@@ -9,7 +11,7 @@
   width: 16px
   height: 16px
   border-radius: 50%
-  background: rgba(146, 39, 143, 0.8)
+  background: $loader-big-color
   animation: lds-grid 1.2s linear infinite
 
 .lds-grid div:nth-child(1) 
@@ -65,3 +67,68 @@
     opacity: 0.5
   
 
+.lds-grid-little
+  display: inline-block
+  position: relative
+  width: 40px
+  height: 40px
+  z-index: 100
+  div 
+    position: absolute
+    width: 8px
+    height: 8px
+    border-radius: 50%
+    background: $loader-little-color
+    animation: lds-grid 1.2s linear infinite
+
+  div:nth-child(1) 
+    top: 4px
+    left: 4px
+    animation-delay: 0s
+
+  div:nth-child(2) 
+    top: 4px
+    left: 16px
+    animation-delay: -0.4s
+
+  div:nth-child(3) 
+    top: 4px
+    left: 28px
+    animation-delay: -0.8s
+
+  div:nth-child(4) 
+    top: 16px
+    left: 4px
+    animation-delay: -0.4s
+
+  div:nth-child(5) 
+    top: 16px
+    left: 16px
+    animation-delay: -0.8s
+
+  div:nth-child(6) 
+    top: 16px
+    left: 28px
+    animation-delay: -1.2s
+
+  div:nth-child(7) 
+    top: 28px
+    left: 4px
+    animation-delay: -0.8s
+
+  div:nth-child(8) 
+    top: 28px
+    left: 16px
+    animation-delay: -1.2s
+
+  div:nth-child(9) 
+    top: 28px
+    left: 28px
+    animation-delay: -1.6s
+
+@keyframes lds-grid-little
+  0%, 100% 
+    opacity: 1
+  
+  50% 
+    opacity: 0.5

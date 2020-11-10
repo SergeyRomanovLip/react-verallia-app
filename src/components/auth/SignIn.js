@@ -1,17 +1,15 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../../context/AuthContext'
 import { auth } from '../../firebaseConfig'
 
 export const SignIn = () => {
-  const { user } = useContext(AuthContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
   const signInWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault()
     auth.signInWithEmailAndPassword(email, password).catch((error) => {
-      setError('Error signing in with password and email!')
+      errorHandler('Error signing in with password and email!')
       console.error('Error signing in with password and email', error)
     })
   }
@@ -26,14 +24,29 @@ export const SignIn = () => {
     }
   }
 
+  const errorHandler = (error) => {
+    setError(error)
+    setTimeout(() => {
+      setError(null)
+    }, 3000)
+  }
+
   return (
     <div className='infoWindow'>
       <div className='infoWindow-header'>Sign In</div>
       <hr></hr>
       <div className='infoWindow-body'>
-        {error !== null && <div>{error}</div>}
+        {error !== null && (
+          <div
+            style={{ backgroundColor: 'darkred', color: 'white' }}
+            className={'infoWindow-body-form-input'}
+          >
+            {error}
+          </div>
+        )}
         <form className=''>
           <input
+            autoComplete='on'
             type='email'
             className='infoWindow-body-form-input'
             name='userEmail'
@@ -43,6 +56,7 @@ export const SignIn = () => {
             onChange={(event) => onChangeHandler(event)}
           />
           <input
+            autoComplete='on'
             type='password'
             className='infoWindow-body-form-input'
             name='userPassword'

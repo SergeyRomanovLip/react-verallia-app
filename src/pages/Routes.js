@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import { Toolbar } from '../components/Toolbar'
 import { AuthContext } from '../context/AuthContext'
 import { AuthPage } from './AuthPage'
 import { MapPage } from './MapPage'
@@ -17,7 +16,6 @@ export const Routes = () => {
     return (
       <Switch>
         <Route path={`/map/:layout`} exact>
-          <Toolbar />
           <MapPage />
         </Route>
         <Redirect to='/map/subcontractors' />

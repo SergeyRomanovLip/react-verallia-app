@@ -8,13 +8,27 @@ export const SignUp = () => {
   const [displayName, setDisplayName] = useState('')
   const [error, setError] = useState(null)
 
-  const createUserWithEmailAndPasswordHandler = async (event, email, password) => {
+  const errorHandler = (error) => {
+    setError(error)
+    setTimeout(() => {
+      setError(null)
+    }, 3000)
+  }
+
+  const createUserWithEmailAndPasswordHandler = async (
+    event,
+    email,
+    password
+  ) => {
     event.preventDefault()
     try {
-      const { user } = await auth.createUserWithEmailAndPassword(email, password)
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      )
       generateUserDocument(user, { displayName })
     } catch (error) {
-      setError('Error Signing up with email and password')
+      errorHandler('Error Signing up with email and password')
     }
 
     setEmail('')
@@ -36,9 +50,17 @@ export const SignUp = () => {
       <div className='infoWindow-header'>Sign Up</div>
       <hr></hr>
       <div className='infoWindow-body'>
-        {error !== null && <div>{error}</div>}
+        {error !== null && (
+          <div
+            style={{ backgroundColor: 'darkred', color: 'white' }}
+            className={'infoWindow-body-form-input'}
+          >
+            {error}
+          </div>
+        )}
         <form className=''>
           <input
+            autoComplete='off'
             type='text'
             className='infoWindow-body-form-input'
             name='displayName'
@@ -48,6 +70,7 @@ export const SignUp = () => {
             onChange={(event) => onChangeHandler(event)}
           />
           <input
+            autoComplete='on'
             type='email'
             className='infoWindow-body-form-input'
             name='userEmail'
@@ -57,6 +80,7 @@ export const SignUp = () => {
             onChange={(event) => onChangeHandler(event)}
           />
           <input
+            autoComplete='on'
             type='password'
             className='infoWindow-body-form-input'
             name='userPassword'

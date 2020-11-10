@@ -11,13 +11,20 @@ export const Incidents = ({ click }) => {
 
   const arrayOfIncidents = []
   for (let incident in appState.listOfIncidents) {
-    arrayOfIncidents.push(appState.listOfIncidents[incident])
+    if (incident !== 'updated')
+      arrayOfIncidents.push(appState.listOfIncidents[incident])
   }
 
   function addNewIncident(left, top) {
     let ID = IDgenerator()
     click('AcceptIncident', (options) => {
-      if (options.name && options.victimName && options.department && options.status && options.startDate) {
+      if (
+        options.name &&
+        options.victimName &&
+        options.department &&
+        options.status &&
+        options.startDate
+      ) {
         appDispatch([
           'addNewIncident',
           ID,
@@ -30,11 +37,15 @@ export const Incidents = ({ click }) => {
             department: options.department,
             status: options.status,
             startDate: new Date(options.startDate).toLocaleDateString(),
-            finishDate: options.finishDate ? new Date(options.finishDate).toLocaleDateString() : true
-          }
+            finishDate: options.finishDate
+              ? new Date(options.finishDate).toLocaleDateString()
+              : true,
+          },
         ])
       } else {
-        alert('Необходимо заполнить все поля (кроме "дата окончания заболевания")')
+        alert(
+          'Необходимо заполнить все поля (кроме "дата окончания заболевания")'
+        )
       }
     })
   }

@@ -2,10 +2,13 @@ import React, { useContext } from 'react'
 import '../sass/toolbar.sass'
 import { NavLink, useHistory } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
+import { Loader } from './Loader'
+import { AppContext } from '../context/AppContext'
 
 export const Toolbar = () => {
   const history = useHistory()
   const { signOutUser } = useContext(AuthContext)
+  const { updated } = useContext(AppContext)
   const logoutHandler = (event) => {
     event.preventDefault()
     signOutUser()
@@ -44,6 +47,7 @@ export const Toolbar = () => {
             Выйти
           </a>
         </li>
+        <li>{!updated ? <Loader type={'little'} /> : null}</li>
       </ul>
       {/* <div className="toolbar-status">
         <div id="toolbar-status-text" calss="toolbar-status-text">

@@ -1,18 +1,21 @@
-import axios from 'axios'
-import React, { useReducer, useContext, useState, useEffect, useCallback } from 'react'
+import React, { useReducer, useContext, useState, useEffect } from 'react'
 import { AppContext } from '../../context/AppContext'
 import { reducer } from './reducer'
-import { generateStateDocument, getExistingState, writeStateLog } from '../../firebaseConfig'
+import {
+  generateStateDocument,
+  getExistingState,
+  writeStateLog,
+} from '../../firebaseConfig'
 import { AuthContext } from '../../context/AuthContext'
 
 export const AppState = ({ children }) => {
-  const url = 'https://verallia-int-map-database.firebaseio.com'
   const [ready, setReady] = useState(false)
+  const [updated, setUpdated] = useState(false)
   const [appState, appDispatch] = useReducer(reducer, {
     layout: 'subcontractors',
     wrapper: true,
     listOfAreas: {},
-    listOfIncidents: {}
+    listOfIncidents: {},
   })
   const { user } = useContext(AuthContext)
 
@@ -28,9 +31,11 @@ export const AppState = ({ children }) => {
             _id: {},
             layout: 'subcontractors',
             listOfAreas: {},
-            listOfIncidents: {}
-          }
+            listOfIncidents: {},
+          },
         ])
+        setReady(true)
+        setUpdated(true)
       } else if (res.error) {
         alert(res.error)
       } else {
@@ -38,28 +43,31 @@ export const AppState = ({ children }) => {
         console.log('Data pended')
         // }
         setReady(true)
+        setUpdated(true)
       }
     })
   }
 
-  const updating = () => {
+  const updateState = () => {
     if (ready) {
+      setUpdated(false)
       if (appState.listOfAreas && appState.listOfIncidents) {
         console.log('Start of updating...')
         generateStateDocument(user, {
           layout: appState.layout,
           listOfAreas: appState.listOfAreas,
-          listOfIncidents: appState.listOfIncidents
+          listOfIncidents: appState.listOfIncidents,
         })
           .then(() => {
             writeStateLog(user, {
               layout: appState.layout,
               listOfAreas: appState.listOfAreas,
-              listOfIncidents: appState.listOfIncidents
+              listOfIncidents: appState.listOfIncidents,
             })
           })
           .then(() => {
             console.log('Data updated')
+            setUpdated(true)
           })
       }
     }
@@ -67,14 +75,15 @@ export const AppState = ({ children }) => {
 
   useEffect(initializing, [])
 
-  useEffect(updating, [appState.listOfAreas, appState.listOfIncidents])
+  useEffect(updateState, [appState.listOfAreas, appState.listOfIncidents])
 
   return (
     <AppContext.Provider
       value={{
+        updated,
         appState,
         appDispatch,
-        ready
+        ready,
       }}
     >
       {children}

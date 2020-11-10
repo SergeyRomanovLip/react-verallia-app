@@ -9,7 +9,11 @@ export const AuthState = ({ children }) => {
       const user = await generateUserDocument(userAuth)
       setUser(user)
     })
-  }, [auth, AuthContext])
+  })
 
-  return <AuthContext.Provider value={{ user, signOutUser }}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={{ user, signOutUser }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }

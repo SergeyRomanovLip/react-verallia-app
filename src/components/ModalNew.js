@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { ModalContext } from '../context/ModalContext'
 import { AcceptSVG } from './layouts/drawSVG/AcceptSVG'
 import { AcceptIncident } from './layouts/incidents/AcceptIncident'
+import { InfoIncident } from './layouts/incidents/InfoIncident'
 import AddNewWork from './layouts/subcontractors/AddNewWork'
 import InfoSubc from './layouts/subcontractors/InfoSubc'
 
 export const ModalNew = ({ children }) => {
   const [modalState, setModalState] = useState({
     type: null,
-    content: null
+    content: null,
   })
   const [modal, setModal] = useState(null)
 
@@ -22,14 +23,14 @@ export const ModalNew = ({ children }) => {
   const removeModal = () => {
     setModalState({
       type: null,
-      content: null
+      content: null,
     })
   }
 
   const showModal = (type, content) => {
     setModalState({
       type,
-      content
+      content,
     })
   }
 
@@ -51,7 +52,7 @@ export const ModalNew = ({ children }) => {
         setModal(<AcceptIncident content={modalState.content} />)
         break
       case 'InfoIncident':
-        console.log('It Works')
+        setModal(<InfoIncident content={modalState.content} />)
         break
       default:
         setModal(null)

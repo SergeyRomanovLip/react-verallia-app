@@ -1,4 +1,10 @@
-import React, { useContext, useRef, useEffect, useState, useCallback } from 'react'
+import React, {
+  useContext,
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+} from 'react'
 import DrawSVGLayout from './layouts/drawSVG/DrawSVGLayout'
 import { Incidents } from './layouts/incidents/Incidents'
 import { ModalContext } from '../context/ModalContext'
@@ -11,6 +17,7 @@ export const Map = () => {
   const { showModal } = useContext(ModalContext)
   const { appDispatch, ready } = useContext(AppContext)
   const [wrapperState, setWrapperState] = useState(false)
+  const [loaded, setLoaded] = useState(false)
   const [SVGReady, setSVGReady] = useState(false)
   const { layout } = useParams()
   const inputRef = useRef()
@@ -20,6 +27,9 @@ export const Map = () => {
   }, [])
 
   useEffect(() => {
+    if (!ready) {
+      setLoaded(false)
+    }
     if (ready) {
       setWrapperState(false)
       appDispatch(['setLayout', layout])
@@ -28,14 +38,20 @@ export const Map = () => {
       rect.y = rect.y + window.scrollY
       appDispatch(['updateWrapperPosition', rect])
       setWrapperState(true)
+      setLoaded(true)
     }
   }, [ready, appDispatch, layout])
 
   return (
     <div ref={inputRef} className='mapWrapper'>
-      {wrapperState && layout === 'incidents' ? <Incidents click={showModal} /> : null}
+      {!loaded ? <Loader /> : null}
+      {wrapperState && layout === 'incidents' ? (
+        <Incidents click={showModal} />
+      ) : null}
       {SVGReady && layout === 'subcontractors' ? <SubcLabelContainer /> : null}
-      {wrapperState && layout === 'subcontractors' ? <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} /> : null}
+      {wrapperState && layout === 'subcontractors' ? (
+        <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} />
+      ) : null}
     </div>
   )
 }
