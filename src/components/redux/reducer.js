@@ -12,6 +12,23 @@ export const reducer = (state, action) => {
             }
           }
         }
+      case 'addNewUserArea':
+        return {
+          ...state,
+          userLayouts: {
+            ...state.userLayouts,
+            [action[1].name]: {
+              ...state.userLayouts[action[1].name],
+              listOfAreas: {
+                ...state.userLayouts[action[1].name].listOfAreas,
+                [action[1].id]: {
+                  ...action[1]
+                }
+              }
+            }
+          }
+        }
+        console.log(action[1])
 
       case 'initialize':
         return {

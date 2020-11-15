@@ -51,20 +51,7 @@ export const UserDrawSVGLayout = ({ handlerSetSVGReady, name }) => {
           setDrawingStat(false)
           if (drawingSVG.length > 50) {
             let ID = IDgenerator()
-            showModal('AcceptUserSVG', [
-              name,
-              (name) => {
-                appDispatch([
-                  'addNewUserArea',
-                  ID,
-                  {
-                    id: ID,
-                    name: name,
-                    svg: [drawingSVG + 'Z']
-                  }
-                ])
-              }
-            ])
+            showModal('AcceptUserSVG', [name, { id: ID, name: name, svg: [drawingSVG + 'Z'] }])
           }
           setDrawingSVG('')
           break
@@ -76,7 +63,7 @@ export const UserDrawSVGLayout = ({ handlerSetSVGReady, name }) => {
 
   const arrayOfAreas = []
   for (let area in appState.userLayouts[name].listOfAreas) {
-    arrayOfAreas.push(appState.listOfAreas[area])
+    arrayOfAreas.push(appState.userLayouts[name].listOfAreas[area])
   }
   return (
     <svg

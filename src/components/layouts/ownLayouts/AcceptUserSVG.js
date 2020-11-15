@@ -1,12 +1,20 @@
 import React, { useContext, useState } from 'react'
 import { AppContext } from '../../../context/AppContext'
 import { ModalContext } from '../../../context/ModalContext'
-import InputRow from '../../misc/inputRow'
+import { MultiInput } from '../../misc/multyInput'
 
 export const AcceptUserSVG = ({ content }) => {
   const { removeModal } = useContext(ModalContext)
-  const { appState } = useContext(AppContext)
-  const [userSVGData, setUserSVGData] = useState('Undefined')
+  const { appState, appDispatch } = useContext(AppContext)
+  const [userSVGData, setUserSVGData] = useState(null)
+
+  const userSVGDataHandler = (data, field) => {
+    setUserSVGData({
+      ...userSVGData,
+      [field]: data
+    })
+  }
+
   return (
     <div className='infoWindow'>
       <div className='infoWindow-header'>
@@ -15,24 +23,23 @@ export const AcceptUserSVG = ({ content }) => {
       <div className='infoWindow-body'>
         <hr />
         {appState.userLayouts[content[0]].fields.map((e, i) => {
-          console.log(e)
           return (
-            <InputRow
+            <MultiInput
               key={i}
               text={Object.keys(e)}
-              data={'areaName'}
-              fun={(e, r) => {
-                setUserSVGData(r)
+              data={Object.keys(e)}
+              fun={(data, field) => {
+                userSVGDataHandler(field, data)
               }}
               type={Object.values(e)}
-            ></InputRow>
+            ></MultiInput>
           )
         })}
 
         <div className='infoWindow-body-form'>
           <div
             onClick={() => {
-              content[1](userSVGData)
+              appDispatch(['addNewUserArea', { ...userSVGData, ...content[1] }])
               removeModal()
             }}
             className='infoWindow-body-form-button'

@@ -5,15 +5,7 @@ import { ModalContext } from '../../../context/ModalContext'
 export const CreateOwnLayout = () => {
   const { removeModal } = useContext(ModalContext)
   const { appDispatch } = useContext(AppContext)
-  const [workData, setWorkData] = useState({})
   const [fieldsInput, setfieldsInput] = useState([])
-
-  function addData(type, value) {
-    setWorkData({
-      ...workData,
-      [type]: value
-    })
-  }
 
   const addField = () => {
     let id = fieldsInput.length
@@ -23,6 +15,7 @@ export const CreateOwnLayout = () => {
         <select id={`userInputType`} type={'text'} defaultValue={'type of field'} data-id={id}>
           <option value='number'>Number</option>
           <option value='text'>Text</option>
+          <option value='date'>Date</option>
         </select>
       </div>
     )
@@ -32,6 +25,8 @@ export const CreateOwnLayout = () => {
   const getDataFormInputs = () => {
     const arrayOfNames = [...document.querySelectorAll('#userInputName')]
     const arrayOfTypes = [...document.querySelectorAll('#userInputType')]
+    const name = document.querySelector('#userInputLayoutName').value
+    const type = document.querySelector('#userInputLayoutType').value
     let resultArray = arrayOfNames.map((e) => {
       const newField = arrayOfTypes.map((el) => {
         if (e.dataset.id === el.dataset.id) {
@@ -44,7 +39,7 @@ export const CreateOwnLayout = () => {
       return e !== undefined
     })
 
-    let dataForSending = { ...workData, fields: resultArray }
+    let dataForSending = { name, type, fields: resultArray }
 
     appDispatch(['CreateOwnLayout', dataForSending])
   }
@@ -67,22 +62,12 @@ export const CreateOwnLayout = () => {
         <div className='infoWindow-body-form'>
           <hr />
           <div>
-            <label htmlFor={'type'}>Choose type of your layout</label>
-            <select
-              name='type'
-              value={workData.type}
-              onChange={(e) => {
-                addData('type', e.currentTarget.value)
-              }}
-            >
+            <label>Choose type of your layout</label>
+            <select id='userInputLayoutType' defaultValue={'drawing'}>
               <option value='drawing'>Drawing layout</option>
               <option value='click'>Click layout</option>
             </select>
-            <input
-              onChange={(e) => {
-                addData('name', e.currentTarget.value)
-              }}
-            ></input>
+            <input id='userInputLayoutName'></input>
           </div>
           <div>
             <label htmlFor='fields'>Add necessary fields to objects</label>
