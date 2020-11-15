@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { auth, generateUserDocument } from '../../firebaseConfig'
 
 export const SignUp = () => {
@@ -12,23 +12,16 @@ export const SignUp = () => {
     setError(error)
     setTimeout(() => {
       setError(null)
-    }, 3000)
+    }, 5000)
   }
 
-  const createUserWithEmailAndPasswordHandler = async (
-    event,
-    email,
-    password
-  ) => {
+  const createUserWithEmailAndPasswordHandler = async (event, email, password) => {
     event.preventDefault()
     try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      )
+      const { user } = await auth.createUserWithEmailAndPassword(email, password)
       generateUserDocument(user, { displayName })
     } catch (error) {
-      errorHandler('Error Signing up with email and password')
+      errorHandler(error.message)
     }
 
     setEmail('')
@@ -51,10 +44,7 @@ export const SignUp = () => {
       <hr></hr>
       <div className='infoWindow-body'>
         {error !== null && (
-          <div
-            style={{ backgroundColor: 'darkred', color: 'white' }}
-            className={'infoWindow-body-form-input'}
-          >
+          <div style={{ backgroundColor: 'darkred', color: 'white' }} className={'infoWindow-body-form-input'}>
             {error}
           </div>
         )}

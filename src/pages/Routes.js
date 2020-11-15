@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect, useLocation } from 'react-router-dom'
+import { AppContext } from '../context/AppContext'
 import { AuthContext } from '../context/AuthContext'
 import { AuthPage } from './AuthPage'
 import { MapPage } from './MapPage'
+import { ProductPage } from './ProductPage'
 
 export const Routes = () => {
+  const { location } = useContext(AppContext)
   const { user } = useContext(AuthContext)
   const [isAtuh, setIsAuth] = useState(false)
 
@@ -16,25 +19,29 @@ export const Routes = () => {
     }
   }, [user])
 
-  if (isAtuh) {
+  if (user) {
+    let loc = location.pathname
+    if (!loc.includes('/product')) {
+      loc = '/product/menu'
+    }
     return (
       <Switch>
-        <Route path={`/map/:layout`} exact>
+        <Route path='/product/map/:layout' exact>
           <MapPage />
         </Route>
-        <Redirect to='/map/subcontractors' />
+        <Route path='/product/menu' exact>
+          <ProductPage />
+        </Route>
+        <Redirect to={loc} />
       </Switch>
     )
   } else {
     return (
       <Switch>
-        <Route path='/:type' exact>
+        <Route path='/auth/:type' exact>
           <AuthPage />
         </Route>
-        <Route path='/:type' exact>
-          <AuthPage />
-        </Route>
-        <Redirect to='/signIn' />
+        <Redirect to='/auth/signIn' />
       </Switch>
     )
   }

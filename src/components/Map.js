@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useRef,
-  useEffect,
-  useState,
-  useCallback,
-} from 'react'
+import React, { useContext, useRef, useEffect, useState, useCallback } from 'react'
 import DrawSVGLayout from './layouts/drawSVG/DrawSVGLayout'
 import { Incidents } from './layouts/incidents/Incidents'
 import { ModalContext } from '../context/ModalContext'
@@ -12,6 +6,7 @@ import { AppContext } from '../context/AppContext'
 import { useParams } from 'react-router-dom'
 import { Loader } from './Loader'
 import { SubcLabelContainer } from './layouts/subcontractors/SubcLabelContainer'
+import { UserLayouts } from './layouts/ownLayouts/UserLayouts'
 
 export const Map = () => {
   const { showModal } = useContext(ModalContext)
@@ -45,13 +40,10 @@ export const Map = () => {
   return (
     <div ref={inputRef} className='mapWrapper'>
       {!loaded ? <Loader /> : null}
-      {wrapperState && layout === 'incidents' ? (
-        <Incidents click={showModal} />
-      ) : null}
+      {wrapperState && layout === 'incidents' ? <Incidents click={showModal} /> : null}
       {SVGReady && layout === 'subcontractors' ? <SubcLabelContainer /> : null}
-      {wrapperState && layout === 'subcontractors' ? (
-        <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} />
-      ) : null}
+      {wrapperState && layout === 'subcontractors' ? <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} /> : null}
+      {<UserLayouts layout={layout} wrapperState={wrapperState} SVGReady={SVGReady} handlerSetSVGReady={handlerSetSVGReady} />}
     </div>
   )
 }

@@ -7,12 +7,10 @@ import { Toolbar } from '../components/Toolbar'
 export const MapPage = () => {
   return (
     <>
-      <AppState>
-        <ModalNew>
-          <Toolbar />
-          <Map />
-        </ModalNew>
-      </AppState>
+      <ModalNew>
+        <Toolbar />
+        <Map />
+      </ModalNew>
     </>
   )
 }

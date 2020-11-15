@@ -1,0 +1,74 @@
+.toolbarVertical
+  padding-bottom: 5px
+  width: 400px
+  background-color: white
+  border: solid
+  border-width: 1px
+  border-color: #c0c0c0
+  border-radius: 10px
+  &-img
+    height: 50px
+    background-color: white
+  &-header
+    padding: 10px
+    margin-bottom: 5px
+    background-color: rgba(0, 128, 128, 0.8)
+    display: flex
+    align-items: center
+    flex-direction: row
+    justify-content: space-between
+    color: whitesmoke
+    border-top-left-radius: 10px
+    border-top-right-radius: 10px
+  &-list
+    background-color: rgba(255, 255, 255, 0.9)
+    margin: 0
+    padding: 0
+    display: flex
+    flex-direction: column
+    justify-content: flex-start
+    align-items: center
+    border-radius: 3px
+  li 
+    list-style: none
+  &-item
+    width: 380px
+    height: 40px
+    text-decoration: none
+    cursor: pointer
+    color:  rgba(0, 128, 128, 0.8)
+    padding: 0 10px
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: center
+    transition: all 0.2s ease-out
+    &-border
+      margin-top: 2px
+      margin-bottom: 2px
+      background-color: rgba(0, 128, 128, 0.3)
+      width: 80%
+      height: 2px
+  &-item:hover
+    background-color: rgba(0, 128, 128, 0.8)
+    color: whitesmoke
+    &.active
+      background-color: rgba(0, 128, 128, 0.8)
+      border-radius: 5px
+      transform: translateY(5px)
+
+
+
+  &-status
+    background-color: rgba(0, 128, 128, 0.8)
+    font-weight: bold
+    color: aliceblue
+    position: absolute
+    border-radius: 3px
+    top: 103px
+    left: 0
+    right: 0
+    display: flex
+    justify-content: space-around
+    align-items: center
+    height: 20px

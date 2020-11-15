@@ -1,8 +1,7 @@
-import React from 'react'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
-import { Redirect, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB-MbVE0gSmIjcLdgsCaWnip0XI71wXmmQ',
@@ -18,11 +17,13 @@ firebase.initializeApp(firebaseConfig)
 
 export const auth = firebase.auth()
 export const firestore = firebase.firestore()
-export const signOutUser = () =>
+
+export const signOutUser = () => {
   firebase
     .auth()
     .signOut()
     .catch((e) => {})
+}
 export const generateUserDocument = async (user, additionalData) => {
   if (!user) return
   const userRef = firestore.doc(`users/${user.uid}`)

@@ -9,8 +9,7 @@ export const SignIn = () => {
   const signInWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault()
     auth.signInWithEmailAndPassword(email, password).catch((error) => {
-      errorHandler('Error signing in with password and email!')
-      console.error('Error signing in with password and email', error)
+      errorHandler(error.message)
     })
   }
 
@@ -28,7 +27,7 @@ export const SignIn = () => {
     setError(error)
     setTimeout(() => {
       setError(null)
-    }, 3000)
+    }, 5000)
   }
 
   return (
@@ -37,10 +36,7 @@ export const SignIn = () => {
       <hr></hr>
       <div className='infoWindow-body'>
         {error !== null && (
-          <div
-            style={{ backgroundColor: 'darkred', color: 'white' }}
-            className={'infoWindow-body-form-input'}
-          >
+          <div style={{ backgroundColor: 'darkred', color: 'white' }} className={'infoWindow-body-form-input'}>
             {error}
           </div>
         )}
