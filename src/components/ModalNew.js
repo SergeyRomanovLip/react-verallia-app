@@ -12,7 +12,7 @@ import { UserClickInfo } from './layouts/ownLayouts/UserClickInfo'
 export const ModalNew = ({ children }) => {
   const [modalState, setModalState] = useState({
     type: null,
-    content: null,
+    content: null
   })
   const [modal, setModal] = useState(null)
 
@@ -26,14 +26,14 @@ export const ModalNew = ({ children }) => {
   const removeModal = () => {
     setModalState({
       type: null,
-      content: null,
+      content: null
     })
   }
 
   const showModal = (type, content) => {
     setModalState({
       type,
-      content,
+      content
     })
   }
 

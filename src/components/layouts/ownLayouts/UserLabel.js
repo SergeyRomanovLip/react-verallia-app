@@ -1,7 +1,6 @@
 import React from 'react'
 
 export const UserLabel = ({ left, top, dataForLabel, color }) => {
-  console.log(color)
   return (
     <div
       className={`works-sign `}
@@ -10,7 +9,7 @@ export const UserLabel = ({ left, top, dataForLabel, color }) => {
         width: 150 + 'px',
         top: top + 'px',
         left: left + 'px',
-        backgroundColor: color ? color.rgba : null,
+        backgroundColor: color ? color.rgba : null
       }}
     >
       {Object.keys(dataForLabel).map((e, i) => {

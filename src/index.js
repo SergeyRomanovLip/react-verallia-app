@@ -8,6 +8,7 @@ import './sass/toolbar.sass'
 import './sass/Auth.sass'
 import './sass/toolbarVertical.sass'
 import 'react-datetime/css/react-datetime.css'
+import './sass/Animations.sass'
 import App from './App'
 import { BrowserRouter } from 'react-router-dom'
 

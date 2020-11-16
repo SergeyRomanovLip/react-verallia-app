@@ -64,12 +64,16 @@ export const CreateOwnLayout = () => {
         <div className='infoWindow-body-form'>
           <hr />
           <div>
-            <select id='userInputLayoutType' defaultValue={'drawing'}>
+            <select id='userInputLayoutType' defaultValue={''} className='infoWindow-body-form-input'>
+              <option value=''>Choose type of layout</option>
               <option value='drawing'>Drawing layout</option>
               <option value='click'>Click layout</option>
             </select>
-            <input placeholder='define layout name' id='userInputLayoutName'></input>
-            <InputColor initialValue='#5e72e4' onChange={setColor} placement='right'></InputColor>
+            <input placeholder='define layout name' id='userInputLayoutName' className='infoWindow-body-form-input'></input>
+            <label className='infoWindow-body-form-label'>
+              Choose color of your areas
+              <InputColor className='infoWindow-body-form-input' initialValue='#5e72e4' onChange={setColor} placement='right'></InputColor>
+            </label>
           </div>
           <div>
             <label htmlFor='fields'>Add necessary fields to objects</label>
@@ -82,7 +86,6 @@ export const CreateOwnLayout = () => {
               </div>
             </div>
           </div>
-
           <div className='infoWindow-body-form'>
             <div
               onClick={() => {
