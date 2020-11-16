@@ -1,11 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { AppContext } from '../../../context/AppContext'
 import { ModalContext } from '../../../context/ModalContext'
+import InputColor from 'react-input-color'
 
 export const CreateOwnLayout = () => {
   const { removeModal } = useContext(ModalContext)
   const { appDispatch } = useContext(AppContext)
   const [fieldsInput, setfieldsInput] = useState([])
+  const [color, setColor] = React.useState({})
 
   const addField = () => {
     let id = fieldsInput.length
@@ -39,7 +41,7 @@ export const CreateOwnLayout = () => {
       return e !== undefined
     })
 
-    let dataForSending = { name, type, fields: resultArray }
+    let dataForSending = { color, name, type, fields: resultArray }
 
     appDispatch(['CreateOwnLayout', dataForSending])
   }
@@ -62,12 +64,12 @@ export const CreateOwnLayout = () => {
         <div className='infoWindow-body-form'>
           <hr />
           <div>
-            <label>Choose type of your layout</label>
             <select id='userInputLayoutType' defaultValue={'drawing'}>
               <option value='drawing'>Drawing layout</option>
               <option value='click'>Click layout</option>
             </select>
-            <input id='userInputLayoutName'></input>
+            <input placeholder='define layout name' id='userInputLayoutName'></input>
+            <InputColor initialValue='#5e72e4' onChange={setColor} placement='right'></InputColor>
           </div>
           <div>
             <label htmlFor='fields'>Add necessary fields to objects</label>

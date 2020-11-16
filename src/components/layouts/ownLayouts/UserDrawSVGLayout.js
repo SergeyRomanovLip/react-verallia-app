@@ -1,10 +1,10 @@
-import SVGComponent from './SVGComponent'
 import React, { useContext, useEffect, useState } from 'react'
 import { IDgenerator } from '../../utilities/IDgenerator'
 import { ModalContext } from '../../../context/ModalContext'
 import { AppContext } from '../../../context/AppContext'
+import { UserSVGComponent } from './UserSVGComponent'
 
-export const UserDrawSVGLayout = ({ handlerSetSVGReady, name }) => {
+export const UserDrawSVGLayout = ({ color, handlerSetSVGReady, name }) => {
   const { showModal } = useContext(ModalContext)
   const { appState, appDispatch } = useContext(AppContext)
   const [throttleState, setThrottleState] = useState(false)
@@ -24,7 +24,7 @@ export const UserDrawSVGLayout = ({ handlerSetSVGReady, name }) => {
     set(e) {
       this.d = this.d + e
       setDrawingSVG(drawingSVG + this.d)
-    }
+    },
   }
 
   function throttle(e) {
@@ -85,7 +85,7 @@ export const UserDrawSVGLayout = ({ handlerSetSVGReady, name }) => {
       <path d={drawingSVG}></path>
       {arrayOfAreas.length > 0
         ? arrayOfAreas.map((e, i) => {
-            return <SVGComponent key={i} ID={e.id} click={showModal} d={e.svg} />
+            return <UserSVGComponent key={i} content={e} color={color} />
           })
         : null}
     </svg>

@@ -43,7 +43,14 @@ export const Map = () => {
       {wrapperState && layout === 'incidents' ? <Incidents click={showModal} /> : null}
       {SVGReady && layout === 'subcontractors' ? <SubcLabelContainer /> : null}
       {wrapperState && layout === 'subcontractors' ? <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} /> : null}
-      {<UserLayouts layout={layout} wrapperState={wrapperState} SVGReady={SVGReady} handlerSetSVGReady={handlerSetSVGReady} />}
+      {
+        <UserLayouts
+          layout={layout}
+          wrapperState={wrapperState}
+          SVGReady={SVGReady}
+          handlerSetSVGReady={handlerSetSVGReady}
+        />
+      }
     </div>
   )
 }

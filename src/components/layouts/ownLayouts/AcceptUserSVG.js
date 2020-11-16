@@ -9,9 +9,12 @@ export const AcceptUserSVG = ({ content }) => {
   const [userSVGData, setUserSVGData] = useState(null)
 
   const userSVGDataHandler = (data, field) => {
+    if (data instanceof Date && !isNaN(data.valueOf())) {
+      data = data.toLocaleDateString()
+    }
     setUserSVGData({
       ...userSVGData,
-      [field]: data
+      [field]: data,
     })
   }
 

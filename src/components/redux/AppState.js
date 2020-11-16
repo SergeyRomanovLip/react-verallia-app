@@ -10,11 +10,10 @@ export const AppState = ({ children }) => {
   const [ready, setReady] = useState(false)
   const [updated, setUpdated] = useState(false)
   const [appState, appDispatch] = useReducer(reducer, {
-    layout: 'subcontractors',
     wrapper: true,
     listOfAreas: {},
     listOfIncidents: {},
-    userLayouts: {}
+    userLayouts: {},
   })
   const { user } = useContext(AuthContext)
 
@@ -29,11 +28,11 @@ export const AppState = ({ children }) => {
             'initialize',
             {
               _id: {},
-              layout: 'subcontractors',
+              // layout: 'subcontractors',
               listOfAreas: {},
               listOfIncidents: {},
-              userLayouts: {}
-            }
+              userLayouts: {},
+            },
           ])
           setReady(true)
           setUpdated(true)
@@ -54,17 +53,17 @@ export const AppState = ({ children }) => {
       if (appState.listOfAreas && appState.listOfIncidents) {
         console.log('Start of updating...')
         generateStateDocument(user, {
-          layout: appState.layout,
+          // layout: appState.layout,
           listOfAreas: appState.listOfAreas,
           listOfIncidents: appState.listOfIncidents,
-          userLayouts: appState.userLayouts
+          userLayouts: appState.userLayouts,
         })
           .then(() => {
             writeStateLog(user, {
-              layout: appState.layout,
+              // layout: appState.layout,
               listOfAreas: appState.listOfAreas,
               listOfIncidents: appState.listOfIncidents,
-              userLayouts: appState.userLayouts
+              userLayouts: appState.userLayouts,
             })
           })
           .then(() => {
@@ -85,7 +84,7 @@ export const AppState = ({ children }) => {
         updated,
         appState,
         appDispatch,
-        ready
+        ready,
       }}
     >
       {children}
