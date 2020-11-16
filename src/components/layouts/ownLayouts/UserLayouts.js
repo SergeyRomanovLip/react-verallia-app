@@ -31,7 +31,6 @@ export const UserLayouts = ({ layout, wrapperState, SVGReady, handlerSetSVGReady
   useEffect(() => {
     if (layoutContent.type) {
       if (layoutContent.type === 'drawing') {
-        console.log(layoutContent)
         setComponents(
           <>
             <UserDrawSVGLayout

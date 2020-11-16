@@ -5,7 +5,13 @@ export const UserLabel = ({ left, top, dataForLabel, color }) => {
   return (
     <div
       className={`works-sign `}
-      style={{ position: ['absolute'], top: top + 'px', left: left + 'px', backgroundColor: color ? color.rgba : null }}
+      style={{
+        position: ['absolute'],
+        width: 150 + 'px',
+        top: top + 'px',
+        left: left + 'px',
+        backgroundColor: color ? color.rgba : null,
+      }}
     >
       {Object.keys(dataForLabel).map((e, i) => {
         if (e !== 'id' && e !== 'name' && e !== 'svg') {

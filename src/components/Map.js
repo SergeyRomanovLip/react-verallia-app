@@ -43,14 +43,14 @@ export const Map = () => {
       {wrapperState && layout === 'incidents' ? <Incidents click={showModal} /> : null}
       {SVGReady && layout === 'subcontractors' ? <SubcLabelContainer /> : null}
       {wrapperState && layout === 'subcontractors' ? <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} /> : null}
-      {
+      {layout.split('||')[1] === 'user' ? (
         <UserLayouts
-          layout={layout}
+          layout={layout.split('||')[0]}
           wrapperState={wrapperState}
           SVGReady={SVGReady}
           handlerSetSVGReady={handlerSetSVGReady}
         />
-      }
+      ) : null}
     </div>
   )
 }

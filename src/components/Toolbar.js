@@ -5,6 +5,7 @@ import { Loader } from './Loader'
 import { AppContext } from '../context/AppContext'
 import { signOutHandler } from '../backend/signOutHandler'
 import { ModalContext } from '../context/ModalContext'
+import { ToolbarItem } from './ToolbarItem'
 
 export const Toolbar = () => {
   const { updated, appState } = useContext(AppContext)
@@ -29,14 +30,10 @@ export const Toolbar = () => {
 
         {appState.userLayouts
           ? Object.keys(appState.userLayouts).map((e, i) => {
-              return (
-                <NavLink key={i} className={'toolbar-item'} to={`/product/map/${e}`}>
-                  {e}
-                </NavLink>
-              )
+              return <ToolbarItem key={i} link={`/product/map/${e}||user`} data={e} />
             })
           : null}
-        <div className={'toolbar-item-border'}></div>
+
         <li style={{ width: 50 + 'px' }}></li>
         <div className={'toolbar-item-border'}></div>
         <li>

@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom'
+import { Loader } from '../components/Loader'
 import { AppContext } from '../context/AppContext'
 import { AuthContext } from '../context/AuthContext'
+import { useWindowSize } from '../hooks/useWindowSize'
 import { AuthPage } from './AuthPage'
 import { MapPage } from './MapPage'
 import { ProductPage } from './ProductPage'
@@ -9,7 +11,9 @@ import { ProductPage } from './ProductPage'
 export const Routes = () => {
   const { location } = useContext(AppContext)
   const { user } = useContext(AuthContext)
-  const [isAtuh, setIsAuth] = useState(false)
+  const [resized, setResized] = useState(true)
+  const [isAuth, setIsAuth] = useState(false)
+  const size = useWindowSize()
 
   useEffect(() => {
     if (user) {
@@ -19,12 +23,23 @@ export const Routes = () => {
     }
   }, [user])
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (resized) {
+        setResized(false)
+        setTimeout(function () {
+          setResized(true)
+        }, 1000)
+      }
+    })
+  }, [size])
+
   if (user) {
     let loc = location.pathname
     if (!loc.includes('/product')) {
       loc = '/product/menu'
     }
-    return (
+    return resized ? (
       <Switch>
         <Route path='/product/map/:layout' exact>
           <MapPage />
@@ -34,6 +49,8 @@ export const Routes = () => {
         </Route>
         <Redirect to={loc} />
       </Switch>
+    ) : (
+      <Loader />
     )
   } else {
     return (
