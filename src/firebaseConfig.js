@@ -73,6 +73,36 @@ export const generateStateDocument = async (user, newState) => {
   }
 }
 
+export const uploadMapImage = async (user, mapImage, mapName) => {
+  const ref = await firestore.doc(`users/${user.uid}`)
+  const existing = await firestore.doc(`users/${user.uid}`).get()
+  try {
+    await ref.set({
+      ...existing.data(),
+      mapImages: {
+        ...existing.data().mapImages,
+        [mapName]: {
+          mapData: mapImage,
+          uploaded: new Date().toLocaleDateString()
+        }
+      }
+    })
+    return 'Image successfully uploaded'
+  } catch (error) {
+    console.error('Image upload error', error)
+  }
+}
+
+export const getExistingMaps = async (user) => {
+  const existing = await firestore.doc(`users/${user.uid}`).get()
+  try {
+    return existing.data().mapImages
+  } catch (error) {
+    console.error('Error creating user document', error)
+    return false
+  }
+}
+
 export const writeStateLog = async (user, newState) => {
   const ref = await firestore.doc(`users/${user.uid}`)
   const existing = await firestore.doc(`users/${user.uid}`).get()

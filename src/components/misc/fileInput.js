@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Resizer from 'react-image-file-resizer'
+import { MultiInput } from './multyInput'
 
-export const FileInput = () => {
-  const [map, setMap] = useState(false)
-  const [resizedMap, setResizedMap] = useState(false)
+export const FileInput = ({ maxWidth, maxHeight, fun }) => {
+  const [loaded, setLoaded] = useState(false)
+  const [map, setMap] = useState(null)
+  const [resizedMap, setResizedMap] = useState(null)
+  const [mapName, setMapName] = useState(null)
+  const [thumb, setThumb] = useState(null)
   const file = useRef()
 
   const stopPropag = (e) => {
@@ -12,12 +16,12 @@ export const FileInput = () => {
   const uploadHandler = () => {
     setMap(file.current.files[0])
   }
-  const resizeFile = (file) =>
+  const resizeFile = (file, maxWidth, maxHeight) =>
     new Promise((resolve) => {
       Resizer.imageFileResizer(
         file,
-        1800,
-        1800,
+        maxWidth,
+        maxHeight,
         'JPEG',
         100,
         0,
@@ -30,7 +34,10 @@ export const FileInput = () => {
 
   const resizeFileHandler = async () => {
     if (map) {
-      setResizedMap(await resizeFile(map))
+      setLoaded(false)
+      setResizedMap(await resizeFile(map, maxWidth, maxHeight))
+      setThumb(await resizeFile(map, 200, 200))
+      setLoaded(true)
     }
   }
 
@@ -51,8 +58,27 @@ export const FileInput = () => {
           onChange={uploadHandler}
         />
       </label>
-      {resizedMap ? <img src={resizedMap}></img> : null}
-      <button>Upload file</button>
+      {resizedMap && loaded ? (
+        <div>
+          <img src={thumb}></img>
+          <MultiInput
+            text={'Enter name of map'}
+            data={null}
+            fun={(field, data) => {
+              setMapName(data)
+            }}
+            type={'text'}
+          ></MultiInput>
+          <div
+            onClick={() => {
+              fun(resizedMap, mapName)
+            }}
+            className='infoWindow-body-form-button'
+          >
+            Upload new map
+          </div>
+        </div>
+      ) : null}
     </form>
   )
 }

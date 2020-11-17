@@ -1,12 +1,23 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { AppContext } from '../../context/AppContext'
+import React, { useContext } from 'react'
 import { ModalContext } from '../../context/ModalContext'
+import { uploadMapImage } from '../../firebaseConfig'
 import { FileInput } from '../misc/fileInput'
+import { AuthContext } from '../../context/AuthContext'
 
 export const ShowUploadNewMap = () => {
   const { removeModal } = useContext(ModalContext)
-  const [image, setImage] = useState(null)
-  const { appDispatch } = useContext(AppContext)
+  const { user } = useContext(AuthContext)
+
+  const uploadMapImageHandler = async (map, mapName) => {
+    try {
+      const res = await uploadMapImage(user, map, mapName)
+      console.log('Map was successfully uploaded', res)
+    } catch (e) {
+      alert(e)
+    } finally {
+      removeModal()
+    }
+  }
 
   return (
     <div className='infoWindow'>
@@ -22,17 +33,9 @@ export const ShowUploadNewMap = () => {
           ✖
         </span>
       </div>
-      <FileInput />
       <div className='infoWindow-body'>
         <div className='infoWindow-body-form'>
-          <div
-            onClick={() => {
-              removeModal()
-            }}
-            className='infoWindow-body-form-button'
-          >
-            Upload new map
-          </div>
+          <FileInput maxWidth={1200} maxHeight={1200} fun={uploadMapImageHandler} />
         </div>
       </div>
     </div>

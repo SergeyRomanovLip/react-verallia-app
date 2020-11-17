@@ -8,7 +8,7 @@ import { Loader } from './Loader'
 import { SubcLabelContainer } from './layouts/subcontractors/SubcLabelContainer'
 import { UserLayouts } from './layouts/ownLayouts/UserLayouts'
 
-export const Map = () => {
+export const Map = ({ mapImage }) => {
   const { showModal } = useContext(ModalContext)
   const { appDispatch, ready } = useContext(AppContext)
   const [wrapperState, setWrapperState] = useState(false)
@@ -38,18 +38,13 @@ export const Map = () => {
   }, [ready, appDispatch, layout])
 
   return (
-    <div ref={inputRef} className='mapWrapper'>
+    <div ref={inputRef} style={{ backgroundImage: `url(${mapImage})` }} className='mapWrapper'>
       {!loaded ? <Loader /> : null}
       {wrapperState && layout === 'incidents' ? <Incidents click={showModal} /> : null}
       {SVGReady && layout === 'subcontractors' ? <SubcLabelContainer /> : null}
       {wrapperState && layout === 'subcontractors' ? <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} /> : null}
       {layout.split('||')[1] === 'user' ? (
-        <UserLayouts
-          layout={layout.split('||')[0]}
-          wrapperState={wrapperState}
-          SVGReady={SVGReady}
-          handlerSetSVGReady={handlerSetSVGReady}
-        />
+        <UserLayouts layout={layout.split('||')[0]} wrapperState={wrapperState} SVGReady={SVGReady} handlerSetSVGReady={handlerSetSVGReady} />
       ) : null}
     </div>
   )
