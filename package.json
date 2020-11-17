@@ -12,6 +12,7 @@
     "react": "^16.14.0",
     "react-datetime": "^3.0.4",
     "react-dom": "^16.14.0",
+    "react-image-file-resizer": "^0.3.8",
     "react-input-color": "^3.0.1",
     "react-moment": "^1.0.0",
     "react-router-dom": "^5.2.0",

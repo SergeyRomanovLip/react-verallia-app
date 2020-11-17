@@ -1,36 +1,41 @@
 import React, { useEffect, useRef, useState } from 'react'
+import Resizer from 'react-image-file-resizer'
 
 export const FileInput = () => {
   const [map, setMap] = useState(false)
+  const [resizedMap, setResizedMap] = useState(false)
   const file = useRef()
 
   const stopPropag = (e) => {
     e.stopPropagation()
   }
   const uploadHandler = () => {
-    toBase64(file.current.files[0]).then((res) => {
-      setMap(res)
+    setMap(file.current.files[0])
+  }
+  const resizeFile = (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        1800,
+        1800,
+        'JPEG',
+        100,
+        0,
+        (uri) => {
+          resolve(uri)
+        },
+        'base64'
+      )
     })
+
+  const resizeFileHandler = async () => {
+    if (map) {
+      setResizedMap(await resizeFile(map))
+    }
   }
 
-  const toBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = () => resolve(reader.result)
-      reader.onerror = (error) => reject(error)
-    })
-
-  const fromBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = () => resolve(reader.result)
-      reader.onerror = (error) => reject(error)
-    })
-
   useEffect(() => {
-    console.log(map)
+    resizeFileHandler()
   }, [map])
 
   return (
@@ -46,7 +51,8 @@ export const FileInput = () => {
           onChange={uploadHandler}
         />
       </label>
-      <button onClick={uploadHandler}>Upload file</button>
+      {resizedMap ? <img src={resizedMap}></img> : null}
+      <button>Upload file</button>
     </form>
   )
 }
