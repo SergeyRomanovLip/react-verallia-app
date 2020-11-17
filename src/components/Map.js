@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom'
 import { Loader } from './Loader'
 import { SubcLabelContainer } from './layouts/subcontractors/SubcLabelContainer'
 import { UserLayouts } from './layouts/ownLayouts/UserLayouts'
-import { CSSTransition } from 'react-transition-group'
 
 export const Map = () => {
   const { showModal } = useContext(ModalContext)
@@ -40,14 +39,17 @@ export const Map = () => {
 
   return (
     <div ref={inputRef} className='mapWrapper'>
-      <CSSTransition in={!loaded} timeout={200} classNames='fade' unmountOnExit={true} appear={true}>
-        <Loader />
-      </CSSTransition>
+      {!loaded ? <Loader /> : null}
       {wrapperState && layout === 'incidents' ? <Incidents click={showModal} /> : null}
       {SVGReady && layout === 'subcontractors' ? <SubcLabelContainer /> : null}
       {wrapperState && layout === 'subcontractors' ? <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} /> : null}
       {layout.split('||')[1] === 'user' ? (
-        <UserLayouts layout={layout.split('||')[0]} wrapperState={wrapperState} SVGReady={SVGReady} handlerSetSVGReady={handlerSetSVGReady} />
+        <UserLayouts
+          layout={layout.split('||')[0]}
+          wrapperState={wrapperState}
+          SVGReady={SVGReady}
+          handlerSetSVGReady={handlerSetSVGReady}
+        />
       ) : null}
     </div>
   )

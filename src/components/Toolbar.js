@@ -54,6 +54,17 @@ export const Toolbar = () => {
         </li>
         <div className={'toolbar-item-border'}></div>
         <li>
+          <p
+            onClick={() => {
+              showModal('UploadNewMap', '') //should be dinamicly
+            }}
+            className={'toolbar-item'}
+          >
+            Upload new map
+          </p>
+        </li>
+        <div className={'toolbar-item-border'}></div>
+        <li>
           <a className={'toolbar-item'} href='/' onClick={signOutHandler}>
             Logout
           </a>

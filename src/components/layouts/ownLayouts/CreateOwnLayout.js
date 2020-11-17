@@ -14,7 +14,7 @@ export const CreateOwnLayout = () => {
     let newField = (
       <div>
         <input id={`userInputName`} type={'text'} placeholder={'name of field'} data-id={id}></input>
-        <select id={`userInputType`} type={'text'} defaultValue={'type of field'} data-id={id}>
+        <select id={`userInputType`} type={'text'} defaultValue={'text'} data-id={id}>
           <option value='number'>Number</option>
           <option value='text'>Text</option>
           <option value='date'>Date</option>
@@ -64,27 +64,33 @@ export const CreateOwnLayout = () => {
         <div className='infoWindow-body-form'>
           <hr />
           <div>
-            <select id='userInputLayoutType' defaultValue={''} className='infoWindow-body-form-input'>
-              <option value=''>Choose type of layout</option>
-              <option value='drawing'>Drawing layout</option>
-              <option value='click'>Click layout</option>
-            </select>
-            <input placeholder='define layout name' id='userInputLayoutName' className='infoWindow-body-form-input'></input>
-            <label className='infoWindow-body-form-label'>
-              Choose color of your areas
-              <InputColor className='infoWindow-body-form-input' initialValue='#5e72e4' onChange={setColor} placement='right'></InputColor>
-            </label>
+            <div className='infoWindow-body-label'>
+              Please, choose type of layout
+              <select id='userInputLayoutType' defaultValue={'drawing'}>
+                <option value='drawing'>Drawing layout</option>
+                <option value='click'>Click layout</option>
+              </select>
+            </div>
+            <div className='infoWindow-body-label'>
+              Please, enter layout name
+              <input placeholder='layout name' id='userInputLayoutName' className='infoWindow-body-form-input'></input>
+            </div>
+            <div className='infoWindow-body-label'>
+              Please, choose color of your areas
+              <InputColor initialValue='#5e72e4' onChange={setColor} placement='right'></InputColor>
+            </div>
           </div>
           <div>
-            <label htmlFor='fields'>Add necessary fields to objects</label>
-            <div name='fields'>
+            <hr></hr>
+            <div className='infoWindow-body-label'>Please, add necessary fields</div>
+            <ul name='fields' className='infoWindow-body-list'>
               {fieldsInput.map((e, i) => {
                 return <li key={i}>{e}</li>
               })}
-              <div onClick={addField} className='infoWindow-body-form-button'>
-                Add field
-              </div>
-            </div>
+            </ul>
+          </div>
+          <div onClick={addField} className='infoWindow-body-form-button'>
+            Add field
           </div>
           <div className='infoWindow-body-form'>
             <div
