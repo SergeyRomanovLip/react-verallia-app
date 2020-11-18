@@ -1,21 +1,28 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { ModalContext } from 'context/ModalContext'
 import { uploadMapImage } from 'backend/firebaseConfig'
 import { AuthContext } from 'context/AuthContext'
 import { FileInput } from './fileInput'
+import { Loader } from 'components/misc/Loader'
+import { AppContext } from 'context/AppContext'
 
 export const ShowUploadNewMap = () => {
   const { removeModal } = useContext(ModalContext)
   const { user } = useContext(AuthContext)
+  const [loaded, setLoader] = useState(true)
+  const { appReboot } = useContext(AppContext)
 
   const uploadMapImageHandler = async (map, thumb, mapName) => {
     try {
+      setLoader(false)
       const res = await uploadMapImage(user, map, thumb, mapName)
       console.log('Map was successfully uploaded', res)
     } catch (e) {
       alert(e)
     } finally {
+      appReboot()
       removeModal()
+      setLoader(true)
     }
   }
 
@@ -38,6 +45,7 @@ export const ShowUploadNewMap = () => {
           <FileInput maxWidth={1200} maxHeight={1200} fun={uploadMapImageHandler} />
         </div>
       </div>
+      {!loaded ? <Loader /> : null}
     </div>
   )
 }

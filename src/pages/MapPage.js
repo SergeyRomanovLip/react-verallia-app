@@ -38,7 +38,7 @@ export const MapPage = () => {
           for (let img in res) {
             existMap = {
               ...existMap,
-              [img]: res[img],
+              [img]: res[img]
             }
           }
           return existMap
@@ -67,7 +67,20 @@ export const MapPage = () => {
       {preparedMap && ready ? (
         <Map mapImage={preparedMap} />
       ) : (
-        <h1 className={'center'}>{preparedMap ? <Loader /> : 'YOU SHOULD UPLOAD MAP'}</h1>
+        <h1 className={'center'}>
+          {preparedMap ? (
+            <Loader />
+          ) : (
+            <div
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                showModal('UploadNewMap')
+              }}
+            >
+              UPLOAD MAP
+            </div>
+          )}
+        </h1>
       )}
     </>
   ) : (

@@ -6,7 +6,7 @@ export const ShowChoiseOfMap = ({ content }) => {
   return (
     <div className='infoWindow'>
       <div className='infoWindow-header'>
-        Upload new map
+        Choose your map
         <span
           onClick={() => {
             removeModal()
@@ -17,7 +17,7 @@ export const ShowChoiseOfMap = ({ content }) => {
           ✖
         </span>
       </div>
-      <ul>
+      <ul className={'infoWindow-body-chooseList'}>
         {Object.keys(content.existMap).map((e, i) => {
           return (
             <li
@@ -27,12 +27,10 @@ export const ShowChoiseOfMap = ({ content }) => {
                 removeModal()
               }}
             >
-              <ul>
-                <li>{e}</li>
-                <li>
-                  <img alt={'mapThumb'} src={content.existMap[e].thumb}></img>
-                </li>
-              </ul>
+              <div>
+                <h3>{e}</h3>
+                <img alt={'mapThumb'} src={content.existMap[e].thumb}></img>
+              </div>
             </li>
           )
         })}

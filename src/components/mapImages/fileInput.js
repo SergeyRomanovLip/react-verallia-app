@@ -32,20 +32,19 @@ export const FileInput = ({ maxWidth, maxHeight, fun }) => {
   }, [map, resizeFileHandler])
 
   return (
-    <form>
-      <label>
-        <input
-          ref={file}
-          type='file'
-          id='fileInput'
-          onClick={(e) => {
-            stopPropag(e)
-          }}
-          onChange={uploadHandler}
-        />
-      </label>
+    <div style={{ margin: 5 + 'px' }}>
+      <input
+        className={'infoWindow-body-form-input'}
+        ref={file}
+        type='file'
+        id='fileInput'
+        onClick={(e) => {
+          stopPropag(e)
+        }}
+        onChange={uploadHandler}
+      />
       {resizedMap && loaded ? (
-        <div>
+        <div className={'infoWindow-body-imgContainer'}>
           <img alt={'mapThumbnail'} src={thumb}></img>
           <MultiInput
             text={'Enter name of map'}
@@ -65,6 +64,6 @@ export const FileInput = ({ maxWidth, maxHeight, fun }) => {
           </div>
         </div>
       ) : null}
-    </form>
+    </div>
   )
 }
