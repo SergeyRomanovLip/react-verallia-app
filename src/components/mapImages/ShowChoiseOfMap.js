@@ -3,7 +3,6 @@ import { ModalContext } from 'context/ModalContext'
 
 export const ShowChoiseOfMap = ({ content }) => {
   const { removeModal } = useContext(ModalContext)
-  console.log(content)
   return (
     <div className='infoWindow'>
       <div className='infoWindow-header'>

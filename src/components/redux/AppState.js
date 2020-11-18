@@ -10,6 +10,7 @@ export const AppState = ({ children }) => {
   const [ready, setReady] = useState(false)
   const [updated, setUpdated] = useState(false)
   const [reboot, setReboot] = useState(false)
+  const [mapImage, setMapImage] = useState(null)
   const [appState, appDispatch] = useReducer(reducer, {
     wrapper: true,
     listOfAreas: {},
@@ -21,7 +22,7 @@ export const AppState = ({ children }) => {
   const initializing = () => {
     setReady(false)
     if (user) {
-      getExistingState(user).then((res) => {
+      getExistingState(user, mapImage).then((res) => {
         console.log('Start of pending data...')
         if (!res) {
           console.log('Новый state создан')
@@ -57,12 +58,16 @@ export const AppState = ({ children }) => {
       setUpdated(false)
       if (appState.listOfAreas && appState.listOfIncidents) {
         console.log('Start of updating...')
-        generateStateDocument(user, {
-          // layout: appState.layout,
-          listOfAreas: appState.listOfAreas,
-          listOfIncidents: appState.listOfIncidents,
-          userLayouts: appState.userLayouts,
-        })
+        generateStateDocument(
+          user,
+          {
+            // layout: appState.layout,
+            listOfAreas: appState.listOfAreas,
+            listOfIncidents: appState.listOfIncidents,
+            userLayouts: appState.userLayouts,
+          },
+          mapImage
+        )
           .then(() => {
             writeStateLog(user, {
               // layout: appState.layout,
@@ -80,7 +85,7 @@ export const AppState = ({ children }) => {
     }
   }
 
-  useEffect(initializing, [user])
+  useEffect(initializing, [user, mapImage])
   useEffect(updateState, [appState.listOfAreas, appState.listOfIncidents, appState.userLayouts])
   return (
     <AppContext.Provider
@@ -92,6 +97,8 @@ export const AppState = ({ children }) => {
         ready,
         appReboot,
         reboot,
+        mapImage,
+        setMapImage,
       }}
     >
       {children}

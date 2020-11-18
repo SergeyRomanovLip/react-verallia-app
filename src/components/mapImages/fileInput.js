@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { resizeFile } from 'components/utilities/ResizeFile'
-import { MultiInput } from './multyInput'
+import { MultiInput } from 'components/misc/multyInput'
 
 export const FileInput = ({ maxWidth, maxHeight, fun }) => {
   const [loaded, setLoaded] = useState(false)
@@ -8,6 +8,7 @@ export const FileInput = ({ maxWidth, maxHeight, fun }) => {
   const [resizedMap, setResizedMap] = useState(null)
   const [mapName, setMapName] = useState(null)
   const [thumb, setThumb] = useState(null)
+
   const file = useRef()
 
   const stopPropag = (e) => {
@@ -17,18 +18,18 @@ export const FileInput = ({ maxWidth, maxHeight, fun }) => {
     setMap(file.current.files[0])
   }
 
-  const resizeFileHandler = async () => {
+  const resizeFileHandler = useCallback(async () => {
     if (map) {
       setLoaded(false)
       setResizedMap(await resizeFile(map, maxWidth, maxHeight))
       setThumb(await resizeFile(map, 200, 200))
       setLoaded(true)
     }
-  }
+  }, [map, maxWidth, maxHeight])
 
   useEffect(() => {
     resizeFileHandler()
-  }, [map])
+  }, [map, resizeFileHandler])
 
   return (
     <form>

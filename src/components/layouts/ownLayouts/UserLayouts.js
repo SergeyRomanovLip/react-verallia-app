@@ -43,7 +43,7 @@ export const UserLayouts = ({ layout, wrapperState, SVGReady, handlerSetSVGReady
         )
       }
     }
-  }, [layoutContent])
+  }, [layoutContent, handlerSetSVGReady])
 
   return <>{components}</>
 }

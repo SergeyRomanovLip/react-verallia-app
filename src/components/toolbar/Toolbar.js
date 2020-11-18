@@ -71,7 +71,7 @@ export const Toolbar = () => {
             }}
             className={'toolbar-item'}
           >
-            reboot
+            Change map
           </p>
         </li>
         <div className={'toolbar-item-border'}></div>

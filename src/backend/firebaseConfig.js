@@ -1,7 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
-import { useHistory } from 'react-router-dom'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB-MbVE0gSmIjcLdgsCaWnip0XI71wXmmQ',
@@ -57,15 +56,21 @@ const getUserDocument = async (uid) => {
   }
 }
 
-export const generateStateDocument = async (user, newState) => {
+export const generateStateDocument = async (user, newState, map) => {
   const ref = await firestore.doc(`users/${user.uid}`)
   const existing = await firestore.doc(`users/${user.uid}`).get()
   try {
     await ref.set({
       ...existing.data(),
-      state: {
-        ...newState,
-        updated: new Date().toLocaleDateString(),
+      mapImages: {
+        ...existing.data().mapImages,
+        [map]: {
+          ...existing.data().mapImages[map],
+          state: {
+            ...newState,
+            updated: new Date().toLocaleDateString(),
+          },
+        },
       },
     })
   } catch (error) {
@@ -82,6 +87,7 @@ export const uploadMapImage = async (user, mapImage, thumb, mapName) => {
       mapImages: {
         ...existing.data().mapImages,
         [mapName]: {
+          mapName: mapName,
           mapData: mapImage,
           thumb: thumb,
           uploaded: new Date().toLocaleDateString(),
@@ -142,12 +148,14 @@ export const writeStateLog = async (user, newState) => {
   }
 }
 
-export const getExistingState = async (user) => {
-  const existing = await firestore.doc(`users/${user.uid}`).get()
-  try {
-    return existing.data().state
-  } catch (error) {
-    console.error('Error creating user document', error)
-    return false
+export const getExistingState = async (user, map) => {
+  if (map) {
+    const existing = await firestore.doc(`users/${user.uid}`).get()
+    try {
+      return existing.data().mapImages[map].state
+    } catch (error) {
+      console.error('Error creating user document', error)
+      return false
+    }
   }
 }

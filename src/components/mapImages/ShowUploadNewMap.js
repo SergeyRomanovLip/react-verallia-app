@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import { ModalContext } from 'context/ModalContext'
 import { uploadMapImage } from 'backend/firebaseConfig'
-import { FileInput } from 'components/misc/fileInput'
 import { AuthContext } from 'context/AuthContext'
+import { FileInput } from './fileInput'
 
 export const ShowUploadNewMap = () => {
   const { removeModal } = useContext(ModalContext)

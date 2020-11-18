@@ -15,16 +15,19 @@ export const UserLabelContainer = ({ name, color }) => {
     setArrayOfAreas(arrayOfAreas)
   }, [appState, name])
 
-  const getArrayOfAreas = useCallback((e, i) => {
-    const data = document.querySelector(`#${e.id}`)
-    if (data) {
-      let rect = data.getBoundingClientRect()
-      let top = rect.top - appState.wrapper.y + rect.height / 8 + window.scrollY
-      let left = rect.left - appState.wrapper.x + rect.width / 2 + window.scrollX
-      return <UserLabel key={i} top={top} left={left} dataForLabel={e} color={color} />
-    }
-    return null
-  }, [])
+  const getArrayOfAreas = useCallback(
+    (e, i) => {
+      const data = document.querySelector(`#${e.id}`)
+      if (data) {
+        let rect = data.getBoundingClientRect()
+        let top = rect.top - appState.wrapper.y + rect.height / 8 + window.scrollY
+        let left = rect.left - appState.wrapper.x + rect.width / 2 + window.scrollX
+        return <UserLabel key={i} top={top} left={left} dataForLabel={e} color={color} />
+      }
+      return null
+    },
+    [appState.wrapper.y, appState.wrapper.x, color]
+  )
 
   useEffect(() => {
     const labels = arrayOfAreas.map((e, i) => {

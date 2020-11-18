@@ -6,7 +6,7 @@ import { UserSVGComponent } from './UserSVGComponent'
 
 export const UserDrawSVGLayout = ({ color, handlerSetSVGReady, name }) => {
   const { showModal } = useContext(ModalContext)
-  const { appState, appDispatch } = useContext(AppContext)
+  const { appState } = useContext(AppContext)
   const [throttleState, setThrottleState] = useState(false)
   const [drawingStat, setDrawingStat] = useState(false)
   const [drawingSVG, setDrawingSVG] = useState('')
