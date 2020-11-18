@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ModalContext } from '../../../context/ModalContext'
-import { AppContext } from '../../../context/AppContext'
+import { ModalContext } from 'context/ModalContext'
 
 export const UserSVGComponent = ({ content, color }) => {
   const { showModal } = useContext(ModalContext)

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { IDgenerator } from '../../utilities/IDgenerator'
-import { ModalContext } from '../../../context/ModalContext'
-import { AppContext } from '../../../context/AppContext'
+import { IDgenerator } from 'components/utilities/IDgenerator'
+import { ModalContext } from 'context/ModalContext'
+import { AppContext } from 'context/AppContext'
 import { UserSVGComponent } from './UserSVGComponent'
 
 export const UserDrawSVGLayout = ({ color, handlerSetSVGReady, name }) => {

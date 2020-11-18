@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
-import InputRow from '../../misc/inputRow'
-import { ModalContext } from '../../../context/ModalContext'
-import DatetimeOwn from '../../misc/datetime'
+import InputRow from 'components/misc/inputRow'
+import { ModalContext } from 'context/ModalContext'
+import DatetimeOwn from 'components/misc/datetime'
 
 export const AcceptIncident = ({ content }) => {
   const { removeModal } = useContext(ModalContext)

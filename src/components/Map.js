@@ -1,10 +1,10 @@
 import React, { useContext, useRef, useEffect, useState, useCallback } from 'react'
 import DrawSVGLayout from './layouts/drawSVG/DrawSVGLayout'
 import { Incidents } from './layouts/incidents/Incidents'
-import { ModalContext } from '../context/ModalContext'
-import { AppContext } from '../context/AppContext'
+import { ModalContext } from 'context/ModalContext'
+import { AppContext } from 'context/AppContext'
 import { useParams } from 'react-router-dom'
-import { Loader } from './Loader'
+import { Loader } from './misc/Loader'
 import { SubcLabelContainer } from './layouts/subcontractors/SubcLabelContainer'
 import { UserLayouts } from './layouts/ownLayouts/UserLayouts'
 
@@ -44,7 +44,12 @@ export const Map = ({ mapImage }) => {
       {SVGReady && layout === 'subcontractors' ? <SubcLabelContainer /> : null}
       {wrapperState && layout === 'subcontractors' ? <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} /> : null}
       {layout.split('||')[1] === 'user' ? (
-        <UserLayouts layout={layout.split('||')[0]} wrapperState={wrapperState} SVGReady={SVGReady} handlerSetSVGReady={handlerSetSVGReady} />
+        <UserLayouts
+          layout={layout.split('||')[0]}
+          wrapperState={wrapperState}
+          SVGReady={SVGReady}
+          handlerSetSVGReady={handlerSetSVGReady}
+        />
       ) : null}
     </div>
   )

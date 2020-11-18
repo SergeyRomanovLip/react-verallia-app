@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ModalContext } from '../context/ModalContext'
+import { ModalContext } from 'context/ModalContext'
 import { CreateOwnLayout } from './layouts/ownLayouts/CreateOwnLayout'
 import { AcceptSVG } from './layouts/drawSVG/AcceptSVG'
 import { AcceptIncident } from './layouts/incidents/AcceptIncident'
@@ -8,7 +8,8 @@ import AddNewWork from './layouts/subcontractors/AddNewWork'
 import InfoSubc from './layouts/subcontractors/InfoSubc'
 import { AcceptUserSVG } from './layouts/ownLayouts/AcceptUserSVG'
 import { UserClickInfo } from './layouts/ownLayouts/UserClickInfo'
-import { ShowUploadNewMap } from './layouts/ShowUploadNewMap'
+import { ShowUploadNewMap } from './modals/ShowUploadNewMap'
+import { ShowChoiseOfMap } from './modals/ShowChoiseOfMap'
 
 export const ModalNew = ({ children }) => {
   const [modalState, setModalState] = useState({
@@ -66,6 +67,9 @@ export const ModalNew = ({ children }) => {
         break
       case 'UploadNewMap':
         setModal(<ShowUploadNewMap />)
+        break
+      case 'ChooseMap':
+        setModal(<ShowChoiseOfMap content={modalState.content} />)
         break
       case 'UserClickInfo':
         setModal(<UserClickInfo content={modalState.content} />)

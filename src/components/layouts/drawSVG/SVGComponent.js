@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ModalContext } from "../../../context/ModalContext";
-import { AppContext } from "../../../context/AppContext";
+import { ModalContext } from "context/ModalContext";
+import { AppContext } from "context/AppContext";
 
 function SVGComponent({ ID, d }) {
   const { showModal } = useContext(ModalContext);

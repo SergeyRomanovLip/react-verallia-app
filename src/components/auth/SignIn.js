@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { auth } from '../../firebaseConfig'
+import { auth } from 'backend/firebaseConfig'
 
 export const SignIn = () => {
   const [email, setEmail] = useState('')

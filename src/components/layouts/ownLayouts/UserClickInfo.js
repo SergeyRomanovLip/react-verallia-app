@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ModalContext } from '../../../context/ModalContext'
-import { AppContext } from '../../../context/AppContext'
+import { ModalContext } from 'context/ModalContext'
+import { AppContext } from 'context/AppContext'
 
 export const UserClickInfo = ({ content }) => {
   const { removeModal } = useContext(ModalContext)

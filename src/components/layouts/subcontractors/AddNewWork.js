@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
-import Checkbox from "../../misc/checkbox";
-import { IDgenerator } from "../../utilities/IDgenerator";
-import { AppContext } from "../../../context/AppContext";
-import DatetimeOwn from "../../misc/datetime";
-import InputRow from "../../misc/inputRow";
-import InputText from "../../misc/inputText";
-import { ModalContext } from "../../../context/ModalContext";
+import Checkbox from "components/misc/checkbox";
+import { IDgenerator } from "components/utilities/IDgenerator";
+import { AppContext } from "context/AppContext";
+import DatetimeOwn from "components/misc/datetime";
+import InputRow from "components/misc/inputRow";
+import InputText from "components/misc/inputText";
+import { ModalContext } from "context/ModalContext";
 
 function AddNewWork({ content }) {
   const { removeModal } = useContext(ModalContext);

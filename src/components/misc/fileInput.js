@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Resizer from 'react-image-file-resizer'
+import { resizeFile } from 'components/utilities/ResizeFile'
 import { MultiInput } from './multyInput'
 
 export const FileInput = ({ maxWidth, maxHeight, fun }) => {
@@ -16,21 +16,6 @@ export const FileInput = ({ maxWidth, maxHeight, fun }) => {
   const uploadHandler = () => {
     setMap(file.current.files[0])
   }
-  const resizeFile = (file, maxWidth, maxHeight) =>
-    new Promise((resolve) => {
-      Resizer.imageFileResizer(
-        file,
-        maxWidth,
-        maxHeight,
-        'JPEG',
-        100,
-        0,
-        (uri) => {
-          resolve(uri)
-        },
-        'base64'
-      )
-    })
 
   const resizeFileHandler = async () => {
     if (map) {
@@ -71,7 +56,7 @@ export const FileInput = ({ maxWidth, maxHeight, fun }) => {
           ></MultiInput>
           <div
             onClick={() => {
-              fun(resizedMap, mapName)
+              fun(resizedMap, thumb, mapName)
             }}
             className='infoWindow-body-form-button'
           >

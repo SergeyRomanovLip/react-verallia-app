@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
-import { AppContext } from '../../../context/AppContext'
-import { ModalContext } from '../../../context/ModalContext'
-import { MultiInput } from '../../misc/multyInput'
+import { AppContext } from 'context/AppContext'
+import { ModalContext } from 'context/ModalContext'
+import { MultiInput } from 'components/misc/multyInput'
 
 export const AcceptUserSVG = ({ content }) => {
   const { removeModal } = useContext(ModalContext)

@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react'
-import '../sass/toolbar.sass'
-import { NavLink, useParams } from 'react-router-dom'
-import { Loader } from './Loader'
-import { AppContext } from '../context/AppContext'
-import { signOutHandler } from '../backend/signOutHandler'
-import { ModalContext } from '../context/ModalContext'
+import React, { useContext } from 'react'
+import 'sass/toolbar.sass'
+import { NavLink } from 'react-router-dom'
+import { Loader } from 'components/misc/Loader'
+import { AppContext } from 'context/AppContext'
+import { signOutHandler } from 'backend/signOutHandler'
+import { ModalContext } from 'context/ModalContext'
 import { ToolbarItem } from './ToolbarItem'
 
 export const Toolbar = () => {

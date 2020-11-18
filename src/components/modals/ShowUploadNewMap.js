@@ -1,16 +1,16 @@
 import React, { useContext } from 'react'
-import { ModalContext } from '../../context/ModalContext'
-import { uploadMapImage } from '../../firebaseConfig'
-import { FileInput } from '../misc/fileInput'
-import { AuthContext } from '../../context/AuthContext'
+import { ModalContext } from 'context/ModalContext'
+import { uploadMapImage } from 'backend/firebaseConfig'
+import { FileInput } from 'components/misc/fileInput'
+import { AuthContext } from 'context/AuthContext'
 
 export const ShowUploadNewMap = () => {
   const { removeModal } = useContext(ModalContext)
   const { user } = useContext(AuthContext)
 
-  const uploadMapImageHandler = async (map, mapName) => {
+  const uploadMapImageHandler = async (map, thumb, mapName) => {
     try {
-      const res = await uploadMapImage(user, map, mapName)
+      const res = await uploadMapImage(user, map, thumb, mapName)
       console.log('Map was successfully uploaded', res)
     } catch (e) {
       alert(e)

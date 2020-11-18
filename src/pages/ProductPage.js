@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { signOutHandler } from '../backend/signOutHandler'
+import { signOutHandler } from 'backend/signOutHandler'
 
 export const ProductPage = () => {
   return (

@@ -1,8 +1,8 @@
 import React, { useReducer, useContext, useState, useEffect } from 'react'
-import { AppContext } from '../../context/AppContext'
+import { AppContext } from 'context/AppContext'
 import { reducer } from './reducer'
-import { generateStateDocument, getExistingState, writeStateLog } from '../../firebaseConfig'
-import { AuthContext } from '../../context/AuthContext'
+import { generateStateDocument, getExistingState, writeStateLog } from 'backend/firebaseConfig'
+import { AuthContext } from 'context/AuthContext'
 import { useLocation } from 'react-router-dom'
 
 export const AppState = ({ children }) => {

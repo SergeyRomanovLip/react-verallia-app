@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AppContext } from "../../../context/AppContext";
+import { AppContext } from "context/AppContext";
 
 function SubcLabel({ left, top, listOfWorks }) {
   const [data, setData] = useState(0);

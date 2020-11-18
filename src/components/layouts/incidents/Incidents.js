@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { AppContext } from '../../../context/AppContext'
-import { IDgenerator } from '../../utilities/IDgenerator'
+import { AppContext } from 'context/AppContext'
+import { IDgenerator } from 'components/utilities/IDgenerator'
 import { IncidentComponent } from './IncidentComponent'
 
 export const Incidents = ({ click }) => {
