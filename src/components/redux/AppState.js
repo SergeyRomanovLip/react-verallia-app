@@ -9,6 +9,7 @@ export const AppState = ({ children }) => {
   const location = useLocation()
   const [ready, setReady] = useState(false)
   const [updated, setUpdated] = useState(false)
+  const [reboot, setReboot] = useState(false)
   const [appState, appDispatch] = useReducer(reducer, {
     wrapper: true,
     listOfAreas: {},
@@ -45,6 +46,10 @@ export const AppState = ({ children }) => {
         }
       })
     }
+  }
+
+  const appReboot = () => {
+    setReboot(reboot ? false : true)
   }
 
   const updateState = () => {
@@ -85,6 +90,8 @@ export const AppState = ({ children }) => {
         appState,
         appDispatch,
         ready,
+        appReboot,
+        reboot,
       }}
     >
       {children}

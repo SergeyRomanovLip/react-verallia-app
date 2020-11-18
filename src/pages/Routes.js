@@ -9,21 +9,12 @@ import { MapPage } from './MapPage'
 import { ProductPage } from './ProductPage'
 
 export const Routes = () => {
-  const { location } = useContext(AppContext)
+  const { location, reboot } = useContext(AppContext)
   const { user } = useContext(AuthContext)
   const [resized, setResized] = useState(true)
-  const [isAuth, setIsAuth] = useState(false)
   const size = useWindowSize()
 
-  useEffect(() => {
-    if (user) {
-      user.uid ? setIsAuth(true) : setIsAuth(false)
-    } else {
-      setIsAuth(false)
-    }
-  }, [user])
-
-  useEffect(() => {
+  const throttleResize = () => {
     setTimeout(() => {
       if (resized) {
         setResized(false)
@@ -32,7 +23,9 @@ export const Routes = () => {
         }, 1000)
       }
     })
-  }, [size])
+  }
+
+  useEffect(throttleResize, [size, reboot])
 
   if (user) {
     let loc = location.pathname

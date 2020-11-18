@@ -45,7 +45,7 @@ export const FileInput = ({ maxWidth, maxHeight, fun }) => {
       </label>
       {resizedMap && loaded ? (
         <div>
-          <img src={thumb}></img>
+          <img alt={'mapThumbnail'} src={thumb}></img>
           <MultiInput
             text={'Enter name of map'}
             data={null}

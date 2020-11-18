@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { AppContext } from 'context/AppContext'
 import { UserLabel } from './UserLabel'
 
@@ -15,19 +15,23 @@ export const UserLabelContainer = ({ name, color }) => {
     setArrayOfAreas(arrayOfAreas)
   }, [appState, name])
 
+  const getArrayOfAreas = useCallback((e, i) => {
+    const data = document.querySelector(`#${e.id}`)
+    if (data) {
+      let rect = data.getBoundingClientRect()
+      let top = rect.top - appState.wrapper.y + rect.height / 8 + window.scrollY
+      let left = rect.left - appState.wrapper.x + rect.width / 2 + window.scrollX
+      return <UserLabel key={i} top={top} left={left} dataForLabel={e} color={color} />
+    }
+    return null
+  }, [])
+
   useEffect(() => {
     const labels = arrayOfAreas.map((e, i) => {
-      const data = document.querySelector(`#${e.id}`)
-      if (data) {
-        let rect = data.getBoundingClientRect()
-        let top = rect.top - appState.wrapper.y + rect.height / 8 + window.scrollY
-        let left = rect.left - appState.wrapper.x + rect.width / 2 + window.scrollX
-        return <UserLabel key={i} top={top} left={left} dataForLabel={e} color={color} />
-      }
-      return null
+      return getArrayOfAreas(e, i)
     })
     setLabels(labels)
-  }, [arrayOfAreas])
+  }, [arrayOfAreas, getArrayOfAreas])
 
   return ready ? labels : null
 }

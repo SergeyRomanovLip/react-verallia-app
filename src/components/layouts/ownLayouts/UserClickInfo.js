@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { ModalContext } from 'context/ModalContext'
 import { AppContext } from 'context/AppContext'
 
@@ -34,7 +34,7 @@ export const UserClickInfo = ({ content }) => {
                   {content[e]}
                 </li>
               )
-            }
+            } else return null
           })}
         </ul>
         <div className='infoWindow-body-form'>

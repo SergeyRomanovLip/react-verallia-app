@@ -8,7 +8,7 @@ import { ModalContext } from 'context/ModalContext'
 import { ToolbarItem } from './ToolbarItem'
 
 export const Toolbar = () => {
-  const { updated, appState } = useContext(AppContext)
+  const { updated, appState, appReboot } = useContext(AppContext)
   const { showModal } = useContext(ModalContext)
 
   return (
@@ -61,6 +61,17 @@ export const Toolbar = () => {
             className={'toolbar-item'}
           >
             Upload new map
+          </p>
+        </li>
+        <li>
+          <p
+            onClick={() => {
+              localStorage.removeItem('map')
+              appReboot()
+            }}
+            className={'toolbar-item'}
+          >
+            reboot
           </p>
         </li>
         <div className={'toolbar-item-border'}></div>

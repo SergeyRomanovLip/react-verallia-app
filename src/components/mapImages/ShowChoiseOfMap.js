@@ -31,7 +31,7 @@ export const ShowChoiseOfMap = ({ content }) => {
               <ul>
                 <li>{e}</li>
                 <li>
-                  <img src={content.existMap[e].thumb}></img>
+                  <img alt={'mapThumb'} src={content.existMap[e].thumb}></img>
                 </li>
               </ul>
             </li>

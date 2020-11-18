@@ -8,8 +8,8 @@ import AddNewWork from './layouts/subcontractors/AddNewWork'
 import InfoSubc from './layouts/subcontractors/InfoSubc'
 import { AcceptUserSVG } from './layouts/ownLayouts/AcceptUserSVG'
 import { UserClickInfo } from './layouts/ownLayouts/UserClickInfo'
-import { ShowUploadNewMap } from './modals/ShowUploadNewMap'
-import { ShowChoiseOfMap } from './modals/ShowChoiseOfMap'
+import { ShowUploadNewMap } from './mapImages/ShowUploadNewMap'
+import { ShowChoiseOfMap } from './mapImages/ShowChoiseOfMap'
 
 export const ModalNew = ({ children }) => {
   const [modalState, setModalState] = useState({
