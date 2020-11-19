@@ -11,6 +11,8 @@ export const AppState = ({ children }) => {
   const [updated, setUpdated] = useState(false)
   const [reboot, setReboot] = useState(false)
   const [mapImage, setMapImage] = useState(null)
+  const [mapWidth, setMapWidth] = useState(1800)
+  const [mapHeight, setMapHeight] = useState(1800)
   const [appState, appDispatch] = useReducer(reducer, {
     wrapper: true,
     listOfAreas: {},
@@ -48,11 +50,9 @@ export const AppState = ({ children }) => {
       })
     }
   }
-
   const appReboot = () => {
     setReboot(reboot ? false : true)
   }
-
   const updateState = () => {
     if (ready) {
       setUpdated(false)
@@ -99,6 +99,8 @@ export const AppState = ({ children }) => {
         reboot,
         mapImage,
         setMapImage,
+        mapWidth,
+        mapHeight,
       }}
     >
       {children}

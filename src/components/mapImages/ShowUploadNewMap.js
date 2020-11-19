@@ -42,7 +42,7 @@ export const ShowUploadNewMap = () => {
       </div>
       <div className='infoWindow-body'>
         <div className='infoWindow-body-form'>
-          <FileInput maxWidth={1200} maxHeight={1200} fun={uploadMapImageHandler} />
+          <FileInput maxWidth={1800} maxHeight={1800} fun={uploadMapImageHandler} />
         </div>
       </div>
       {!loaded ? <Loader /> : null}

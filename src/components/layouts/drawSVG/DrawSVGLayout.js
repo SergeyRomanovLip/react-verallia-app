@@ -3,14 +3,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import { IDgenerator } from 'components/utilities/IDgenerator'
 import { ModalContext } from 'context/ModalContext'
 import { AppContext } from 'context/AppContext'
+import { useZoom } from 'hooks/useZoom'
 
 export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
   const { showModal } = useContext(ModalContext)
-  const { appState, appDispatch } = useContext(AppContext)
+  const { appState, appDispatch, mapWidth, mapHeight } = useContext(AppContext)
   const [throttleState, setThrottleState] = useState(false)
   const [drawingStat, setDrawingStat] = useState(false)
   const [drawingSVG, setDrawingSVG] = useState('')
-
+  const zoom = useZoom()
   let wrapperTop = appState.wrapper.y
   let wrapperleft = appState.wrapper.x
   let timesPerSecond = 13
@@ -24,7 +25,7 @@ export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
     set(e) {
       this.d = this.d + e
       setDrawingSVG(drawingSVG + this.d)
-    }
+    },
   }
 
   function throttle(e) {
@@ -40,12 +41,12 @@ export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
   function drawing(e, state) {
     if (state === 'start') {
       setDrawingStat(true)
-      myAttr.set(`M ${e.pageX - wrapperleft} ${e.pageY - wrapperTop}`)
+      myAttr.set(`M ${(e.pageX - wrapperleft) / zoom} ${(e.pageY - wrapperTop) * zoom}`)
     }
     if (drawingStat === true) {
       switch (state) {
         case 'drawing':
-          myAttr.set(`L ${e.pageX - wrapperleft} ${e.pageY - wrapperTop}`)
+          myAttr.set(`L ${(e.pageX - wrapperleft) / zoom} ${(e.pageY - wrapperTop) * zoom}`)
           break
         case 'finish':
           setDrawingStat(false)
@@ -60,8 +61,8 @@ export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
                   name: name,
                   checked: true,
                   listOfWorks: true,
-                  svg: [drawingSVG + 'Z']
-                }
+                  svg: [drawingSVG + 'Z'],
+                },
               ])
             })
           }
@@ -80,7 +81,7 @@ export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
   return (
     <svg
       className='SVGMapContainer'
-      viewBox='0 0 800 1130'
+      viewBox={`0 0 ${mapWidth} ${mapHeight}`}
       xmlSpace='http://www.w3.org/2000/svg'
       onMouseDown={(e) => {
         drawing(e, 'start')

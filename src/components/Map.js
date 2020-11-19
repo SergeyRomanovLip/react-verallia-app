@@ -7,20 +7,24 @@ import { useParams } from 'react-router-dom'
 import { Loader } from './misc/Loader'
 import { SubcLabelContainer } from './layouts/subcontractors/SubcLabelContainer'
 import { UserLayouts } from './layouts/ownLayouts/UserLayouts'
+import { useZoom } from 'hooks/useZoom'
 
 export const Map = ({ mapImage }) => {
   const { showModal } = useContext(ModalContext)
-  const { appDispatch, ready } = useContext(AppContext)
+  const { appDispatch, ready, mapWidth, mapHeight } = useContext(AppContext)
   const [wrapperState, setWrapperState] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const [SVGReady, setSVGReady] = useState(false)
   const { layout } = useParams()
   const inputRef = useRef()
+  const zoom = useZoom()
 
   const handlerSetSVGReady = useCallback(() => {
     setSVGReady(true)
   }, [])
-
+  useEffect(() => {
+    console.log(zoom)
+  }, [zoom])
   useEffect(() => {
     if (!ready) {
       setLoaded(false)
@@ -35,14 +39,20 @@ export const Map = ({ mapImage }) => {
       setWrapperState(true)
       setLoaded(true)
     }
-  }, [ready, appDispatch, layout])
+  }, [ready, appDispatch, layout, zoom])
 
   return (
-    <div ref={inputRef} style={{ backgroundImage: `url(${mapImage})` }} className='mapWrapper'>
+    <div
+      ref={inputRef}
+      style={{ zoom: zoom, width: mapWidth + 'px', height: mapHeight + 'px', backgroundImage: `url(${mapImage})` }}
+      className='mapWrapper'
+    >
       {!loaded ? <Loader /> : null}
       {wrapperState && layout === 'incidents' ? <Incidents click={showModal} /> : null}
       {SVGReady && layout === 'subcontractors' ? <SubcLabelContainer /> : null}
-      {wrapperState && layout === 'subcontractors' ? <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} /> : null}
+      {wrapperState && layout === 'subcontractors' ? (
+        <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} zoom={zoom} />
+      ) : null}
       {layout.split('||')[1] === 'user' ? (
         <UserLayouts
           layout={layout.split('||')[0]}

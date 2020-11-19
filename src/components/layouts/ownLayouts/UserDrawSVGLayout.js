@@ -6,7 +6,7 @@ import { UserSVGComponent } from './UserSVGComponent'
 
 export const UserDrawSVGLayout = ({ color, handlerSetSVGReady, name }) => {
   const { showModal } = useContext(ModalContext)
-  const { appState } = useContext(AppContext)
+  const { appState, mapWidth, mapHeight } = useContext(AppContext)
   const [throttleState, setThrottleState] = useState(false)
   const [drawingStat, setDrawingStat] = useState(false)
   const [drawingSVG, setDrawingSVG] = useState('')
@@ -67,8 +67,10 @@ export const UserDrawSVGLayout = ({ color, handlerSetSVGReady, name }) => {
   }
   return (
     <svg
+      width={mapWidth + 'px'}
+      height={mapHeight + 'px'}
       className='SVGMapContainer'
-      viewBox='0 0 800 1130'
+      viewBox={`0 0 ${mapWidth} ${mapHeight}`}
       xmlSpace='http://www.w3.org/2000/svg'
       onMouseDown={(e) => {
         drawing(e, 'start')
