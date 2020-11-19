@@ -5,35 +5,71 @@ import { Loader } from 'components/misc/Loader'
 import { AppContext } from 'context/AppContext'
 import { signOutHandler } from 'backend/signOutHandler'
 import { ModalContext } from 'context/ModalContext'
-import { ToolbarItem } from './ToolbarItem'
+
+import { DropDown } from 'components/toolbar/DropDown'
 
 export const Toolbar = () => {
   const { updated, appState, appReboot } = useContext(AppContext)
   const { showModal } = useContext(ModalContext)
+
+  const getUserLayouts = () => {
+    return appState.userLayouts
+      ? Object.keys(appState.userLayouts).map((e, i) => {
+          console.log(e)
+          return (
+            <NavLink key={i} to={`/product/map/${e}||user`}>
+              {e}
+            </NavLink>
+          )
+        })
+      : null
+  }
+
+  const layouts = [
+    <NavLink to='/product/map/subcontractors'>Subcontractors</NavLink>,
+    <NavLink to='/product/map/incidents'>Incidents</NavLink>,
+    getUserLayouts()
+  ]
+  const tools = [
+    <NavLink
+      to={'#'}
+      onClick={() => {
+        showModal('CreateOwnLayout', '')
+      }}
+    >
+      Create own layout
+    </NavLink>,
+    <NavLink
+      to={'#'}
+      onClick={() => {
+        showModal('UploadNewMap', '') //should be dinamicly
+      }}
+    >
+      Upload new map
+    </NavLink>,
+    <NavLink
+      to={'#'}
+      onClick={() => {
+        localStorage.removeItem('map')
+        appReboot()
+      }}
+    >
+      Change map
+    </NavLink>
+  ]
 
   return (
     <nav id='toolbar' className='toolbar'>
       <img className='toolbar-img' src='/logoVerallia.jpg' alt='logo' />
       <ul className='toolbar-list'>
         <li>
-          <NavLink className={'toolbar-item'} to='/product/map/subcontractors'>
-            Subcontractors
-          </NavLink>
+          <DropDown title='Layouts' items={layouts} />
         </li>
         <div className={'toolbar-item-border'}></div>
         <li>
-          <NavLink className={'toolbar-item'} to='/product/map/incidents'>
-            Incidents
-          </NavLink>
+          <DropDown title='Tools' items={tools} />
         </li>
         <div className={'toolbar-item-border'}></div>
-
-        {appState.userLayouts
-          ? Object.keys(appState.userLayouts).map((e, i) => {
-              return <ToolbarItem key={i} link={`/product/map/${e}||user`} data={e} />
-            })
-          : null}
-
         <li style={{ width: 50 + 'px' }}></li>
         <div className={'toolbar-item-border'}></div>
         <li>
@@ -43,42 +79,9 @@ export const Toolbar = () => {
         </li>
         <div className={'toolbar-item-border'}></div>
         <li>
-          <p
-            onClick={() => {
-              showModal('CreateOwnLayout', '')
-            }}
-            className={'toolbar-item'}
-          >
-            Create own layout
-          </p>
-        </li>
-        <div className={'toolbar-item-border'}></div>
-        <li>
-          <p
-            onClick={() => {
-              showModal('UploadNewMap', '') //should be dinamicly
-            }}
-            className={'toolbar-item'}
-          >
-            Upload new map
-          </p>
-        </li>
-        <li>
-          <p
-            onClick={() => {
-              localStorage.removeItem('map')
-              appReboot()
-            }}
-            className={'toolbar-item'}
-          >
-            Change map
-          </p>
-        </li>
-        <div className={'toolbar-item-border'}></div>
-        <li>
-          <a className={'toolbar-item'} href='/' onClick={signOutHandler}>
+          <NavLink className={'toolbar-item'} to='/auth/signIn' onClick={signOutHandler}>
             Logout
-          </a>
+          </NavLink>
         </li>
         <li>{!updated ? <Loader type={'little'} /> : null}</li>
       </ul>
