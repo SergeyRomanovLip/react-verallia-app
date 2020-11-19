@@ -13,9 +13,9 @@ export const useZoom = () => {
       })
     } else if (e === -1) {
       setZoom((prevState) => {
-        if (prevState < 1.2) {
+        if (prevState < 1.5) {
           return prevState + 0.03
-        } else return 1.2
+        } else return 1.5
       })
     }
   }

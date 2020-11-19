@@ -1,11 +1,13 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { AppContext } from 'context/AppContext'
 import { UserLabel } from './UserLabel'
+import { useZoom } from 'hooks/useZoom'
 
 export const UserLabelContainer = ({ name, color }) => {
   const { appState, ready } = useContext(AppContext)
   const [arrayOfAreas, setArrayOfAreas] = useState([])
   const [labels, setLabels] = useState([])
+  const zoom = useZoom()
 
   useEffect(() => {
     const arrayOfAreas = []
@@ -20,8 +22,8 @@ export const UserLabelContainer = ({ name, color }) => {
       const data = document.querySelector(`#${e.id}`)
       if (data) {
         let rect = data.getBoundingClientRect()
-        let top = rect.top - appState.wrapper.y + rect.height / 8 + window.scrollY
-        let left = rect.left - appState.wrapper.x + rect.width / 2 + window.scrollX
+        let top = rect.top - appState.wrapper.y * zoom + rect.height / 8 + window.scrollY
+        let left = rect.left - appState.wrapper.x * zoom + rect.width / 2 + window.scrollX
         return <UserLabel key={i} top={top} left={left} dataForLabel={e} color={color} />
       }
       return null

@@ -23,9 +23,6 @@ export const Map = ({ mapImage }) => {
     setSVGReady(true)
   }, [])
   useEffect(() => {
-    console.log(zoom)
-  }, [zoom])
-  useEffect(() => {
     if (!ready) {
       setLoaded(false)
     }
@@ -33,8 +30,8 @@ export const Map = ({ mapImage }) => {
       setWrapperState(false)
       appDispatch(['setLayout', layout])
       let rect = inputRef.current.getBoundingClientRect()
-      rect.x = rect.x + window.scrollX
-      rect.y = rect.y + window.scrollY
+      rect.x = rect.x / zoom + window.scrollX / zoom
+      rect.y = rect.y / zoom + window.scrollY / zoom
       appDispatch(['updateWrapperPosition', rect])
       setWrapperState(true)
       setLoaded(true)
@@ -44,15 +41,13 @@ export const Map = ({ mapImage }) => {
   return (
     <div
       ref={inputRef}
-      style={{ zoom: zoom, width: mapWidth + 'px', height: mapHeight + 'px', backgroundImage: `url(${mapImage})` }}
+      style={{ width: mapWidth * zoom + 'px', height: mapHeight * zoom + 'px', backgroundImage: `url(${mapImage})` }}
       className='mapWrapper'
     >
       {!loaded ? <Loader /> : null}
       {wrapperState && layout === 'incidents' ? <Incidents click={showModal} /> : null}
       {SVGReady && layout === 'subcontractors' ? <SubcLabelContainer /> : null}
-      {wrapperState && layout === 'subcontractors' ? (
-        <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} zoom={zoom} />
-      ) : null}
+      {wrapperState && layout === 'subcontractors' ? <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} /> : null}
       {layout.split('||')[1] === 'user' ? (
         <UserLayouts
           layout={layout.split('||')[0]}

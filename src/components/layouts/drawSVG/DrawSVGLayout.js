@@ -16,6 +16,54 @@ export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
   let wrapperleft = appState.wrapper.x
   let timesPerSecond = 13
 
+  let roundedRectData = function (w, h, tlr, trr, brr, blr) {
+    return (
+      'M 0 ' +
+      tlr +
+      ' A ' +
+      tlr +
+      ' ' +
+      tlr +
+      ' 0 0 1 ' +
+      tlr +
+      ' 0' +
+      ' L ' +
+      (w - trr) +
+      ' 0' +
+      ' A ' +
+      trr +
+      ' ' +
+      trr +
+      ' 0 0 1 ' +
+      w +
+      ' ' +
+      trr +
+      ' L ' +
+      w +
+      ' ' +
+      (h - brr) +
+      ' A ' +
+      brr +
+      ' ' +
+      brr +
+      ' 0 0 1 ' +
+      (w - brr) +
+      ' ' +
+      h +
+      ' L ' +
+      blr +
+      ' ' +
+      h +
+      ' A ' +
+      blr +
+      ' ' +
+      blr +
+      ' 0 0 1 0 ' +
+      (h - blr) +
+      ' Z'
+    )
+  }
+
   useEffect(() => {
     handlerSetSVGReady(true)
   }, [handlerSetSVGReady])
@@ -41,16 +89,16 @@ export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
   function drawing(e, state) {
     if (state === 'start') {
       setDrawingStat(true)
-      myAttr.set(`M ${(e.pageX - wrapperleft) / zoom} ${(e.pageY - wrapperTop) * zoom}`)
+      myAttr.set(`M ${e.pageX / zoom - wrapperleft} ${e.pageY / zoom - wrapperTop}`)
     }
     if (drawingStat === true) {
       switch (state) {
         case 'drawing':
-          myAttr.set(`L ${(e.pageX - wrapperleft) / zoom} ${(e.pageY - wrapperTop) * zoom}`)
+          myAttr.set(`L ${e.pageX / zoom - wrapperleft} ${e.pageY / zoom - wrapperTop}`)
           break
         case 'finish':
           setDrawingStat(false)
-          if (drawingSVG.length > 50) {
+          if (drawingSVG.length > 70) {
             let ID = IDgenerator()
             showModal('AcceptSVG', (name) => {
               appDispatch([
@@ -65,6 +113,24 @@ export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
                 },
               ])
             })
+          } else {
+            myAttr.set(roundedRectData(15, 15, 15, 15, 15, 15))
+            console.log(myAttr)
+            let ID = IDgenerator()
+            showModal('AcceptSVG', (name) => {
+              appDispatch([
+                'addNewArea',
+                ID,
+                {
+                  id: ID,
+                  name: name,
+                  checked: true,
+                  listOfWorks: true,
+                  svg: [drawingSVG + 'Z'],
+                },
+              ])
+            })
+            break
           }
           setDrawingSVG('')
           break

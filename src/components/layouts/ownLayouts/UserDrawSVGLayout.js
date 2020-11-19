@@ -3,8 +3,10 @@ import { IDgenerator } from 'components/utilities/IDgenerator'
 import { ModalContext } from 'context/ModalContext'
 import { AppContext } from 'context/AppContext'
 import { UserSVGComponent } from './UserSVGComponent'
+import { useZoom } from 'hooks/useZoom'
 
 export const UserDrawSVGLayout = ({ color, handlerSetSVGReady, name }) => {
+  const zoom = useZoom()
   const { showModal } = useContext(ModalContext)
   const { appState, mapWidth, mapHeight } = useContext(AppContext)
   const [throttleState, setThrottleState] = useState(false)
@@ -40,12 +42,12 @@ export const UserDrawSVGLayout = ({ color, handlerSetSVGReady, name }) => {
   function drawing(e, state) {
     if (state === 'start') {
       setDrawingStat(true)
-      myAttr.set(`M ${e.pageX - wrapperleft} ${e.pageY - wrapperTop}`)
+      myAttr.set(`M ${e.pageX / zoom - wrapperleft} ${e.pageY / zoom - wrapperTop}`)
     }
     if (drawingStat === true) {
       switch (state) {
         case 'drawing':
-          myAttr.set(`L ${e.pageX - wrapperleft} ${e.pageY - wrapperTop}`)
+          myAttr.set(`L ${e.pageX / zoom - wrapperleft} ${e.pageY / zoom - wrapperTop}`)
           break
         case 'finish':
           setDrawingStat(false)
@@ -67,8 +69,6 @@ export const UserDrawSVGLayout = ({ color, handlerSetSVGReady, name }) => {
   }
   return (
     <svg
-      width={mapWidth + 'px'}
-      height={mapHeight + 'px'}
       className='SVGMapContainer'
       viewBox={`0 0 ${mapWidth} ${mapHeight}`}
       xmlSpace='http://www.w3.org/2000/svg'
