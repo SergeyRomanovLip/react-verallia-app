@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import 'sass/toolbar.sass'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import { Loader } from 'components/misc/Loader'
 import { AppContext } from 'context/AppContext'
 import { signOutHandler } from 'backend/signOutHandler'
@@ -11,6 +11,7 @@ import { DropDown } from 'components/toolbar/DropDown'
 export const Toolbar = () => {
   const { updated, appState, appReboot } = useContext(AppContext)
   const { showModal } = useContext(ModalContext)
+  const { layout } = useParams()
 
   const getUserLayouts = () => {
     return appState.userLayouts
@@ -70,7 +71,9 @@ export const Toolbar = () => {
           <DropDown title='Tools' items={tools} />
         </li>
         <div className={'toolbar-item-border'}></div>
-        <li style={{ width: 50 + 'px' }}></li>
+        <li style={{ width: 900 + 'px', color: 'whitesmoke', textAlign: 'center' }}>
+          <b>{layout ? layout : null}</b>
+        </li>
         <div className={'toolbar-item-border'}></div>
         <li>
           <NavLink className={'toolbar-item'} to='/product/menu'>
