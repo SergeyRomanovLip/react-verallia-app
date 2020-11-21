@@ -11,13 +11,8 @@ export const AppState = ({ children }) => {
   const [updated, setUpdated] = useState(false)
   const [reboot, setReboot] = useState(false)
   const [mapImage, setMapImage] = useState(null)
-  const [mapWidth, setMapWidth] = useState(1800)
-  const [mapHeight, setMapHeight] = useState(1800)
   const [appState, appDispatch] = useReducer(reducer, {
-    wrapper: true,
-    listOfAreas: {},
-    listOfIncidents: {},
-    userLayouts: {},
+    layouts: {}
   })
   const { user } = useContext(AuthContext)
 
@@ -31,17 +26,14 @@ export const AppState = ({ children }) => {
           appDispatch([
             'initialize',
             {
-              _id: {},
-              // layout: 'subcontractors',
-              listOfAreas: {},
-              listOfIncidents: {},
-              userLayouts: {},
-            },
+              layouts: {}
+            }
           ])
           setReady(true)
           setUpdated(true)
         } else {
           console.log('Второй путь, диспатчинг с сервера')
+          console.log(res)
           appDispatch(['initialize', res])
           console.log('Data pended')
           setReady(true)
@@ -56,37 +48,21 @@ export const AppState = ({ children }) => {
   const updateState = () => {
     if (ready) {
       setUpdated(false)
-      if (appState.listOfAreas && appState.listOfIncidents) {
-        console.log('Start of updating...')
-        generateStateDocument(
-          user,
-          {
-            // layout: appState.layout,
-            listOfAreas: appState.listOfAreas,
-            listOfIncidents: appState.listOfIncidents,
-            userLayouts: appState.userLayouts,
-          },
-          mapImage
-        )
-          .then(() => {
-            writeStateLog(user, {
-              // layout: appState.layout,
-              listOfAreas: appState.listOfAreas,
-              listOfIncidents: appState.listOfIncidents,
-              userLayouts: appState.userLayouts,
-            })
-          })
-          .then(() => {
-            console.log('Data updated')
-            setUpdated(true)
-          })
-      }
+      console.log('Start of updating...')
+      generateStateDocument(user, { layouts: appState.layouts }, mapImage)
+        // .then(() => {
+        //   writeStateLog(user, { layouts })
+        // })
+        .then(() => {
+          console.log('Data updated')
+          setUpdated(true)
+        })
       console.log(window.location.pathname)
     }
   }
 
   useEffect(initializing, [user, mapImage])
-  useEffect(updateState, [appState.listOfAreas, appState.listOfIncidents, appState.userLayouts])
+  useEffect(updateState, [appState.layouts])
   return (
     <AppContext.Provider
       value={{
@@ -98,9 +74,7 @@ export const AppState = ({ children }) => {
         appReboot,
         reboot,
         mapImage,
-        setMapImage,
-        mapWidth,
-        mapHeight,
+        setMapImage
       }}
     >
       {children}

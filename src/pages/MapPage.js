@@ -12,7 +12,7 @@ export const MapPage = () => {
   const { user } = useContext(AuthContext)
   const [loaded, setLoaded] = useState(true)
   const { showModal } = useContext(ModalContext)
-  const { setMapImage, ready } = useContext(AppContext)
+  const { setMapImage, ready, reboot } = useContext(AppContext)
 
   const getExistingMapsHandler = async (user) => {
     const res = await getExistingMaps(user)
@@ -59,7 +59,7 @@ export const MapPage = () => {
       .then(() => {
         setLoaded(true)
       })
-  }, [])
+  }, [reboot])
 
   return loaded ? (
     <>

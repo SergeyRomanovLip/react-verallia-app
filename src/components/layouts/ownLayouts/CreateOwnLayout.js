@@ -41,7 +41,7 @@ export const CreateOwnLayout = () => {
       return e !== undefined
     })
 
-    let dataForSending = { color, name, type, fields: resultArray }
+    let dataForSending = { color, name, type, fields: resultArray, listOfAreas: true }
 
     appDispatch(['CreateOwnLayout', dataForSending])
   }
@@ -66,9 +66,9 @@ export const CreateOwnLayout = () => {
           <div>
             <div className='infoWindow-body-label'>
               Please, choose type of layout
-              <select id='userInputLayoutType' defaultValue={'drawing'}>
-                <option value='drawing'>Drawing layout</option>
-                <option value='click'>Click layout</option>
+              <select id='userInputLayoutType' defaultValue={'notes'}>
+                <option value='multi'>Few tasks in arrea</option>
+                <option value='one'>One task in arrea </option>
               </select>
             </div>
             <div className='infoWindow-body-label'>

@@ -7,30 +7,36 @@ import { signOutHandler } from 'backend/signOutHandler'
 import { ModalContext } from 'context/ModalContext'
 
 import { DropDown } from 'components/toolbar/DropDown'
+import { isEmptyObj } from 'components/utilities/isEmptyObj'
 
 export const Toolbar = () => {
   const { updated, appState, appReboot } = useContext(AppContext)
   const { showModal } = useContext(ModalContext)
   const { layout } = useParams()
 
-  const getUserLayouts = () => {
-    return appState.userLayouts
-      ? Object.keys(appState.userLayouts).map((e, i) => {
-          console.log(e)
-          return (
-            <NavLink key={i} to={`/product/map/${e}||user`}>
-              {e}
-            </NavLink>
-          )
-        })
-      : null
+  const getLayouts = () => {
+    if (isEmptyObj(appState.layouts)) {
+      return Object.keys(appState.layouts).map((e, i) => {
+        return (
+          <NavLink key={i} to={`/product/map/${e}`}>
+            {e}
+          </NavLink>
+        )
+      })
+    } else {
+      return (
+        <NavLink
+          to={'#'}
+          onClick={() => {
+            showModal('CreateOwnLayout', '')
+          }}
+        >
+          Create own layout
+        </NavLink>
+      )
+    }
   }
-
-  const layouts = [
-    <NavLink to='/product/map/subcontractors'>Subcontractors</NavLink>,
-    <NavLink to='/product/map/incidents'>Incidents</NavLink>,
-    getUserLayouts()
-  ]
+  const layouts = [getLayouts()]
   const tools = [
     <NavLink
       to={'#'}
@@ -58,7 +64,6 @@ export const Toolbar = () => {
       Change map
     </NavLink>
   ]
-
   return (
     <nav id='toolbar' className='toolbar'>
       <img className='toolbar-img' src='/logoVerallia.jpg' alt='logo' />

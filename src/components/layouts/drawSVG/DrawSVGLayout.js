@@ -5,75 +5,34 @@ import { ModalContext } from 'context/ModalContext'
 import { AppContext } from 'context/AppContext'
 import { useZoom } from 'hooks/useZoom'
 
-export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
+export const DrawSVGLayout = ({ wrapper, handlerSetSVGReady, mapWidth, mapHeight, layout }) => {
   const { showModal } = useContext(ModalContext)
-  const { appState, appDispatch, mapWidth, mapHeight } = useContext(AppContext)
+  const { appState, appDispatch } = useContext(AppContext)
   const [throttleState, setThrottleState] = useState(false)
   const [drawingStat, setDrawingStat] = useState(false)
   const [drawingSVG, setDrawingSVG] = useState('')
+  const [arrayOfAreas, setArrayOfAreas] = useState([])
   const zoom = useZoom()
-  let wrapperTop = appState.wrapper.y
-  let wrapperleft = appState.wrapper.x
-  let timesPerSecond = 13
-
-  let roundedRectData = function (w, h, tlr, trr, brr, blr) {
-    return (
-      'M 0 ' +
-      tlr +
-      ' A ' +
-      tlr +
-      ' ' +
-      tlr +
-      ' 0 0 1 ' +
-      tlr +
-      ' 0' +
-      ' L ' +
-      (w - trr) +
-      ' 0' +
-      ' A ' +
-      trr +
-      ' ' +
-      trr +
-      ' 0 0 1 ' +
-      w +
-      ' ' +
-      trr +
-      ' L ' +
-      w +
-      ' ' +
-      (h - brr) +
-      ' A ' +
-      brr +
-      ' ' +
-      brr +
-      ' 0 0 1 ' +
-      (w - brr) +
-      ' ' +
-      h +
-      ' L ' +
-      blr +
-      ' ' +
-      h +
-      ' A ' +
-      blr +
-      ' ' +
-      blr +
-      ' 0 0 1 0 ' +
-      (h - blr) +
-      ' Z'
-    )
-  }
 
   useEffect(() => {
     handlerSetSVGReady(true)
   }, [handlerSetSVGReady])
+  useEffect(() => {
+    if (appState.layouts[layout].listOfAreas) {
+      const arrayOfAreas = []
+      for (let area in appState.layouts[layout].listOfAreas) {
+        arrayOfAreas.push(appState.layouts[layout].listOfAreas[area])
+      }
+      setArrayOfAreas(arrayOfAreas)
+    }
+  }, [appState.layouts[layout].listOfAreas])
 
   let myAttr = {
     d: '',
     set(e) {
       this.d = this.d + e
       setDrawingSVG(drawingSVG + this.d)
-    },
+    }
   }
 
   function throttle(e) {
@@ -82,56 +41,42 @@ export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
       setThrottleState(true)
       setTimeout(function () {
         setThrottleState(false)
-      }, 1000 / timesPerSecond)
+      }, 1000 / 15)
     }
   }
 
   function drawing(e, state) {
     if (state === 'start') {
       setDrawingStat(true)
-      myAttr.set(`M ${e.pageX / zoom - wrapperleft} ${e.pageY / zoom - wrapperTop}`)
+      myAttr.set(`M ${e.pageX / zoom - wrapper.x} ${e.pageY / zoom - wrapper.y}`)
     }
     if (drawingStat === true) {
       switch (state) {
         case 'drawing':
-          myAttr.set(`L ${e.pageX / zoom - wrapperleft} ${e.pageY / zoom - wrapperTop}`)
+          myAttr.set(`L ${e.pageX / zoom - wrapper.x} ${e.pageY / zoom - wrapper.y}`)
           break
         case 'finish':
+          let id = IDgenerator()
+          let svg = ''
           setDrawingStat(false)
           if (drawingSVG.length > 70) {
-            let ID = IDgenerator()
-            showModal('AcceptSVG', (name) => {
-              appDispatch([
-                'addNewArea',
-                ID,
-                {
-                  id: ID,
-                  name: name,
-                  checked: true,
-                  listOfWorks: true,
-                  svg: [drawingSVG + 'Z'],
-                },
-              ])
-            })
+            svg = drawingSVG + 'Z'
           } else {
-            myAttr.set(roundedRectData(15, 15, 15, 15, 15, 15))
-            console.log(myAttr)
-            let ID = IDgenerator()
-            showModal('AcceptSVG', (name) => {
-              appDispatch([
-                'addNewArea',
-                ID,
-                {
-                  id: ID,
-                  name: name,
-                  checked: true,
-                  listOfWorks: true,
-                  svg: [drawingSVG + 'Z'],
-                },
-              ])
+            let sC = []
+            drawingSVG.split(' ').map((e) => {
+              if (e.match(/\d+/)) {
+                sC.push(e.match(/\d+/)[0])
+              } else {
+                return null
+              }
             })
-            break
+            if (sC.length >= 2) {
+              svg = ['M' + sC[0] + ', ' + sC[1] + 'a 20,20 0 1,1 50,0 a 20,20 0 1,1 -50,0']
+            }
           }
+          showModal('AcceptSVG', (name) => {
+            appDispatch(['addNewArea', { id, name, layout, svg }])
+          })
           setDrawingSVG('')
           break
         default:
@@ -140,10 +85,6 @@ export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
     }
   }
 
-  const arrayOfAreas = []
-  for (let area in appState.listOfAreas) {
-    arrayOfAreas.push(appState.listOfAreas[area])
-  }
   return (
     <svg
       className='SVGMapContainer'
@@ -164,7 +105,7 @@ export const DrawSVGLayout = ({ handlerSetSVGReady }) => {
       <path d={drawingSVG}></path>
       {arrayOfAreas.length > 0
         ? arrayOfAreas.map((e, i) => {
-            return <SVGComponent key={i} ID={e.id} click={showModal} d={e.svg} />
+            return <SVGComponent key={i} content={e} color={null} />
           })
         : null}
     </svg>

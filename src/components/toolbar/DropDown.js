@@ -6,7 +6,6 @@ export const DropDown = ({ title, items }) => {
     e.stopPropagation()
     isOpen ? setIsOpen(false) : setIsOpen(true)
   }
-  const animationHandler = () => {}
 
   return (
     <div
@@ -18,9 +17,13 @@ export const DropDown = ({ title, items }) => {
       <div className='dropDown-header'>{title}</div>
       <ul className={!isOpen ? 'dropDown-list' : 'dropDown-list active'}>
         {items
-          ? items.map((e) => {
+          ? items.map((e, i) => {
               if (e) {
-                return <li className='dropDown-list-item'>{e}</li>
+                return (
+                  <li key={i} className='dropDown-list-item'>
+                    {e}
+                  </li>
+                )
               }
             })
           : null}
