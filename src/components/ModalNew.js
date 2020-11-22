@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { ModalContext } from 'context/ModalContext'
 import { CreateOwnLayout } from './layouts/CreateOwnLayout'
-import { AcceptSVG } from './layouts/drawSVG/AcceptSVG'
+import { AcceptSVG } from './layouts/.old/drawSVG/AcceptSVG'
 import { AddNewNote } from './layouts/AddNewNote'
-import InfoSubc from './layouts/drawSVG/InfoSubc'
-import { AcceptUserSVG } from './layouts/ownLayouts/AcceptUserSVG'
+import InfoSubc from './layouts/.old/drawSVG/InfoSubc'
+// import { AcceptUserSVG } from './layouts/ownLayouts/AcceptUserSVG'
 import { AreaClick } from './layouts/AreaClick'
 import { ShowUploadNewMap } from './mapImages/ShowUploadNewMap'
 import { ShowChoiseOfMap } from './mapImages/ShowChoiseOfMap'
@@ -51,9 +51,9 @@ export const ModalNew = ({ children }) => {
       case 'AcceptSVG':
         setModal(<AcceptSVG content={modalState.content} />)
         break
-      case 'AcceptUserSVG':
-        setModal(<AcceptUserSVG content={modalState.content} />)
-        break
+      // case 'AcceptUserSVG':
+      //   setModal(<AcceptUserSVG content={modalState.content} />)
+      //   break
       case 'CreateOwnLayout':
         setModal(<CreateOwnLayout />)
         break
