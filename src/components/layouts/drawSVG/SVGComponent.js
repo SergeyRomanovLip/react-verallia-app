@@ -1,43 +1,22 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ModalContext } from "../../../context/ModalContext";
-import { AppContext } from "../../../context/AppContext";
+import React, { useContext, useEffect, useState } from 'react'
+import { ModalContext } from 'context/ModalContext'
+import { AppContext } from 'context/AppContext'
 
-function SVGComponent({ ID, d }) {
-  const { showModal } = useContext(ModalContext);
-  const { appState } = useContext(AppContext);
-  const [checked, setCheked] = useState(false);
-
-  useEffect(() => {
-    let checkedStat = [];
-    if (appState.listOfAreas[ID]) {
-      if (Object.keys(appState.listOfAreas[ID].listOfWorks).length > 0) {
-        Object.keys(appState.listOfAreas[ID].listOfWorks).map((e) => {
-          if (appState.listOfAreas[ID].listOfWorks[e].checked === "no") {
-            return checkedStat.push(false);
-          } else return checkedStat.push(true);
-        });
-      }
-      if (checkedStat.includes(false)) {
-        setCheked(false);
-      } else {
-        setCheked(true);
-      }
-    }
-  }, [appState, ID]);
+function SVGComponent({ content, color }) {
+  const { showModal } = useContext(ModalContext)
 
   return (
     <path
-      id={ID}
-      key={ID}
+      id={content.id}
+      key={content.id}
       onClick={() => {
-        showModal("InfoSubc", ID);
+        showModal('UserClickInfo', content)
       }}
-      className={
-        checked ? "SVGMapContainer-item" : "SVGMapContainer-itemUnchecked"
-      }
-      d={d}
+      className={'SVGMapContainer-item'}
+      style={color ? { fill: [color.rgba], stroke: [color.rgba] } : null}
+      d={content.svg}
     ></path>
-  );
+  )
 }
 
-export default SVGComponent;
+export default SVGComponent

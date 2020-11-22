@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { ModalContext } from '../../../context/ModalContext'
+import { ModalContext } from 'context/ModalContext'
 
 export const IncidentComponent = ({ left, top, id, name, startDate }) => {
   const { showModal } = useContext(ModalContext)

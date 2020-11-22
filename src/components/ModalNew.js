@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { ModalContext } from '../context/ModalContext'
+import { ModalContext } from 'context/ModalContext'
 import { CreateOwnLayout } from './layouts/ownLayouts/CreateOwnLayout'
 import { AcceptSVG } from './layouts/drawSVG/AcceptSVG'
-import { AcceptIncident } from './layouts/incidents/AcceptIncident'
-import { InfoIncident } from './layouts/incidents/InfoIncident'
 import AddNewWork from './layouts/subcontractors/AddNewWork'
-import InfoSubc from './layouts/subcontractors/InfoSubc'
+import InfoSubc from './layouts/drawSVG/InfoSubc'
 import { AcceptUserSVG } from './layouts/ownLayouts/AcceptUserSVG'
+import { UserClickInfo } from './layouts/ownLayouts/UserClickInfo'
+import { ShowUploadNewMap } from './mapImages/ShowUploadNewMap'
+import { ShowChoiseOfMap } from './mapImages/ShowChoiseOfMap'
 
 export const ModalNew = ({ children }) => {
   const [modalState, setModalState] = useState({
@@ -53,14 +54,17 @@ export const ModalNew = ({ children }) => {
       case 'AcceptUserSVG':
         setModal(<AcceptUserSVG content={modalState.content} />)
         break
-      case 'AcceptIncident':
-        setModal(<AcceptIncident content={modalState.content} />)
-        break
-      case 'InfoIncident':
-        setModal(<InfoIncident content={modalState.content} />)
-        break
       case 'CreateOwnLayout':
         setModal(<CreateOwnLayout />)
+        break
+      case 'UploadNewMap':
+        setModal(<ShowUploadNewMap />)
+        break
+      case 'ChooseMap':
+        setModal(<ShowChoiseOfMap content={modalState.content} />)
+        break
+      case 'UserClickInfo':
+        setModal(<UserClickInfo content={modalState.content} />)
         break
       default:
         setModal(null)

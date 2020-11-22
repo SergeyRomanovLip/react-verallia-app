@@ -1,7 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
-import { useHistory } from 'react-router-dom'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB-MbVE0gSmIjcLdgsCaWnip0XI71wXmmQ',
@@ -10,7 +9,7 @@ const firebaseConfig = {
   projectId: 'verallia-int-map-database',
   storageBucket: 'verallia-int-map-database.appspot.com',
   messagingSenderId: '783186530200',
-  appId: '1:783186530200:web:92395d2ddbe53131eb25ed'
+  appId: '1:783186530200:web:92395d2ddbe53131eb25ed',
 }
 
 firebase.initializeApp(firebaseConfig)
@@ -35,7 +34,7 @@ export const generateUserDocument = async (user, additionalData) => {
         displayName,
         email,
         photoURL,
-        ...additionalData
+        ...additionalData,
       })
     } catch (error) {
       console.error('Error creating user document', error)
@@ -50,26 +49,68 @@ const getUserDocument = async (uid) => {
     const userDocument = await firestore.doc(`users/${uid}`).get()
     return {
       uid,
-      ...userDocument.data()
+      ...userDocument.data(),
     }
   } catch (error) {
     console.error('Error fetching user', error)
   }
 }
 
-export const generateStateDocument = async (user, newState) => {
+export const generateStateDocument = async (user, newState, map) => {
   const ref = await firestore.doc(`users/${user.uid}`)
   const existing = await firestore.doc(`users/${user.uid}`).get()
   try {
     await ref.set({
       ...existing.data(),
-      state: {
-        ...newState,
-        updated: new Date().toLocaleDateString()
-      }
+      mapImages: {
+        ...existing.data().mapImages,
+        [map]: {
+          ...existing.data().mapImages[map],
+          state: {
+            ...newState,
+            updated: new Date().toLocaleDateString(),
+          },
+        },
+      },
     })
   } catch (error) {
     console.error('Error creating user document', error)
+  }
+}
+
+export const uploadMapImage = async (user, mapImage, thumb, mapName) => {
+  const ref = await firestore.doc(`users/${user.uid}`)
+  const existing = await firestore.doc(`users/${user.uid}`).get()
+  try {
+    await ref.set({
+      ...existing.data(),
+      mapImages: {
+        ...existing.data().mapImages,
+        [mapName]: {
+          mapName: mapName,
+          mapData: mapImage,
+          thumb: thumb,
+          uploaded: new Date().toLocaleDateString(),
+        },
+      },
+    })
+    return 'Image successfully uploaded'
+  } catch (error) {
+    console.error('Image upload error', error)
+  }
+}
+
+export const getExistingMaps = async (user) => {
+  const localMap = localStorage.getItem('map')
+  if (localMap) {
+    return { local: JSON.parse(localMap) }
+  }
+  const existing = await firestore.doc(`users/${user.uid}`).get()
+  try {
+    return existing.data().mapImages
+  } catch (error) {
+    console.error('Error creating user document', error)
+    return false
   }
 }
 
@@ -100,19 +141,21 @@ export const writeStateLog = async (user, newState) => {
     }
     await ref.set({
       ...existing.data(),
-      log: newLog
+      log: newLog,
     })
   } catch (error) {
     console.error('Error creating user document', error)
   }
 }
 
-export const getExistingState = async (user) => {
-  const existing = await firestore.doc(`users/${user.uid}`).get()
-  try {
-    return existing.data().state
-  } catch (error) {
-    console.error('Error creating user document', error)
-    return false
+export const getExistingState = async (user, map) => {
+  if (map) {
+    const existing = await firestore.doc(`users/${user.uid}`).get()
+    try {
+      return existing.data().mapImages[map].state
+    } catch (error) {
+      console.error('Error creating user document', error)
+      return false
+    }
   }
 }

@@ -9,12 +9,10 @@
   background-color: rgba(0, 128, 128, 0.8)
 
 .mapWrapper
-  background-image: url(/scheme.jpg)
-  background-size: cover
+  background-size: contain
+  background-repeat: no-repeat
   position: relative
-  margin: 80px auto
-  height: 1130px
-  width: 800px
+  margin: 120px auto
   font-size: small
   cursor: crosshair
 
@@ -170,11 +168,101 @@ polygon.hovered
     border-width: 1px
     border-color: #c0c0c0
     border-radius: 10px
+    &-imgContainer
+      display: flex
+      flex-direction: column
+      justify-content: space-around
+      align-items: center
+      img
+        margin-bottom: 5px
+        border-radius: 10px
+    &-chooseList
+      overflow-y: scroll
+      max-height: 750px
+      list-style-type: none
+      padding: 0
+      margin: 0
+      >li
+        cursor: pointer
+        border-style: solid 
+        border-color: #c0c0c0
+        border-width: 1px
+        border-radius: 10px
+        margin: 5px
+        display: flex
+        flex-direction: column
+        justify-content: space-around
+        align-items: center
+        transition: all 0.1s ease-out
+        &:hover
+          background-color: rgba(0, 168, 167, 0.8)
+        h3
+          text-align: center
+          padding: 0
+          margin: 5px
+          border-bottom: 1px solid#c0c0c0
+        img 
+          border-style: solid 
+          border-color: #c0c0c0
+          border-width: 1px
+          border-radius: 10px
 
+    &-label
+      font-size: smaller
+      display: flex
+      flex-direction: row
+      justify-content: space-between
+      align-items: center
+      margin: 3px
+      input
+        padding: 3px
+        width: 200px
+        border-style: solid 
+        border-color: #c0c0c0
+        border-width: 1px
+        border-radius: 5px
+      select
+        padding: 2px
+        width: 200px
+        border-style: solid 
+        border-color: #c0c0c0
+        border-width: 1px
+        border-radius: 5px 
+    &-list
+      list-style-type: none
+      padding: 0
+      margin: 0
+      li
+        margin: 0
+        padding: 0
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        align-items: center
+        input
+          padding: 3px
+          margin-left: 5px
+          margin-bottom: 5px
+          width: 200px
+          border-style: solid 
+          border-color: #c0c0c0
+          border-width: 1px
+          border-radius: 5px
+        select
+          padding: 2px
+          margin-left: 5px
+          margin-bottom: 5px
+          width: 100px
+          border-style: solid 
+          border-color: #c0c0c0
+          border-width: 1px
+          border-radius: 5px
   &-body-form-label
-    margin-top: 5px
-    margin-left: 10px
-    margin-bottom: 0
+    padding: 3px
+    margin-left: 5px
+    margin-bottom: 5px
+    font-size: smaller
+    color: #000
 
   &-body-form-input
     padding: 3px
@@ -292,3 +380,4 @@ polygon.hovered
   padding: 3px
   display: grid
   grid-template-columns: 50% 50%
+

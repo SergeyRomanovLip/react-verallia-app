@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Switch, Route, Redirect, useLocation } from 'react-router-dom'
-import { AppContext } from '../context/AppContext'
-import { AuthContext } from '../context/AuthContext'
+import { Switch, Route, Redirect } from 'react-router-dom'
+import { AppContext } from 'context/AppContext'
+import { AuthContext } from 'context/AuthContext'
 import { AuthPage } from './AuthPage'
 import { MapPage } from './MapPage'
 import { ProductPage } from './ProductPage'
@@ -9,15 +9,6 @@ import { ProductPage } from './ProductPage'
 export const Routes = () => {
   const { location } = useContext(AppContext)
   const { user } = useContext(AuthContext)
-  const [isAtuh, setIsAuth] = useState(false)
-
-  useEffect(() => {
-    if (user) {
-      user.uid ? setIsAuth(true) : setIsAuth(false)
-    } else {
-      setIsAuth(false)
-    }
-  }, [user])
 
   if (user) {
     let loc = location.pathname

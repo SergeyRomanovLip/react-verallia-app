@@ -1,6 +1,6 @@
 import React from 'react'
-import { SignUp } from './../components/auth/SignUp'
-import { SignIn } from './../components/auth/SignIn'
+import { SignUp } from 'components/auth/SignUp'
+import { SignIn } from 'components/auth/SignIn'
 import { useParams } from 'react-router-dom'
 
 export const AuthPage = () => {

@@ -1,0 +1,55 @@
+.dropDown
+    &-wrapper
+        position: relative
+        height: 40px
+        width: 150px
+        text-decoration: none
+        cursor: pointer
+        color: whitesmoke
+        &:hover
+            background-color: rgba(0, 128, 128, 0.8)
+            color: whitesmoke
+        &.active
+            background-color: rgba(0, 128, 128, 0.8)
+    &-header
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+        display: flex
+        justify-content: space-around
+        align-items: center
+    &-list
+        transition: all 0.2s ease-out 
+        opacity: 0
+        visibility: hidden
+        width: 150px
+        padding: 0
+        margin: 0
+        position: absolute
+        top: 40px
+        display: flex
+        flex-direction: column
+        justify-content: flex-start
+        align-items: self-start
+        list-style-type: none 
+        background-color: rgba(0, 128, 128, 0.8)
+        li
+            &:hover
+                background-color: rgba(0, 128, 128, 0.5)   
+            a
+                padding: 5px 
+                width: 140px
+                display: block
+                font-size: small
+                text-decoration: none
+                color: whitesmoke
+        &.active
+            visibility: visible
+            opacity: 1
+            background-color: rgba(0, 128, 128, 0.8)
+            
+                
+            
+        
+            

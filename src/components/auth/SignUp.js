@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import { auth, generateUserDocument } from '../../firebaseConfig'
+import { Link } from 'react-router-dom'
+import { auth, generateUserDocument } from 'backend/firebaseConfig'
 
 export const SignUp = () => {
   const [email, setEmail] = useState('')

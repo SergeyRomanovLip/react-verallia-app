@@ -2,11 +2,10 @@ export const reducer = (state, action) => {
   try {
     switch (action[0]) {
       case 'CreateOwnLayout':
-        console.log(action[1])
         return {
           ...state,
-          userLayouts: {
-            ...state.userLayouts,
+          layouts: {
+            ...state.layouts,
             [action[1].name]: {
               ...action[1]
             }
@@ -16,11 +15,7 @@ export const reducer = (state, action) => {
       case 'initialize':
         return {
           ...state,
-          _id: action[1]._id,
-          layout: action[1].layout,
-          listOfAreas: action[1].listOfAreas,
-          listOfIncidents: action[1].listOfIncidents,
-          userLayouts: action[1].userLayouts
+          layouts: action[1].layouts
         }
       case 'addNewWork':
         let id = action[1].id
@@ -63,38 +58,34 @@ export const reducer = (state, action) => {
             }
           }
         }
-      // return { ...state };
+
       case 'addNewArea':
-        let id1 = action[1]
-        let content1 = action[2]
         return {
           ...state,
-          listOfAreas: {
-            ...state.listOfAreas,
-            [id1]: content1
+          layouts: {
+            ...state.layouts,
+            [action[1].layout]: {
+              ...state.layouts[action[1].layout],
+              listOfAreas: {
+                ...state.layouts[action[1].layout].listOfAreas,
+                [action[1].id]: {
+                  ...action[1]
+                }
+              }
+            }
           }
         }
       case 'deleteArea':
-        let id4 = action[1]
-        delete state.listOfAreas[id4]
+        delete state.layouts[action[1].name].listOfAreas[action[1].id]
         return {
           ...state,
-          listOfAreas: { ...state.listOfAreas, updated: Math.random() }
-        }
-      case 'addNewIncident':
-        let id6 = action[1]
-        return {
-          ...state,
-          listOfIncidents: {
-            ...state.listOfIncidents,
-            [id6]: action[2]
+          layouts: {
+            ...state.layouts,
+            [action[1].name]: {
+              ...state.layouts[action[1].name],
+              updated: Math.random()
+            }
           }
-        }
-      case 'deleteIncident':
-        delete state.listOfIncidents[action[1]]
-        return {
-          ...state,
-          listOfIncidents: { ...state.listOfIncidents, updated: Math.random() }
         }
       case 'checkStateOfWork':
         let id2 = action[1]

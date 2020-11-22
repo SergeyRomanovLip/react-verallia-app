@@ -1,44 +1,39 @@
 import React, { useReducer, useContext, useState, useEffect } from 'react'
-import { AppContext } from '../../context/AppContext'
+import { AppContext } from 'context/AppContext'
 import { reducer } from './reducer'
-import { generateStateDocument, getExistingState, writeStateLog } from '../../firebaseConfig'
-import { AuthContext } from '../../context/AuthContext'
+import { generateStateDocument, getExistingState, writeStateLog } from 'backend/firebaseConfig'
+import { AuthContext } from 'context/AuthContext'
 import { useLocation } from 'react-router-dom'
 
 export const AppState = ({ children }) => {
   const location = useLocation()
   const [ready, setReady] = useState(false)
   const [updated, setUpdated] = useState(false)
+  const [reboot, setReboot] = useState(false)
+  const [mapImage, setMapImage] = useState(null)
   const [appState, appDispatch] = useReducer(reducer, {
-    layout: 'subcontractors',
-    wrapper: true,
-    listOfAreas: {},
-    listOfIncidents: {},
-    userLayouts: {}
+    layouts: {}
   })
   const { user } = useContext(AuthContext)
 
   const initializing = () => {
     setReady(false)
     if (user) {
-      getExistingState(user).then((res) => {
+      getExistingState(user, mapImage).then((res) => {
         console.log('Start of pending data...')
         if (!res) {
           console.log('Новый state создан')
           appDispatch([
             'initialize',
             {
-              _id: {},
-              layout: 'subcontractors',
-              listOfAreas: {},
-              listOfIncidents: {},
-              userLayouts: {}
+              layouts: {}
             }
           ])
           setReady(true)
           setUpdated(true)
         } else {
           console.log('Второй путь, диспатчинг с сервера')
+          console.log(res)
           appDispatch(['initialize', res])
           console.log('Data pended')
           setReady(true)
@@ -47,37 +42,27 @@ export const AppState = ({ children }) => {
       })
     }
   }
-
+  const appReboot = () => {
+    setReboot(reboot ? false : true)
+  }
   const updateState = () => {
     if (ready) {
       setUpdated(false)
-      if (appState.listOfAreas && appState.listOfIncidents) {
-        console.log('Start of updating...')
-        generateStateDocument(user, {
-          layout: appState.layout,
-          listOfAreas: appState.listOfAreas,
-          listOfIncidents: appState.listOfIncidents,
-          userLayouts: appState.userLayouts
+      console.log('Start of updating...')
+      generateStateDocument(user, { layouts: appState.layouts }, mapImage)
+        // .then(() => {
+        //   writeStateLog(user, { layouts })
+        // })
+        .then(() => {
+          console.log('Data updated')
+          setUpdated(true)
         })
-          .then(() => {
-            writeStateLog(user, {
-              layout: appState.layout,
-              listOfAreas: appState.listOfAreas,
-              listOfIncidents: appState.listOfIncidents,
-              userLayouts: appState.userLayouts
-            })
-          })
-          .then(() => {
-            console.log('Data updated')
-            setUpdated(true)
-          })
-      }
       console.log(window.location.pathname)
     }
   }
 
-  useEffect(initializing, [user])
-  useEffect(updateState, [appState.listOfAreas, appState.listOfIncidents, appState.userLayouts])
+  useEffect(initializing, [user, mapImage])
+  useEffect(updateState, [appState.layouts])
   return (
     <AppContext.Provider
       value={{
@@ -85,7 +70,11 @@ export const AppState = ({ children }) => {
         updated,
         appState,
         appDispatch,
-        ready
+        ready,
+        appReboot,
+        reboot,
+        mapImage,
+        setMapImage
       }}
     >
       {children}

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import Checkbox from "../../misc/checkbox";
-import { AppContext } from "../../../context/AppContext";
+import Checkbox from "components/misc/checkbox";
+import { AppContext } from "context/AppContext";
 
 export const InfoSubcWork = ({ data, workID, area }) => {
   const { appDispatch } = useContext(AppContext);

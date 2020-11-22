@@ -1,12 +1,14 @@
-import SVGComponent from './SVGComponent'
 import React, { useContext, useEffect, useState } from 'react'
-import { IDgenerator } from '../../utilities/IDgenerator'
-import { ModalContext } from '../../../context/ModalContext'
-import { AppContext } from '../../../context/AppContext'
+import { IDgenerator } from 'components/utilities/IDgenerator'
+import { ModalContext } from 'context/ModalContext'
+import { AppContext } from 'context/AppContext'
+import { UserSVGComponent } from './UserSVGComponent'
+import { useZoom } from 'hooks/useZoom'
 
-export const UserDrawSVGLayout = ({ handlerSetSVGReady, name }) => {
+export const UserDrawSVGLayout = ({ color, handlerSetSVGReady, name }) => {
+  const zoom = useZoom()
   const { showModal } = useContext(ModalContext)
-  const { appState, appDispatch } = useContext(AppContext)
+  const { appState, mapWidth, mapHeight } = useContext(AppContext)
   const [throttleState, setThrottleState] = useState(false)
   const [drawingStat, setDrawingStat] = useState(false)
   const [drawingSVG, setDrawingSVG] = useState('')
@@ -24,7 +26,7 @@ export const UserDrawSVGLayout = ({ handlerSetSVGReady, name }) => {
     set(e) {
       this.d = this.d + e
       setDrawingSVG(drawingSVG + this.d)
-    }
+    },
   }
 
   function throttle(e) {
@@ -40,31 +42,18 @@ export const UserDrawSVGLayout = ({ handlerSetSVGReady, name }) => {
   function drawing(e, state) {
     if (state === 'start') {
       setDrawingStat(true)
-      myAttr.set(`M ${e.pageX - wrapperleft} ${e.pageY - wrapperTop}`)
+      myAttr.set(`M ${e.pageX / zoom - wrapperleft} ${e.pageY / zoom - wrapperTop}`)
     }
     if (drawingStat === true) {
       switch (state) {
         case 'drawing':
-          myAttr.set(`L ${e.pageX - wrapperleft} ${e.pageY - wrapperTop}`)
+          myAttr.set(`L ${e.pageX / zoom - wrapperleft} ${e.pageY / zoom - wrapperTop}`)
           break
         case 'finish':
           setDrawingStat(false)
           if (drawingSVG.length > 50) {
             let ID = IDgenerator()
-            showModal('AcceptUserSVG', [
-              name,
-              (name) => {
-                appDispatch([
-                  'addNewUserArea',
-                  ID,
-                  {
-                    id: ID,
-                    name: name,
-                    svg: [drawingSVG + 'Z']
-                  }
-                ])
-              }
-            ])
+            showModal('AcceptUserSVG', [name, { id: ID, name: name, svg: [drawingSVG + 'Z'] }])
           }
           setDrawingSVG('')
           break
@@ -76,12 +65,12 @@ export const UserDrawSVGLayout = ({ handlerSetSVGReady, name }) => {
 
   const arrayOfAreas = []
   for (let area in appState.userLayouts[name].listOfAreas) {
-    arrayOfAreas.push(appState.listOfAreas[area])
+    arrayOfAreas.push(appState.userLayouts[name].listOfAreas[area])
   }
   return (
     <svg
       className='SVGMapContainer'
-      viewBox='0 0 800 1130'
+      viewBox={`0 0 ${mapWidth} ${mapHeight}`}
       xmlSpace='http://www.w3.org/2000/svg'
       onMouseDown={(e) => {
         drawing(e, 'start')
@@ -98,7 +87,7 @@ export const UserDrawSVGLayout = ({ handlerSetSVGReady, name }) => {
       <path d={drawingSVG}></path>
       {arrayOfAreas.length > 0
         ? arrayOfAreas.map((e, i) => {
-            return <SVGComponent key={i} ID={e.id} click={showModal} d={e.svg} />
+            return <UserSVGComponent key={i} content={e} color={color} />
           })
         : null}
     </svg>

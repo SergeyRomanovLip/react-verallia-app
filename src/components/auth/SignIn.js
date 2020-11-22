@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { auth } from '../../firebaseConfig'
+import { auth } from 'backend/firebaseConfig'
 
 export const SignIn = () => {
   const [email, setEmail] = useState('')
@@ -69,7 +69,7 @@ export const SignIn = () => {
           >
             Sign in
           </div>
-          <Link className={'infoWindow-body-form-input'} to='/signUp'>
+          <Link className={'infoWindow-body-form-input'} to='/auth/signUp'>
             If you dont have an account click here
           </Link>
         </form>
