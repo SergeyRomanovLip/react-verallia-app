@@ -18,14 +18,14 @@ export const DrawSVGLayout = ({ wrapper, handlerSetSVGReady, mapWidth, mapHeight
     handlerSetSVGReady(true)
   }, [handlerSetSVGReady])
   useEffect(() => {
-    if (appState.layouts[layout].listOfAreas) {
+    if (appState.layouts[layout] && appState.layouts[layout].listOfAreas) {
       const arrayOfAreas = []
       for (let area in appState.layouts[layout].listOfAreas) {
         arrayOfAreas.push(appState.layouts[layout].listOfAreas[area])
       }
       setArrayOfAreas(arrayOfAreas)
     }
-  }, [appState.layouts[layout].listOfAreas])
+  }, [appState.layouts, layout])
 
   let myAttr = {
     d: '',
@@ -71,11 +71,11 @@ export const DrawSVGLayout = ({ wrapper, handlerSetSVGReady, mapWidth, mapHeight
               }
             })
             if (sC.length >= 2) {
-              svg = ['M' + sC[0] + ', ' + sC[1] + 'a 20,20 0 1,1 50,0 a 20,20 0 1,1 -50,0']
+              svg = ['M' + sC[0] + ', ' + sC[1] + 'a 15,15 0 1,1 30,0 a 15,15 0 1,1 -30,0']
             }
           }
           showModal('AcceptSVG', (name) => {
-            appDispatch(['addNewArea', { id, name, layout, svg }])
+            appDispatch(['addNewArea', { id, name, layout, svg, listOfNotes: [] }])
           })
           setDrawingSVG('')
           break
@@ -105,7 +105,7 @@ export const DrawSVGLayout = ({ wrapper, handlerSetSVGReady, mapWidth, mapHeight
       <path d={drawingSVG}></path>
       {arrayOfAreas.length > 0
         ? arrayOfAreas.map((e, i) => {
-            return <SVGComponent key={i} content={e} color={null} />
+            return <SVGComponent key={i} content={e} color={appState.layouts[layout].color} />
           })
         : null}
     </svg>

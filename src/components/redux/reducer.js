@@ -17,19 +17,24 @@ export const reducer = (state, action) => {
           ...state,
           layouts: action[1].layouts
         }
-      case 'addNewWork':
-        let id = action[1].id
-        let content = action[1].data
-        let workID = action[1].workID
+      case 'addNewNote':
         return {
           ...state,
-          listOfAreas: {
-            ...state.listOfAreas,
-            [id]: {
-              ...state.listOfAreas[id],
-              listOfWorks: {
-                ...state.listOfAreas[id].listOfWorks,
-                [workID]: content
+          layouts: {
+            ...state.layouts,
+            [action[1].layout]: {
+              ...state.layouts[action[1].layout],
+              listOfAreas: {
+                ...state.layouts[action[1].layout].listOfAreas,
+                [action[1].area]: {
+                  ...state.layouts[action[1].layout].listOfAreas[action[1].area],
+                  listOfNotes: [
+                    ...state.layouts[action[1].layout].listOfAreas[action[1].area].listOfNotes,
+                    {
+                      ...[action[1].data]
+                    }
+                  ]
+                }
               }
             }
           }
@@ -43,17 +48,22 @@ export const reducer = (state, action) => {
           ...state,
           layout: layout
         }
-      case 'deleteWork':
-        delete state.listOfAreas[action[1]].listOfWorks[action[2]]
+      case 'deleteNote':
+        let res = state.layouts[action[1].layout].listOfAreas[action[1].id].listOfNotes.filter((note) => {
+          return note[0].id !== action[2].id
+        })
         return {
           ...state,
-          listOfAreas: {
-            ...state.listOfAreas,
-            [action[1]]: {
-              ...state.listOfAreas[action[1]],
-              listOfWorks: {
-                ...state.listOfAreas[action[1]].listOfWorks,
-                updated: Math.random()
+          layouts: {
+            ...state.layouts,
+            [action[1].layout]: {
+              ...state.layouts[action[1].layout],
+              listOfAreas: {
+                ...state.layouts[action[1].layout].listOfAreas,
+                [action[1].id]: {
+                  ...state.layouts[action[1].layout].listOfAreas[action[1].id],
+                  listOfNotes: res
+                }
               }
             }
           }
@@ -76,13 +86,13 @@ export const reducer = (state, action) => {
           }
         }
       case 'deleteArea':
-        delete state.layouts[action[1].name].listOfAreas[action[1].id]
+        delete state.layouts[action[1].layout].listOfAreas[action[1].id]
         return {
           ...state,
           layouts: {
             ...state.layouts,
-            [action[1].name]: {
-              ...state.layouts[action[1].name],
+            [action[1].layout]: {
+              ...state.layouts[action[1].layout],
               updated: Math.random()
             }
           }

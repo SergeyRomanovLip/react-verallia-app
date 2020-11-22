@@ -2,7 +2,7 @@ import React from 'react'
 
 export const Loader = ({ type }) => {
   return type !== 'little' ? (
-    <div className='modal' style={{ zIndex: 100 }}>
+    <div className='center' style={{ zIndex: 100 }}>
       <div className='lds-grid'>
         <div></div>
         <div></div>

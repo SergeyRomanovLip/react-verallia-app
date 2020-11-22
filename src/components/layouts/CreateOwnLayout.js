@@ -2,10 +2,12 @@ import React, { useContext, useState } from 'react'
 import { AppContext } from 'context/AppContext'
 import { ModalContext } from 'context/ModalContext'
 import InputColor from 'react-input-color'
+import { useHistory } from 'react-router-dom'
 
 export const CreateOwnLayout = () => {
   const { removeModal } = useContext(ModalContext)
   const { appDispatch } = useContext(AppContext)
+  const history = useHistory()
   const [fieldsInput, setfieldsInput] = useState([])
   const [color, setColor] = React.useState({})
 
@@ -18,6 +20,7 @@ export const CreateOwnLayout = () => {
           <option value='number'>Number</option>
           <option value='text'>Text</option>
           <option value='date'>Date</option>
+          <option value='check'>Checkbox</option>
         </select>
       </div>
     )
@@ -44,6 +47,7 @@ export const CreateOwnLayout = () => {
     let dataForSending = { color, name, type, fields: resultArray, listOfAreas: true }
 
     appDispatch(['CreateOwnLayout', dataForSending])
+    history.push(`/product/map/${name}`)
   }
 
   return (

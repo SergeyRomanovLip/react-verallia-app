@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { ModalContext } from 'context/ModalContext'
-import { CreateOwnLayout } from './layouts/ownLayouts/CreateOwnLayout'
+import { CreateOwnLayout } from './layouts/CreateOwnLayout'
 import { AcceptSVG } from './layouts/drawSVG/AcceptSVG'
-import AddNewWork from './layouts/subcontractors/AddNewWork'
+import { AddNewNote } from './layouts/AddNewNote'
 import InfoSubc from './layouts/drawSVG/InfoSubc'
 import { AcceptUserSVG } from './layouts/ownLayouts/AcceptUserSVG'
-import { UserClickInfo } from './layouts/ownLayouts/UserClickInfo'
+import { AreaClick } from './layouts/AreaClick'
 import { ShowUploadNewMap } from './mapImages/ShowUploadNewMap'
 import { ShowChoiseOfMap } from './mapImages/ShowChoiseOfMap'
 
@@ -45,8 +45,8 @@ export const ModalNew = ({ children }) => {
       case 'InfoSubc':
         setModal(<InfoSubc content={modalState.content} />)
         break
-      case 'AddNewWork':
-        setModal(<AddNewWork content={modalState.content} />)
+      case 'AddNewNote':
+        setModal(<AddNewNote content={modalState.content} />)
         break
       case 'AcceptSVG':
         setModal(<AcceptSVG content={modalState.content} />)
@@ -63,8 +63,8 @@ export const ModalNew = ({ children }) => {
       case 'ChooseMap':
         setModal(<ShowChoiseOfMap content={modalState.content} />)
         break
-      case 'UserClickInfo':
-        setModal(<UserClickInfo content={modalState.content} />)
+      case 'AreaClick':
+        setModal(<AreaClick content={modalState.content} />)
         break
       default:
         setModal(null)
@@ -76,9 +76,9 @@ export const ModalNew = ({ children }) => {
     <ModalContext.Provider value={{ showModal, removeModal }}>
       {modalState.type != null ? (
         <div
-          onClick={(e) => {
-            removeHandler(e, removeModal)
-          }}
+          // onClick={(e) => {
+          //   removeHandler(e, removeModal)
+          // }}
           className='modal'
         >
           {modal}

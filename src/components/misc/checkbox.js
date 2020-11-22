@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 
-function Checkbox({ fun, data, text, checkState }) {
-  const [state, setState] = useState(false);
+function Checkbox({ fun, data, text, checkState, order }) {
+  const [state, setState] = useState(false)
   useEffect(() => {
     if (checkState) {
-      setState(checkState);
+      setState(checkState)
     }
-  }, [checkState]);
+  }, [checkState])
 
   return (
     <label
       onClick={() => {
-        state ? setState(false) : setState(true);
-        fun(data, state ? false : true);
+        state ? setState(false) : setState(true)
+        fun(data, state ? false : true, 'checkbox', order)
       }}
-      className={state ? "checkbox-checked" : "checkbox"}
+      className={state ? 'checkbox-checked' : 'checkbox'}
     >
       {text}
     </label>
-  );
+  )
 }
 
-export default Checkbox;
+export default Checkbox

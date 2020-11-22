@@ -3,7 +3,7 @@ import { AppContext } from 'context/AppContext'
 import { reducer } from './reducer'
 import { generateStateDocument, getExistingState, writeStateLog } from 'backend/firebaseConfig'
 import { AuthContext } from 'context/AuthContext'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 export const AppState = ({ children }) => {
   const location = useLocation()
@@ -14,7 +14,9 @@ export const AppState = ({ children }) => {
   const [appState, appDispatch] = useReducer(reducer, {
     layouts: {}
   })
+
   const { user } = useContext(AuthContext)
+  const [color, setColor] = useState()
 
   const initializing = () => {
     setReady(false)
@@ -33,7 +35,6 @@ export const AppState = ({ children }) => {
           setUpdated(true)
         } else {
           console.log('Второй путь, диспатчинг с сервера')
-          console.log(res)
           appDispatch(['initialize', res])
           console.log('Data pended')
           setReady(true)
@@ -57,12 +58,17 @@ export const AppState = ({ children }) => {
           console.log('Data updated')
           setUpdated(true)
         })
-      console.log(window.location.pathname)
     }
   }
 
   useEffect(initializing, [user, mapImage])
   useEffect(updateState, [appState.layouts])
+  useEffect(() => {
+    let layout = location.pathname.substr(location.pathname.lastIndexOf('/') + 1)
+    if (appState.layouts && appState.layouts[layout]) {
+      setColor(appState.layouts[layout].color)
+    }
+  }, [appState])
   return (
     <AppContext.Provider
       value={{
@@ -74,7 +80,8 @@ export const AppState = ({ children }) => {
         appReboot,
         reboot,
         mapImage,
-        setMapImage
+        setMapImage,
+        color
       }}
     >
       {children}

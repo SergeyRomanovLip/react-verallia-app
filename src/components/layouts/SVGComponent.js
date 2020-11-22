@@ -10,7 +10,7 @@ function SVGComponent({ content, color }) {
       id={content.id}
       key={content.id}
       onClick={() => {
-        showModal('UserClickInfo', content)
+        showModal('AreaClick', content)
       }}
       className={'SVGMapContainer-item'}
       style={color ? { fill: [color.rgba], stroke: [color.rgba] } : null}

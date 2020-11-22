@@ -141,6 +141,12 @@ polygon.hovered
   cursor: pointer
   &.purple
     background-color: rgba(146, 39, 143, 0.7) !important
+  b
+    padding: 1px
+    margin: 1px !important
+  hr  
+    padding: 0px
+    margin: 2px
 
 /* ------------------------------------- */
 
@@ -300,15 +306,28 @@ polygon.hovered
 
   &-listOfWorks
     margin: 0
-    padding: 2px
+    &-work
+      &-removeButton
+        padding-right: 5px
+        background-color: rgba(146, 39, 143, 0.7)
+        cursor: pointer
+        display: flex
+        justify-content: flex-end
+        align-items: center
+        border-top-left-radius: 12px
+        border-top-right-radius: 12px
+        color: whitesmoke
+        font-size: smaller
+
 
   &-listOfWorks-work-ul
+    margin: 5px !important
     list-style-type: none
     padding: 0
     margin-left: 0
 
   &-listOfWorks-workContaineer
-    padding: 7px
+    padding: 0px
     margin: 3px
     border-style: solid
     border-width: 1px

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { AppContext } from 'context/AppContext'
 import { AuthContext } from 'context/AuthContext'
@@ -13,14 +13,14 @@ export const Routes = () => {
   if (user) {
     let loc = location.pathname
     if (!loc.includes('/product')) {
-      loc = '/product/menu'
+      loc = '/product/menu/'
     }
     return (
       <Switch>
         <Route path='/product/map/:layout' exact>
           <MapPage />
         </Route>
-        <Route path='/product/menu' exact>
+        <Route path='/product/menu/' exact>
           <ProductPage />
         </Route>
         <Redirect to={loc} />
@@ -32,7 +32,7 @@ export const Routes = () => {
         <Route path='/auth/:type' exact>
           <AuthPage />
         </Route>
-        <Redirect to='/auth/signIn' />
+        <Redirect to='/auth/signIn/' />
       </Switch>
     )
   }
