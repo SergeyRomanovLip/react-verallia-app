@@ -82,13 +82,14 @@ path
 .SVGMapContainer
  
   &-item
+    transition: all 0.1s ease-out
     fill: rgba(0, 168, 167, 0.5)
     stroke: rgba(0, 168, 167, 0.8)
     stroke-width: 3
     stroke-dasharray: 10
     cursor: pointer
     &:hover
-      fill: rgba(0, 168, 167, 0.7)
+      opacity: .8
 
   &-itemUnchecked
     fill: rgba(146, 39, 143, 0.7) !important
@@ -97,7 +98,7 @@ path
     stroke-dasharray: 10
     cursor: pointer
     &:hover
-      fill: rgba(146, 39, 143, 0.9) !important
+      opacity: .8
       
 
 polygon.perfect
@@ -147,6 +148,8 @@ polygon.hovered
   hr  
     padding: 0px
     margin: 2px
+  &:hover
+    opacity: .8
 
 /* ------------------------------------- */
 
@@ -309,14 +312,13 @@ polygon.hovered
     &-work
       &-removeButton
         padding-right: 5px
-        background-color: rgba(146, 39, 143, 0.7)
         cursor: pointer
         display: flex
         justify-content: flex-end
         align-items: center
         border-top-left-radius: 12px
         border-top-right-radius: 12px
-        color: whitesmoke
+        color: darkgray
         font-size: smaller
 
 
@@ -328,7 +330,7 @@ polygon.hovered
 
   &-listOfWorks-workContaineer
     padding: 0px
-    margin: 3px
+    margin: 8px
     border-style: solid
     border-width: 1px
     border-radius: 15px

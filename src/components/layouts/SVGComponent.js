@@ -1,9 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ModalContext } from 'context/ModalContext'
-import { AppContext } from 'context/AppContext'
 
 function SVGComponent({ content, color }) {
   const { showModal } = useContext(ModalContext)
+  const [animationReady, setAnimationReady] = useState(false)
+
+  useEffect(() => {
+    setAnimationReady(false)
+    setTimeout(() => {
+      setAnimationReady(true)
+    }, 150)
+  }, [color])
 
   return (
     <path
@@ -12,7 +19,7 @@ function SVGComponent({ content, color }) {
       onClick={() => {
         showModal('AreaClick', content)
       }}
-      className={'SVGMapContainer-item'}
+      className={`SVGMapContainer-item ${animationReady ? 'anim rendered' : 'anim waiting'}`}
       style={color ? { fill: [color.rgba], stroke: [color.rgba] } : null}
       d={content.svg}
     ></path>

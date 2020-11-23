@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import 'sass/toolbar.sass'
 import { NavLink, useHistory, useParams } from 'react-router-dom'
 import { Loader } from 'components/misc/Loader'
@@ -13,10 +13,6 @@ export const Toolbar = () => {
   const { showModal } = useContext(ModalContext)
   const { layout } = useParams()
   const history = useHistory()
-  const [theme, setTheme] = useState()
-  useEffect(() => {
-    setTheme(color)
-  }, [color, appState, appReboot])
 
   useEffect(() => {
     if (!Object.keys(appState.layouts).includes(layout)) {
@@ -65,7 +61,7 @@ export const Toolbar = () => {
     <NavLink
       to={'#'}
       onClick={() => {
-        showModal('UploadNewMap', '') //should be dinamicly
+        showModal('UploadNewMap', '')
       }}
     >
       Upload new map
@@ -78,7 +74,7 @@ export const Toolbar = () => {
       }}
     >
       Change map
-    </NavLink>
+    </NavLink>,
   ]
   return (
     <nav id='toolbar' className='toolbar'>
@@ -92,7 +88,15 @@ export const Toolbar = () => {
           <DropDown title='Tools' items={tools} />
         </li>
         <div className={'toolbar-item-border'}></div>
-        <li style={{ width: 900 + 'px', color: 'whitesmoke', textAlign: 'center' }}>
+        <li
+          className={'toolbar-item'}
+          style={{
+            width: 900 + 'px',
+            color: 'whitesmoke',
+            textAlign: 'center',
+            backgroundColor: color ? color.rgba : '',
+          }}
+        >
           <b>{layout ? layout : null}</b>
         </li>
         <div className={'toolbar-item-border'}></div>

@@ -8,13 +8,13 @@ import { Routes } from 'pages/Routes'
 function App() {
   return (
     <AuthState>
-      <AppState>
-        <ModalNew>
-          <Router>
+      <Router>
+        <AppState>
+          <ModalNew>
             <div className='container'>{<Routes />}</div>
-          </Router>
-        </ModalNew>
-      </AppState>
+          </ModalNew>
+        </AppState>
+      </Router>
     </AuthState>
   )
 }

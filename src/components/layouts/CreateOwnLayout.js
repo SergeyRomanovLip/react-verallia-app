@@ -9,7 +9,14 @@ export const CreateOwnLayout = () => {
   const { appDispatch } = useContext(AppContext)
   const history = useHistory()
   const [fieldsInput, setfieldsInput] = useState([])
-  const [color, setColor] = React.useState({})
+  const [color, setColorState] = React.useState({})
+
+  const setColor = (color) => {
+    let newColor = color.rgba.split(',')
+    newColor[3] = '0.8)'
+    color.rgba = newColor.join()
+    setColorState(color)
+  }
 
   const addField = () => {
     let id = fieldsInput.length

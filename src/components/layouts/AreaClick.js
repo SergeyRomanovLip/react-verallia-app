@@ -98,13 +98,17 @@ export const AreaClick = ({ content }) => {
       </div>
       <div className='infoWindow-body'>
         <ul className='infoWindow-listOfWorks-work-ul'>
-          {existingNotes.map((e, i) => {
-            return (
-              <li className='infoWindow-listOfWorks-workContaineer' key={i}>
-                {dataShower(e, i)}
-              </li>
-            )
-          })}
+          {existingNotes.length > 0 ? (
+            existingNotes.map((e, i) => {
+              return (
+                <li className='infoWindow-listOfWorks-workContaineer' key={i}>
+                  {dataShower(e, i)}
+                </li>
+              )
+            })
+          ) : (
+            <li className='listOfWorks-work'>There are no notes yet</li>
+          )}
         </ul>
         <div className='infoWindow-body-form'>
           <div

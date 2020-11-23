@@ -20,6 +20,7 @@ export const ShowUploadNewMap = () => {
     } catch (e) {
       alert(e)
     } finally {
+      localStorage.removeItem('map')
       appReboot()
       removeModal()
       setLoader(true)

@@ -12,9 +12,21 @@ import { ShowChoiseOfMap } from './mapImages/ShowChoiseOfMap'
 export const ModalNew = ({ children }) => {
   const [modalState, setModalState] = useState({
     type: null,
-    content: null
+    content: null,
   })
   const [modal, setModal] = useState(null)
+  const [animationReady, setAnimationReady] = useState(false)
+
+  useEffect(() => {
+    if (modalState.type != null) {
+      setAnimationReady(false)
+      setTimeout(() => {
+        setAnimationReady(true)
+      }, 150)
+    } else {
+      setAnimationReady(false)
+    }
+  }, [modalState.content])
 
   const removeHandler = (e, handler) => {
     e.preventDefault()
@@ -26,14 +38,14 @@ export const ModalNew = ({ children }) => {
   const removeModal = () => {
     setModalState({
       type: null,
-      content: null
+      content: null,
     })
   }
 
   const showModal = (type, content) => {
     setModalState({
       type,
-      content
+      content,
     })
   }
 
@@ -79,7 +91,7 @@ export const ModalNew = ({ children }) => {
           // onClick={(e) => {
           //   removeHandler(e, removeModal)
           // }}
-          className='modal'
+          className={`${animationReady ? 'modal anim rendered' : 'modal anim waiting'}`}
         >
           {modal}
         </div>
