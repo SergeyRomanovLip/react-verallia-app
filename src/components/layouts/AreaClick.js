@@ -21,41 +21,43 @@ export const AreaClick = ({ content }) => {
     appDispatch(['deleteArea', content])
   }
 
-  const dataShower = (e, i) => {
+  const dataShower = (e) => {
     let array = Object.keys(e[0])
-      .map((el, i) => {
+      .filter((el) => {
+        return e[0][el] && e[0][el].type
+      })
+      .map((el) => {
         let element = e[0][el]
         let nameOfField = el
-        if (element && element.type) {
-          switch (element.type) {
-            case 'text':
-              return (
-                <li className={'listOfWorks-work'} key={element.order}>
-                  <b>{nameOfField}: </b>
-                  {element.value}
-                </li>
-              )
-            case 'number':
-              return (
-                <li className={'listOfWorks-work'} key={element.order}>
-                  <b>{nameOfField}: </b>
-                  {element.value}
-                </li>
-              )
-            case 'date':
-              return (
-                <li className={'listOfWorks-work'} key={element.order}>
-                  <b>{nameOfField}: </b>
-                  {element.value}
-                </li>
-              )
-            case 'checkbox':
-              return (
-                <li className={'listOfWorks-work'} key={element.order}>
-                  <div className={element.value ? 'checkbox-checked' : 'checkbox'}>{nameOfField}</div>
-                </li>
-              )
-          }
+        switch (element.type) {
+          case 'text':
+            return (
+              <li className={'listOfWorks-work'} key={element.order}>
+                <b>{nameOfField}: </b>
+                {element.value}
+              </li>
+            )
+          case 'number':
+            return (
+              <li className={'listOfWorks-work'} key={element.order}>
+                <b>{nameOfField}: </b>
+                {element.value}
+              </li>
+            )
+          case 'date':
+            return (
+              <li className={'listOfWorks-work'} key={element.order}>
+                <b>{nameOfField}: </b>
+                {element.value}
+              </li>
+            )
+          case 'checkbox':
+            return (
+              <li className={'listOfWorks-work'} key={element.order}>
+                <div className={element.value ? 'checkbox-checked' : 'checkbox'}>{nameOfField}</div>
+              </li>
+            )
+          default:
         }
       })
       .sort((a, b) => {

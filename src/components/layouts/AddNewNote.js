@@ -4,7 +4,6 @@ import { IDgenerator } from 'components/utilities/IDgenerator'
 import { AppContext } from 'context/AppContext'
 import DatetimeOwn from 'components/misc/datetime'
 import InputRow from 'components/misc/inputRow'
-import InputText from 'components/misc/inputText'
 import { ModalContext } from 'context/ModalContext'
 
 export const AddNewNote = ({ content }) => {
@@ -16,7 +15,7 @@ export const AddNewNote = ({ content }) => {
     appState.layouts[content.layout] && appState.layouts[content.layout].fields
       ? setFieldsOfLayout(appState.layouts[content.layout].fields)
       : setFieldsOfLayout([])
-  }, [content])
+  }, [content, appState])
 
   const [workData, setWorkData] = useState({
     area: content.id,

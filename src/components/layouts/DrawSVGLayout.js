@@ -16,7 +16,11 @@ export const DrawSVGLayout = ({ wrapper, handlerSetSVGReady, mapWidth, mapHeight
 
   useEffect(() => {
     handlerSetSVGReady(true)
+    return () => {
+      handlerSetSVGReady(false)
+    }
   }, [handlerSetSVGReady])
+
   useEffect(() => {
     if (appState.layouts[layout] && appState.layouts[layout].listOfAreas) {
       const arrayOfAreas = []
@@ -24,6 +28,9 @@ export const DrawSVGLayout = ({ wrapper, handlerSetSVGReady, mapWidth, mapHeight
         arrayOfAreas.push(appState.layouts[layout].listOfAreas[area])
       }
       setArrayOfAreas(arrayOfAreas)
+    }
+    return () => {
+      setArrayOfAreas([])
     }
   }, [appState.layouts, layout])
 

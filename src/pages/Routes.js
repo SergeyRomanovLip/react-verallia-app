@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import { AppContext } from 'context/AppContext'
 import { AuthContext } from 'context/AuthContext'
 import { AuthPage } from './AuthPage'
@@ -18,7 +18,7 @@ export const Routes = () => {
     } else {
       setLoc(existLoc)
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (user) {
     return (

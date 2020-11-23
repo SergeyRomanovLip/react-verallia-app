@@ -1,13 +1,37 @@
-.toolbar
+.sideToolbar
   z-index: 3
   position: fixed
-  top: 0
-  left: 50%
-  margin-left: -480px
-  width: 960px
-  height: 100px
+  right: 0
+  width: 20px
+  height: 80%
   background-color: rgba(255, 255, 255, 0.9)
-  border-radius: 10px
+  border-top-left-radius: 10px
+  border-bottom-left-radius: 10px
+  transition: all 0.3s ease-out   
+  &-listContainer
+    height: 100%
+    overflow-y: auto 
+  &-sideButton
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    width: 20px
+    cursor: pointer
+    border-top-left-radius: 10px
+    border-bottom-left-radius: 10px
+    display: flex
+    justify-content: space-around
+    align-items: center
+    border-right: solid
+    border-right-color: whitesmoke
+    border-right-width: 1px 
+    background-color: rgba(0, 0, 0, 0.1)
+    &:hover
+      background-color: rgba(0, 0, 0, 0.2)
+  &.opened
+    padding-left: 13px
+    width: 270px
   &-loaderBar
     position: absolute
     height: 5px

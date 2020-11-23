@@ -7,19 +7,12 @@ import { useLocation } from 'react-router-dom'
 
 export const AppState = ({ children }) => {
   const location = useLocation()
-  // useEffect(() => {
-  //   console.group('From Routes')
-  //   console.log(location)
-  //   console.log(history)
-  //   console.groupEnd()
-  // }, [location, history])
-
   const [ready, setReady] = useState(false)
   const [updated, setUpdated] = useState(false)
   const [reboot, setReboot] = useState(false)
   const [mapImage, setMapImage] = useState(null)
   const [appState, appDispatch] = useReducer(reducer, {
-    layouts: {},
+    layouts: {}
   })
 
   const { user } = useContext(AuthContext)
@@ -35,8 +28,8 @@ export const AppState = ({ children }) => {
           appDispatch([
             'initialize',
             {
-              layouts: {},
-            },
+              layouts: {}
+            }
           ])
           setReady(true)
           setUpdated(true)
@@ -58,9 +51,9 @@ export const AppState = ({ children }) => {
       setUpdated(false)
       console.log('Start of updating...')
       generateStateDocument(user, { layouts: appState.layouts }, mapImage)
-        // .then(() => {
-        //   writeStateLog(user, { layouts })
-        // })
+        .then(() => {
+          writeStateLog(user, { layouts: appState.layouts })
+        })
         .then(() => {
           console.log('Data updated')
           setUpdated(true)
@@ -89,7 +82,7 @@ export const AppState = ({ children }) => {
         reboot,
         mapImage,
         setMapImage,
-        color,
+        color
       }}
     >
       {children}

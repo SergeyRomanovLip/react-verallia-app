@@ -22,7 +22,7 @@ export const Toolbar = () => {
         history.push('/product/map/no layouts')
       }
     }
-  }, [layout, appState])
+  }, [layout, appState]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const getLayouts = () => {
     if (isEmptyObj(appState.layouts)) {
@@ -74,7 +74,7 @@ export const Toolbar = () => {
       }}
     >
       Change map
-    </NavLink>,
+    </NavLink>
   ]
   return (
     <nav id='toolbar' className='toolbar'>
@@ -94,7 +94,7 @@ export const Toolbar = () => {
             width: 900 + 'px',
             color: 'whitesmoke',
             textAlign: 'center',
-            backgroundColor: color ? color.rgba : '',
+            backgroundColor: color ? color.rgba : ''
           }}
         >
           <b>{layout ? layout : null}</b>
@@ -111,8 +111,20 @@ export const Toolbar = () => {
             Logout
           </NavLink>
         </li>
-        <li>{!updated ? <Loader type={'little'} /> : null}</li>
       </ul>
+      <div className={'toolbar-loaderBar'}>
+        <div className='loader'>
+          {!updated ? (
+            <>
+              <div className='bar first'></div>
+              <div className='bar second'></div>
+              <div className='bar third'></div>
+              <div className='bar forth'></div>
+              <div className='bar fifth'></div>
+            </>
+          ) : null}
+        </div>
+      </div>
     </nav>
   )
 }

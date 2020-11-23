@@ -10,6 +10,7 @@ import 'sass/toolbarVertical.sass'
 import 'sass/dropDown.sass'
 import 'react-datetime/css/react-datetime.css'
 import 'sass/Animations.sass'
+import 'sass/sideToolbar.sass'
 import App from 'App'
 import { BrowserRouter } from 'react-router-dom'
 

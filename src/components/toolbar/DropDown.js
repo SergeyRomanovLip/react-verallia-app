@@ -25,6 +25,7 @@ export const DropDown = ({ title, items }) => {
                   </li>
                 )
               }
+              return null
             })
           : null}
       </ul>

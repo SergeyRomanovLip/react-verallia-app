@@ -40,11 +40,13 @@ export const CreateOwnLayout = () => {
     const name = document.querySelector('#userInputLayoutName').value
     const type = document.querySelector('#userInputLayoutType').value
     let resultArray = arrayOfNames.map((e) => {
-      const newField = arrayOfTypes.map((el) => {
-        if (e.dataset.id === el.dataset.id) {
+      const newField = arrayOfTypes
+        .filter((el) => {
+          return e.dataset.id === el.dataset.id
+        })
+        .map((el) => {
           return { [e.value]: el.value }
-        }
-      })
+        })
       return newField
     })
     resultArray = [].concat.apply([], resultArray).filter((e) => {

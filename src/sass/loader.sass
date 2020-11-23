@@ -1,5 +1,53 @@
 @import 'Variables.sass'
   
+@keyframes loader-animation 
+   0% 
+      left: -25%
+   
+   49% 
+      left: 100%
+   
+   50% 
+      left: 100%
+   
+   100% 
+      left: -25%
+   
+
+.loader
+  height: 5px
+  width: 100%
+  overflow: hidden
+  position: relative
+  .bar
+    position: absolute
+    left: 0
+    right: 0
+    top: 0
+    height: 5px
+    width: 50%
+    animation-name: loader-animation
+    animation-iteration-count: infinite
+    animation-timing-function: ease-in-out
+    &.first
+      background-color: rgba(0, 128, 128, 1)
+      animation-duration: 6s
+    &.second
+      background-color: #ad49ff
+      animation-duration: 2s
+    &.third
+      background-color: #62d8b1
+      animation-duration: 5s
+    &.forth
+      background-color: #ff9634
+      animation-duration: 4s
+    &.fifth
+      background-color: #d862bb
+      animation-duration: 3s
+    
+
+
+
 .lds-grid 
   display: inline-block
   position: relative

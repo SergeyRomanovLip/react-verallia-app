@@ -8,7 +8,7 @@ import { useZoom } from 'hooks/useZoom'
 import { useWindowSize } from 'hooks/useWindowSize'
 import { ModalContext } from 'context/ModalContext'
 export const Map = ({ mapImage }) => {
-  const { appDispatch, color, ready } = useContext(AppContext)
+  const { appDispatch, ready } = useContext(AppContext)
   const { showModal } = useContext(ModalContext)
   const { layout } = useParams()
   const inputRef = useRef()
@@ -45,6 +45,9 @@ export const Map = ({ mapImage }) => {
       rect.y = rect.y / zoom + window.scrollY / zoom
       setWrapper(rect)
     }
+    return () => {
+      setWrapper(null)
+    }
   }, [ready, appDispatch, layout, zoom, resized])
 
   useEffect(() => {
@@ -62,20 +65,14 @@ export const Map = ({ mapImage }) => {
       style={{
         width: mapWidth * zoom + 'px',
         height: mapHeight * zoom + 'px',
-        backgroundImage: `url(${mapImage})`,
+        backgroundImage: `url(${mapImage})`
       }}
       className='mapWrapper'
     >
       {wrapper && resized ? (
         layout !== 'no layouts' ? (
           <>
-            <DrawSVGLayout
-              handlerSetSVGReady={handlerSetSVGReady}
-              wrapper={wrapper}
-              mapWidth={mapWidth}
-              mapHeight={mapHeight}
-              layout={layout}
-            />
+            <DrawSVGLayout handlerSetSVGReady={handlerSetSVGReady} wrapper={wrapper} mapWidth={mapWidth} mapHeight={mapHeight} layout={layout} />
             {SVGReady ? <LabelContainer wrapper={wrapper} layout={layout} /> : null}
           </>
         ) : (

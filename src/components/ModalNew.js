@@ -12,7 +12,7 @@ import { ShowChoiseOfMap } from './mapImages/ShowChoiseOfMap'
 export const ModalNew = ({ children }) => {
   const [modalState, setModalState] = useState({
     type: null,
-    content: null,
+    content: null
   })
   const [modal, setModal] = useState(null)
   const [animationReady, setAnimationReady] = useState(false)
@@ -26,26 +26,26 @@ export const ModalNew = ({ children }) => {
     } else {
       setAnimationReady(false)
     }
-  }, [modalState.content])
+  }, [modalState.content, modalState.type])
 
-  const removeHandler = (e, handler) => {
-    e.preventDefault()
-    if (e.target === e.currentTarget) {
-      handler()
-    }
-  }
+  // const removeHandler = (e, handler) => {
+  //   e.preventDefault()
+  //   if (e.target === e.currentTarget) {
+  //     handler()
+  //   }
+  // }
 
   const removeModal = () => {
     setModalState({
       type: null,
-      content: null,
+      content: null
     })
   }
 
   const showModal = (type, content) => {
     setModalState({
       type,
-      content,
+      content
     })
   }
 

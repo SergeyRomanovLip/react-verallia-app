@@ -6,6 +6,7 @@ import { Loader } from 'components/misc/Loader'
 import { AuthContext } from 'context/AuthContext'
 import { ModalContext } from 'context/ModalContext'
 import { AppContext } from 'context/AppContext'
+import { SideToolbar } from 'components/toolbar/SideToolbar'
 
 export const MapPage = () => {
   const [preparedMap, setPreparedMap] = useState(null)
@@ -59,11 +60,12 @@ export const MapPage = () => {
       .then(() => {
         setLoaded(true)
       })
-  }, [reboot])
+  }, [reboot]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return loaded ? (
     <>
       <Toolbar />
+      <SideToolbar />
       {preparedMap && ready ? (
         <Map mapImage={preparedMap} />
       ) : (
