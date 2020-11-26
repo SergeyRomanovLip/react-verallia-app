@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { ModalContext } from 'context/ModalContext'
 import { CreateOwnLayout } from './layouts/CreateOwnLayout'
-import { AcceptSVG } from './layouts/.old/drawSVG/AcceptSVG'
+import { AcceptSVG } from './layouts/AcceptSVG'
 import { AddNewNote } from './layouts/AddNewNote'
 import InfoSubc from './layouts/.old/drawSVG/InfoSubc'
 // import { AcceptUserSVG } from './layouts/ownLayouts/AcceptUserSVG'
 import { AreaClick } from './layouts/AreaClick'
 import { ShowUploadNewMap } from './mapImages/ShowUploadNewMap'
 import { ShowChoiseOfMap } from './mapImages/ShowChoiseOfMap'
+import { AcceptAction } from 'components/layouts/AcceptAction'
 
 export const ModalNew = ({ children }) => {
   const [modalState, setModalState] = useState({
@@ -15,18 +16,16 @@ export const ModalNew = ({ children }) => {
     content: null
   })
   const [modal, setModal] = useState(null)
-  const [animationReady, setAnimationReady] = useState(false)
+  // const [animationReady, setAnimationReady] = useState(false)
 
-  useEffect(() => {
-    if (modalState.type != null) {
-      setAnimationReady(false)
-      setTimeout(() => {
-        setAnimationReady(true)
-      }, 150)
-    } else {
-      setAnimationReady(false)
-    }
-  }, [modalState.content, modalState.type])
+  // useEffect(() => {
+  //   if (modalState.type === null) {
+  //     setAnimationReady(false)
+  //     setTimeout(() => {
+  //       setAnimationReady(true)
+  //     }, 150)
+  //   }
+  // }, [modalState.content, modalState.type])
 
   // const removeHandler = (e, handler) => {
   //   e.preventDefault()
@@ -78,6 +77,9 @@ export const ModalNew = ({ children }) => {
       case 'AreaClick':
         setModal(<AreaClick content={modalState.content} />)
         break
+      case 'AcceptAction':
+        setModal(<AcceptAction content={modalState.content} />)
+        break
       default:
         setModal(null)
         break
@@ -91,7 +93,7 @@ export const ModalNew = ({ children }) => {
           // onClick={(e) => {
           //   removeHandler(e, removeModal)
           // }}
-          className={`${animationReady ? 'modal anim rendered' : 'modal anim waiting'}`}
+          className={'modal'}
         >
           {modal}
         </div>

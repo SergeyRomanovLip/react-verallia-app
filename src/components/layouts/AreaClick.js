@@ -17,6 +17,11 @@ export const AreaClick = ({ content }) => {
     }
   }, [content, appState])
 
+  const removeAreaHandler = () => {
+    deleteArea()
+    removeModal()
+  }
+
   const deleteArea = () => {
     appDispatch(['deleteArea', content])
   }
@@ -74,7 +79,9 @@ export const AreaClick = ({ content }) => {
         <span className='infoWindow-listOfWorks-work-removeButton' id='deleteWork'>
           <span
             onClick={() => {
-              appDispatch(['deleteNote', content, e[0]])
+              showModal('AcceptAction', () => {
+                appDispatch(['deleteNote', content, e[0]])
+              })
             }}
           >
             ✖
@@ -124,8 +131,7 @@ export const AreaClick = ({ content }) => {
           </div>
           <div
             onClick={() => {
-              deleteArea()
-              removeModal()
+              showModal('AcceptAction', removeAreaHandler)
             }}
             className='infoWindow-body-form-button'
           >
