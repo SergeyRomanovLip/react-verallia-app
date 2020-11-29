@@ -10,34 +10,49 @@ export const AddNewNote = ({ content }) => {
   const { removeModal } = useContext(ModalContext)
   const { appDispatch, appState } = useContext(AppContext)
   const [fieldsOfLayout, setFieldsOfLayout] = useState([])
-
-  useEffect(() => {
-    appState.layouts[content.layout] && appState.layouts[content.layout].fields
-      ? setFieldsOfLayout(appState.layouts[content.layout].fields)
-      : setFieldsOfLayout([])
-  }, [content, appState])
-
   const [workData, setWorkData] = useState({
     area: content.id,
     layout: content.layout,
     data: {
-      id: IDgenerator()
+      id: content.exact ? content.exact[0].id : IDgenerator()
     }
   })
 
-  const dispatchValidator = () => {
+  const setFieldsOfLayoutHandler = (fields) => {
+    setFieldsOfLayout(fields)
+  }
+
+  useEffect(() => {
+    appState.layouts[content.layout] && appState.layouts[content.layout].fields
+      ? setFieldsOfLayoutHandler(appState.layouts[content.layout].fields)
+      : setFieldsOfLayoutHandler([])
+  }, [content, appState])
+
+  const dispatchValidator = (type) => {
     const dataForSending = []
     for (let data in workData.data) {
       dataForSending.push(workData.data[data])
     }
-    console.log(workData)
-    appDispatch(['addNewNote', workData])
+    switch (type) {
+      case 'add':
+        console.log('Add new')
+        appDispatch(['addNewNote', workData])
+        break
+      case 'update':
+        console.log(content.exact)
+        console.log('Update')
+        appDispatch(['updateNote', workData])
+        break
+      default:
+    }
   }
 
   function addData(fieldName, value, type, order) {
-    setWorkData({
-      ...workData,
-      data: { ...workData.data, [fieldName]: { value, type, order } }
+    setWorkData((workData) => {
+      return {
+        ...workData,
+        data: { ...workData.data, [fieldName]: { value, type, order } }
+      }
     })
   }
 
@@ -60,27 +75,28 @@ export const AddNewNote = ({ content }) => {
         {fieldsOfLayout.map((e, i) => {
           let nameOfField = Object.keys(e).join()
           let valueOfField = Object.values(e).join()
+          let existValue = content.exact ? (content.exact[0][nameOfField] ? content.exact[0][nameOfField].value : null) : null
           switch (valueOfField) {
             case 'text':
-              return <InputRow key={i} data={nameOfField} type={valueOfField} text={nameOfField} order={i} fun={addData} />
+              return <InputRow key={i} data={nameOfField} type={valueOfField} text={nameOfField} order={i} value={existValue} fun={addData} />
             case 'number':
-              return <InputRow key={i} data={nameOfField} type={valueOfField} text={nameOfField} order={i} fun={addData} />
+              return <InputRow key={i} data={nameOfField} type={valueOfField} text={nameOfField} order={i} value={existValue} fun={addData} />
             case 'date':
-              return <DatetimeOwn key={i} data={nameOfField} text={nameOfField} order={i} fun={addData} />
+              return <DatetimeOwn key={i} data={nameOfField} text={existValue ? existValue : nameOfField} order={i} fun={addData} />
             case 'check':
-              return <Checkbox key={i} data={nameOfField} type={valueOfField} order={i} text={nameOfField} fun={addData} />
+              return <Checkbox key={i} data={nameOfField} type={valueOfField} order={i} text={nameOfField} fun={addData} checkState={existValue} />
           }
         })}
         <div className='infoWindow-body-form'>
           <div
             onClick={() => {
-              dispatchValidator()
+              !content.exact ? dispatchValidator('add') : dispatchValidator('update')
               removeModal()
             }}
             id='submit-add-new-work'
             className='infoWindow-body-form-button'
           >
-            Add new work
+            {content.exact ? 'Update' : 'Add'}
           </div>
         </div>
       </div>

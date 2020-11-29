@@ -39,6 +39,22 @@ export const reducer = (state, action) => {
             }
           }
         }
+      case 'updateNote':
+        state.layouts[action[1].layout].listOfAreas[action[1].area].listOfNotes.forEach((e) => {
+          if (e[0].id === action[1].data.id) {
+            e[0] = action[1].data
+          }
+        })
+        return {
+          ...state,
+          layouts: {
+            ...state.layouts,
+            [action[1].layout]: {
+              ...state.layouts[action[1].layout],
+              updated: Math.random()
+            }
+          }
+        }
       case 'updateWrapperPosition':
         let wrapper = action[1]
         return { ...state, wrapper: wrapper }

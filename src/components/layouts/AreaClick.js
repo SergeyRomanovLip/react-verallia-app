@@ -57,11 +57,13 @@ export const AreaClick = ({ content }) => {
               </li>
             )
           case 'checkbox':
-            return (
-              <li className={'listOfWorks-work'} key={element.order}>
-                <div className={element.value ? 'checkbox-checked' : 'checkbox'}>{nameOfField}</div>
-              </li>
-            )
+            if (e[0][el].value) {
+              return (
+                <li className={'listOfWorks-work'} key={element.order}>
+                  <div className={element.value ? 'checkbox-checked' : 'checkbox'}>{nameOfField}</div>
+                </li>
+              )
+            }
           default:
         }
       })
@@ -78,13 +80,23 @@ export const AreaClick = ({ content }) => {
       <>
         <span className='infoWindow-listOfWorks-work-removeButton' id='deleteWork'>
           <span
+            className='edit'
+            onClick={() => {
+              removeModal()
+              showModal('AddNewNote', { ...content, exact: e })
+            }}
+          >
+            edit
+          </span>
+          <span
+            className='remove'
             onClick={() => {
               showModal('AcceptAction', () => {
                 appDispatch(['deleteNote', content, e[0]])
               })
             }}
           >
-            ✖
+            delete
           </span>
         </span>
         <ul className={'infoWindow-listOfWorks-work-ul'}>{array}</ul>

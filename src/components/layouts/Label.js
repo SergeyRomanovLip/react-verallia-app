@@ -7,7 +7,7 @@ export const Label = ({ left, top, data, color }) => {
     setAnimationReady(false)
     setTimeout(() => {
       setAnimationReady(true)
-    }, 150)
+    }, 100)
   }, [data])
 
   return (

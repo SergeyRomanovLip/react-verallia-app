@@ -4,11 +4,11 @@ import { CreateOwnLayout } from './layouts/CreateOwnLayout'
 import { AcceptSVG } from './layouts/AcceptSVG'
 import { AddNewNote } from './layouts/AddNewNote'
 import InfoSubc from './layouts/.old/drawSVG/InfoSubc'
-// import { AcceptUserSVG } from './layouts/ownLayouts/AcceptUserSVG'
 import { AreaClick } from './layouts/AreaClick'
 import { ShowUploadNewMap } from './mapImages/ShowUploadNewMap'
 import { ShowChoiseOfMap } from './mapImages/ShowChoiseOfMap'
 import { AcceptAction } from 'components/layouts/AcceptAction'
+import { OpenReport } from 'components/layouts/OpenReport'
 
 export const ModalNew = ({ children }) => {
   const [modalState, setModalState] = useState({
@@ -16,36 +16,41 @@ export const ModalNew = ({ children }) => {
     content: null
   })
   const [modal, setModal] = useState(null)
-  // const [animationReady, setAnimationReady] = useState(false)
-
-  // useEffect(() => {
-  //   if (modalState.type === null) {
-  //     setAnimationReady(false)
-  //     setTimeout(() => {
-  //       setAnimationReady(true)
-  //     }, 150)
-  //   }
-  // }, [modalState.content, modalState.type])
-
-  // const removeHandler = (e, handler) => {
-  //   e.preventDefault()
-  //   if (e.target === e.currentTarget) {
-  //     handler()
-  //   }
-  // }
+  const [animation, setAnimation] = useState(false)
 
   const removeModal = () => {
-    setModalState({
-      type: null,
-      content: null
-    })
+    setAnimation(false)
+    setTimeout(() => {
+      setModalState({
+        type: null,
+        content: null
+      })
+    }, 100)
   }
 
   const showModal = (type, content) => {
-    setModalState({
-      type,
-      content
-    })
+    if (!modal) {
+      setTimeout(() => {
+        setModalState({
+          type,
+          content
+        })
+        setTimeout(() => {
+          setAnimation(true)
+        }, 100)
+      }, 1)
+    } else {
+      removeModal()
+      setTimeout(() => {
+        setModalState({
+          type,
+          content
+        })
+        setTimeout(() => {
+          setAnimation(true)
+        }, 100)
+      }, 100)
+    }
   }
 
   useEffect(() => {
@@ -62,9 +67,6 @@ export const ModalNew = ({ children }) => {
       case 'AcceptSVG':
         setModal(<AcceptSVG content={modalState.content} />)
         break
-      // case 'AcceptUserSVG':
-      //   setModal(<AcceptUserSVG content={modalState.content} />)
-      //   break
       case 'CreateOwnLayout':
         setModal(<CreateOwnLayout />)
         break
@@ -80,6 +82,9 @@ export const ModalNew = ({ children }) => {
       case 'AcceptAction':
         setModal(<AcceptAction content={modalState.content} />)
         break
+      case 'openReport':
+        setModal(<OpenReport content={modalState.content} />)
+        break
       default:
         setModal(null)
         break
@@ -88,16 +93,7 @@ export const ModalNew = ({ children }) => {
 
   return (
     <ModalContext.Provider value={{ showModal, removeModal }}>
-      {modalState.type != null ? (
-        <div
-          // onClick={(e) => {
-          //   removeHandler(e, removeModal)
-          // }}
-          className={'modal'}
-        >
-          {modal}
-        </div>
-      ) : null}
+      {modalState.type != null ? <div className={`modal anim ${animation ? 'rendered' : 'waiting'}`}>{modal}</div> : null}
       {children}
     </ModalContext.Provider>
   )

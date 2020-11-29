@@ -5,6 +5,7 @@ function Checkbox({ fun, data, text, checkState, order }) {
   useEffect(() => {
     if (checkState) {
       setState(checkState)
+      fun(data, checkState, 'checkbox', order)
     }
   }, [checkState])
 

@@ -7,6 +7,7 @@ import { signOutHandler } from 'backend/signOutHandler'
 import { ModalContext } from 'context/ModalContext'
 import { DropDown } from 'components/toolbar/DropDown'
 import { isEmptyObj } from 'components/utilities/isEmptyObj'
+import { ReportCreater } from 'components/utilities/ReportCreater'
 
 export const Toolbar = () => {
   const { updated, appState, appReboot, color } = useContext(AppContext)
@@ -74,7 +75,17 @@ export const Toolbar = () => {
       }}
     >
       Change map
-    </NavLink>
+    </NavLink>,
+    layout !== 'no layouts' ? (
+      <NavLink
+        to={'#'}
+        onClick={() => {
+          showModal('openReport', ReportCreater(appState.layouts[layout]))
+        }}
+      >
+        Create report for layer
+      </NavLink>
+    ) : null
   ]
   return (
     <nav id='toolbar' className='toolbar'>

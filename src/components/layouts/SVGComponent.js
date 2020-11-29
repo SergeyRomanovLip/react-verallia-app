@@ -9,7 +9,7 @@ function SVGComponent({ content, color }) {
     setAnimationReady(false)
     setTimeout(() => {
       setAnimationReady(true)
-    }, 150)
+    }, 100)
   }, [color])
 
   return (

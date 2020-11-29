@@ -1,7 +1,12 @@
-import React from 'react'
+import { emptyFoo } from 'components/misc/emptyFoo'
+import React, { useEffect } from 'react'
 import Datetime from 'react-datetime'
 
 function DatetimeOwn({ text, data, fun, order }) {
+  useEffect(() => {
+    text ? fun(data, text, 'date', order) : emptyFoo()
+  }, [])
+
   return (
     <Datetime
       className={'infoWindow-body-form-dateTimeContaineer-item'}
