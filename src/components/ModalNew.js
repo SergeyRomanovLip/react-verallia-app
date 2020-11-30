@@ -93,7 +93,7 @@ export const ModalNew = ({ children }) => {
 
   return (
     <ModalContext.Provider value={{ showModal, removeModal }}>
-      {modalState.type != null ? <div className={`modal anim ${animation ? 'rendered' : 'waiting'}`}>{modal}</div> : null}
+      {modalState.type != null ? <div className={`modal anim-modal ${animation ? 'rendered' : 'waiting'}`}>{modal}</div> : null}
       {children}
     </ModalContext.Provider>
   )
