@@ -12,7 +12,7 @@ export const OpenReport = ({ content }) => {
       </div>
       <div className='infoWindow-body'>
         <hr />
-        <div dangerouslySetInnerHTML={{ __html: content }}></div>
+        <div className={'infoWindow-body table'} dangerouslySetInnerHTML={{ __html: content }}></div>
         <div className='infoWindow-body-form'>
           <div
             onClick={() => {
